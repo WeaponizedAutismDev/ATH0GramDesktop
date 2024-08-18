@@ -26,7 +26,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "ui/layers/show.h"
 #include "ui/text/text_utilities.h"
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/ayu_settings.h"
 
 
@@ -1119,7 +1119,7 @@ void Stories::markAsRead(FullStoryId id, bool viewed) {
 		return;
 	}
 
-	// AyuG sendReadStories
+	// AyuGram sendReadStories
 	const auto settings = &AyuSettings::getInstance();
 
 	if (!settings->sendReadStories) {
@@ -1277,7 +1277,7 @@ void Stories::toggleHidden(
 void Stories::sendMarkAsReadRequest(
 		not_null<PeerData*> peer,
 		StoryId tillId) {
-	// AyuG sendReadStories
+	// AyuGram sendReadStories
 	const auto settings = &AyuSettings::getInstance();
 
 	if (!settings->sendReadStories) {
@@ -1338,7 +1338,7 @@ void Stories::sendIncrementViewsRequests() {
 		return;
 	}
 
-	// AyuG sendReadStories
+	// AyuGram sendReadStories
 	const auto settings = &AyuSettings::getInstance();
 	if (!settings->sendReadStories) {
 		_incrementViewsPending.clear();
@@ -1958,7 +1958,7 @@ void Stories::report(
 
 bool Stories::isQuitPrevent() {
 	if (!_markReadPending.empty()) {
-		// AyuG sendReadStories
+		// AyuGram sendReadStories
 		const auto settings = &AyuSettings::getInstance();
 
 		if (settings->sendReadStories) {

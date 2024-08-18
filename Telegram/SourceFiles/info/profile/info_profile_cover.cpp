@@ -42,7 +42,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "styles/style_info.h"
 #include "styles/style_dialogs.h"
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/utils/telegram_helpers.h"
 
 

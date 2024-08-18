@@ -62,7 +62,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "apiwrap.h"
 #include "ui/text/format_values.h" // Ui::FormatPhone
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/ayu_settings.h"
 
 
@@ -910,7 +910,7 @@ void Updates::updateOnline(crl::time lastNonIdleTime, bool gotOtherOffline) {
 		Core::App().checkAutoLock(lastNonIdleTime);
 	});
 
-	// AyuG sendOnlinePackets
+	// AyuGram sendOnlinePackets
 	const auto settings = &AyuSettings::getInstance();
 	const auto& config = _session->serverConfig();
 	bool isOnlineOrig = Core::App().hasActiveWindow(&session());

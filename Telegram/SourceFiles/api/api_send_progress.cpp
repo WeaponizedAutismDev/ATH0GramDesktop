@@ -15,7 +15,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "data/data_peer_values.h"
 #include "apiwrap.h"
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/ayu_settings.h"
 
 
@@ -117,7 +117,7 @@ void SendProgressManager::send(const Key &key, int progress) {
 		return;
 	}
 
-	// AyuG sendUploadProgress
+	// AyuGram sendUploadProgress
 	const auto settings = &AyuSettings::getInstance();
 	if (!settings->sendUploadProgress)
 	{

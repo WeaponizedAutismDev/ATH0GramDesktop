@@ -28,7 +28,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <QSvgRenderer>
 #include <QBuffer>
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/ayu_settings.h"
 #include "ayu/ui/ayu_logo.h"
 #include "styles/style_ayu_icons.h"

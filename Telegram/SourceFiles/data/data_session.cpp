@@ -79,7 +79,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "base/random.h"
 #include "spellcheck/spellcheck_highlight_syntax.h"
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/ayu_settings.h"
 #include "ayu/ayu_state.h"
 #include "ayu/data/messages_storage.h"
@@ -339,7 +339,7 @@ Session::Session(not_null<Main::Session*> session)
 			}
 		}, _lifetime);
 
-		// AyuG disableStories
+		// AyuGram disableStories
 		const auto settings = &AyuSettings::getInstance();
 		if (!settings->disableStories) {
 			_stories->loadMore(Data::StorySourcesList::NotHidden);
@@ -2335,7 +2335,7 @@ void Session::updateEditedMessage(const MTPMessage &data) {
 		return;
 	}
 
-	// AyuG saveMessagesHistory
+	// AyuGram saveMessagesHistory
 	const auto settings = &AyuSettings::getInstance();
 	HistoryMessageEdition edit;
 

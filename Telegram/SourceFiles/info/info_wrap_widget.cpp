@@ -50,7 +50,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "styles/style_menu_icons.h"
 #include "styles/style_layers.h"
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/ui/settings/settings_ayu.h"
 
 

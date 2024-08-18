@@ -91,7 +91,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <QtWidgets/QScrollBar>
 #include <QtWidgets/QTextEdit>
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/ayu_settings.h"
 
 
@@ -913,7 +913,7 @@ void Widget::setupMainMenuToggle() {
 }
 
 void Widget::setupStories() {
-	// AyuG disableStories
+	// AyuGram disableStories
 	const auto settings = &AyuSettings::getInstance();
 	if (settings->disableStories) {
 		return;

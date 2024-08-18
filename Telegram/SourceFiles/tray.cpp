@@ -15,7 +15,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 #include <QtWidgets/QApplication>
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/ayu_settings.h"
 #include "ayu/ui/settings/settings_ayu.h"
 #include "ayu/features/streamer_mode/streamer_mode.h"

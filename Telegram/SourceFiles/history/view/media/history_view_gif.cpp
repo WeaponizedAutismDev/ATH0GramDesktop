@@ -56,7 +56,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 #include <QSvgRenderer>
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/features/messageshot/message_shot.h"
 
 

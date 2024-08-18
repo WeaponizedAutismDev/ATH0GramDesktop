@@ -74,7 +74,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <QtWidgets/QApplication>
 #include <QtCore/QMimeData>
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/utils/telegram_helpers.h"
 
 

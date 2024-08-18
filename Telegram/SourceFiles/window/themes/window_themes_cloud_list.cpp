@@ -35,7 +35,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <QtGui/QGuiApplication>
 #include <QtGui/QClipboard>
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/features/messageshot/message_shot.h"
 
 

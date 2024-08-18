@@ -72,7 +72,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <QtGui/QClipboard>
 #include <QtGui/QWindow>
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/ui/settings/settings_ayu.h"
 #include "ayu/ui/utils/ayu_profile_values.h"
 

@@ -14,7 +14,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "core/core_settings.h"
 #include "ui/style/style_palette_colorizer.h"
 
-// AyuG includes
+// AyuGram includes
 #include "ayu/features/messageshot/message_shot.h"
 
 
