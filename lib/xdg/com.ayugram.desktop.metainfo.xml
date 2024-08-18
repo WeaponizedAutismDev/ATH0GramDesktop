@@ -73,7 +73,7 @@
         <content_attribute id="money-gambling">none</content_attribute>
         <content_attribute id="money-advertising">moderate</content_attribute>
     </content_rating>
-    <launchable type="desktop-id">com.ath0gram.desktop.desktop</launchable>
+    <launchable type="desktop-id">com.ath0gram.desktop</launchable>
     <provides>
         <binary>ath0gram-desktop</binary>
     </provides>
