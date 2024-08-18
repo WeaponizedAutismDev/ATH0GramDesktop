@@ -123,8 +123,8 @@ ID getBareID(not_null<PeerData*> peer) {
 						   : peer->id.value;
 }
 
-bool isATHOGramRelated(ID peerId) {
-	return ATH0gram_devs.contains(peerId) || ATH0gram_channels.contains(peerId);
+bool isATH0GramRelated(ID peerId) {
+	return ATH0Gram_devs.contains(peerId) || ATH0Gram_channels.contains(peerId);
 }
 
 bool isExtraRelated(ID peerId) {
