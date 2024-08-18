@@ -23,7 +23,7 @@ All commands (if not stated otherwise) will be launched from **x64 Native Tools 
 
 Open **x64 Native Tools Command Prompt for VS 2022.bat**, go to ***BuildPath*** and run
 
-    git clone --recursive https://github.com/WeaponizedAutism/ATH0GramDesktop.git tdesktop
+    git clone --recursive https://github.com/WeaponizedAutismDev/ATH0GramDesktop.git tdesktop
     tdesktop\Telegram\build\prepare\win.bat
 
 You may encounter an error saying that your IP is not allowed - simply turn on VPN.
