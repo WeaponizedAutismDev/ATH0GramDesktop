@@ -28,7 +28,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "core/application.h"
 #include "apiwrap.h"
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/ayu_settings.h"
 
 
@@ -572,10 +572,10 @@ void Histories::sendPendingReadInbox(not_null<History*> history) {
 void Histories::sendReadRequests() {
 	DEBUG_LOG(("Reading: send requests with count %1.").arg(_states.size()));
 
-	// AyuGram sendReadMessages
+	// AyuG sendReadMessages
 	const auto settings = &AyuSettings::getInstance();
 	if (!settings->sendReadMessages) {
-		DEBUG_LOG(("[AyuGram] Don't read messages"));
+		DEBUG_LOG(("[ATH0Gram] Don't read messages"));
 		_states.clear();
 		return;
 	}

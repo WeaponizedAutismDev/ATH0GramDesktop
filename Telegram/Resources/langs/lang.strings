@@ -5455,9 +5455,9 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 // Keys finished
 
 
-// AyuGram keys generated
+// ATH0Gram keys generated
 
-"ayu_AyuPreferences" = "AyuGram Preferences";
+"ayu_AyuPreferences" = "ATH0Gram Preferences";
 "ayu_DocsText" = "Documentation";
 "ayu_CategoryGhostMode" = "Ghost Mode";
 "ayu_CategorySpy" = "Spy";
@@ -5501,7 +5501,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 "ayu_SpySaveReadMarks" = "Save Read Date";
 "ayu_SpySaveReadMarksDescription" = "Locally saves data about reading messages. This will be shown if Telegram does not provide read date.";
 "ayu_QoLTogglesHeader" = "Useful features";
-"ayu_KeepAliveService" = "AyuGram Push Service";
+"ayu_KeepAliveService" = "ATH0Gram Push Service";
 "ayu_DisableAds" = "Disable Ads";
 "ayu_DisableStories" = "Disable Stories";
 "ayu_DisableCustomBackgrounds" = "Disable Custom Backgrounds";
@@ -5542,14 +5542,14 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 "ayu_SettingsBiggerWindow" = "Bigger Window";
 "ayu_SettingsIncreaseWebviewHeight" = "Increase Content Height";
 "ayu_SettingsIncreaseWebviewWidth" = "Increase Content Width";
-"ayu_ExportDataTitle" = "Export AyuGram Database?";
+"ayu_ExportDataTitle" = "Export ATH0Gram Database?";
 "ayu_ExportDataDescription" = "It will be exported to the public folder, to Saved Attachments.";
 "ayu_ExportDataConfirm" = "Yes, export";
 "ayu_ExportDataCancel" = "No, close window";
 "ayu_ExportDataSuccess" = "Database exported successfully.";
 "ayu_ExportDataFailure" = "Failed to export database.";
 "ayu_ImportDataNotFound" = "No database to import.";
-"ayu_ImportDataTitle" = "Import AyuGram Database?";
+"ayu_ImportDataTitle" = "Import ATH0Gram Database?";
 "ayu_ImportDataDescription" = "It will replace the current database.";
 "ayu_ImportDataConfirm" = "Yes, replace existing";
 "ayu_ImportDataCancel" = "No, close window";
@@ -5642,19 +5642,19 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 "ayu_FiltersClearPopupActionText" = "Clear";
 "ayu_FiltersClearPopupAltActionText" = "Clear unknown";
 "ayu_IconDefault" = "Default";
-"ayu_IconAlternative" = "AyuGram Alt";
+"ayu_IconAlternative" = "ATH0Gram Alt";
 "ayu_IconDiscord" = "Discord";
 "ayu_IconSpotify" = "Spotify";
-"ayu_IconExtera" = "extera";
+"ayu_IconExtra" = "extra";
 "ayu_IconNothing" = "Nothing";
 "ayu_IconBard" = "Google Bard";
 "ayu_IconYaPlus" = "Yandex Plus";
 "ayu_WALMode" = "Enable WAL mode";
 "ayu_PushNotificationCount" = "FCM notifications received";
 "ayu_ClearAyuDatabase" = "Clear Messages Database";
-"ayu_ClearAyuAttachmentsNotification" = "AyuGram attachments folder cleared";
+"ayu_ClearAyuAttachmentsNotification" = "ATH0Gram attachments folder cleared";
 "ayu_ClearTelegramDatabase" = "Clear Telegram Database";
-"ayu_ClearAyuDatabaseNotification" = "AyuGram database cleared";
+"ayu_ClearAyuDatabaseNotification" = "ATH0Gram database cleared";
 "ayu_ClearAyuAttachments" = "Clear Attachments Folder";
 "ayu_ConfirmationsTitle" = "Confirmations";
 "ayu_StickerConfirmation" = "For Stickers";
@@ -5761,11 +5761,11 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 "ayu_ContextCopyCallbackData" = "Copy Callback Data";
 "ayu_RegisterURLScheme" = "Register URL Scheme";
 "ayu_LocalPremiumNotice" = "You're using **local** Telegram Premium.\nIt **won't** give you any benefits, except translator.\n**Enjoy the star near your nickname!**";
-"ayu_SettingsWatermark" = "AyuGram developed and maintained by Radolyn Labs.";
+"ayu_SettingsWatermark" = "ATH0Gram developed and maintained by Weaponized Autism.";
 "ayu_ConfirmationSticker" = "Do you want to send this sticker?";
 "ayu_ConfirmationGIF" = "Do you want to send this GIF?";
 "ayu_ConfirmationVoice" = "Do you want to send this voice message?";
-"ayu_IntroAbout" = "Welcome to the AyuGram Desktop.\nMake Telegram your own.";
+"ayu_IntroAbout" = "Welcome to the ATH0Gram Desktop.\nMake Telegram your own.";
 "ayu_AboutText1" = "ToS breaking Telegram client based on {api_link}.";
-"ayu_UpdateAyuGram" = "Update AyuGram";
+"ayu_updateATH0gram" = "Update ATH0Gram";
 "ayu_UtilityRestartRequired" = "App will close in 5 seconds.";

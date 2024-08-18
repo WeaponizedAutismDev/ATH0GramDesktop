@@ -40,7 +40,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 #include <QtGui/QWindow>
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/ayu_settings.h"
 
 

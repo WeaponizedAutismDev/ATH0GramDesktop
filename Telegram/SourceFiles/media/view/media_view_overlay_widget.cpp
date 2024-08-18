@@ -98,7 +98,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 #include <kurlmimedata.h>
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/features/streamer_mode/streamer_mode.h"
 
 
@@ -1040,7 +1040,7 @@ QSize OverlayWidget::flipSizeByRotation(QSize size) const {
 
 bool OverlayWidget::hasCopyMediaRestriction(bool skipPremiumCheck) const {
 	if (const auto story = _stories ? _stories->story() : nullptr) {
-		// AyuGram: removed; allow downloading any stories
+		// AyuG: removed; allow downloading any stories
 		return false;
 	}
 	return (_history && !_history->peer->allowsForwarding())
@@ -1073,7 +1073,7 @@ QSize OverlayWidget::videoSize() const {
 bool OverlayWidget::streamingRequiresControls() const {
 	return !_stories
 		&& _document;
-	// AyuGram: allow vieo messages seeking
+	// AyuG: allow vieo messages seeking
 	//  && (!_document->isAnimation() || _document->isVideoMessage());
 }
 

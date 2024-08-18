@@ -63,7 +63,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 #include <QtCore/QMimeData>
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/ayu_settings.h"
 #include "base/unixtime.h"
 #include "styles/style_menu_icons.h"
@@ -1727,10 +1727,10 @@ bool SendFilesBox::validateLength(const QString &text) const {
 void SendFilesBox::send(
 		Api::SendOptions options,
 		bool ctrlShiftEnter) {
-	// AyuGram useScheduledMessages
+	// AyuG useScheduledMessages
 	const auto settings = &AyuSettings::getInstance();
 	if (settings->useScheduledMessages && !options.scheduled) {
-		DEBUG_LOG(("[AyuGram] Scheduling files"));
+		DEBUG_LOG(("[ATH0Gram] Scheduling files"));
 		const auto sumSize = ranges::accumulate(
 			_list.files,
 			0,

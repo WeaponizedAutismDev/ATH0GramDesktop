@@ -62,7 +62,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "styles/style_layers.h"
 #include "styles/style_settings.h"
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/ayu_settings.h"
 
 

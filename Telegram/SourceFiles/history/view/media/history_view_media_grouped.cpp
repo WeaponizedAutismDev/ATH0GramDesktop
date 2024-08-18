@@ -742,7 +742,7 @@ bool GroupedMedia::applyGroup(const DataMediaRange &medias) {
 	auto modeChosen = false;
 	for (const auto media : medias) {
 		if (!media) {
-			continue; // AyuGram: fix ebe44780-7c8b-4964-ba31-b747c947254f
+			continue; // AyuG: fix ebe44780-7c8b-4964-ba31-b747c947254f
 		}
 
 		const auto mediaMode = DetectMode(media);

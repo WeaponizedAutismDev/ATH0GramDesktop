@@ -46,7 +46,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 #include <ada.h>
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/features/streamer_mode/streamer_mode.h"
 
 

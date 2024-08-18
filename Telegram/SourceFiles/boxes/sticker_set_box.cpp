@@ -66,7 +66,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <QtGui/QClipboard>
 #include <QtSvg/QSvgRenderer>
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/utils/telegram_helpers.h"
 #include "styles/style_ayu_styles.h"
 #include "window/window_session_controller.h"

@@ -1,4 +1,4 @@
-// This is the source code of AyuGram for Desktop.
+// This is the source code of AyuG for Desktop.
 //
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
@@ -22,8 +22,8 @@ ID getDialogIdFromPeer(not_null<PeerData*> peer);
 
 ID getBareID(not_null<PeerData*> peer);
 
-bool isAyuGramRelated(ID peerId);
-bool isExteraRelated(ID peerId);
+bool isATH0GramRelated(ID peerId);
+bool isextrarRelated(ID peerId);
 
 bool isMessageHidden(not_null<HistoryItem*> item);
 

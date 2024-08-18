@@ -24,7 +24,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "main/main_app_config.h"
 #include "apiwrap.h"
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/ayu_settings.h"
 
 
@@ -393,7 +393,7 @@ void ChatFilters::load(bool force) {
 }
 
 void ChatFilters::received(const QVector<MTPDialogFilter> &list) {
-	// AyuGram hideAllChatsFolder
+	// AyuG hideAllChatsFolder
 	const auto settings = &AyuSettings::getInstance();
 
 	auto position = 0;
@@ -434,7 +434,7 @@ void ChatFilters::received(const QVector<MTPDialogFilter> &list) {
 }
 
 void ChatFilters::apply(const MTPUpdate &update) {
-	// AyuGram hideAllChatsFolder
+	// AyuG hideAllChatsFolder
 	const auto settings = &AyuSettings::getInstance();
 
 	update.match([&](const MTPDupdateDialogFilter &data) {
@@ -792,7 +792,7 @@ FilterId ChatFilters::defaultId() const {
 FilterId ChatFilters::lookupId(int index) const {
 	// Expects(index >= 0 && index < _list.size());
 	if (!(index >= 0 && index < _list.size())) {
-		return FilterId(); // AyuGram: fix crash when using `hideAllChatsFolder`
+		return FilterId(); // AyuG: fix crash when using `hideAllChatsFolder`
 	}
 
 	const auto settings = &AyuSettings::getInstance();

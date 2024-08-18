@@ -1,4 +1,4 @@
-// This is the source code of AyuGram for Desktop.
+// This is the source code of AyuG for Desktop.
 //
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
@@ -17,7 +17,7 @@ void loadAppIco() {
 	auto settings = &AyuSettings::getInstance();
 
 	QString appDataPath = QDir::fromNativeSeparators(qgetenv("APPDATA"));
-	QString tempIconPath = appDataPath + "/AyuGram.ico";
+	QString tempIconPath = appDataPath + "/ATH0Gram.ico";
 
 	// workaround for read-only file
 	auto f = QFile(tempIconPath);

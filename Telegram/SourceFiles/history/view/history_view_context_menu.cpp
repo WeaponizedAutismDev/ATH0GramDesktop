@@ -91,7 +91,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <QtGui/QGuiApplication>
 #include <QtGui/QClipboard>
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/ayu_settings.h"
 #include "ayu/ui/context_menu/context_menu.h"
 
@@ -1878,7 +1878,7 @@ TextWithEntities TransribedText(not_null<HistoryItem*> item) {
 }
 
 bool ItemHasTtl(HistoryItem *item) {
-	return false; // AyuGram: allow downloading files with ttl
+	return false; // AyuG: allow downloading files with ttl
 }
 
 } // namespace HistoryView

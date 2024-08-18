@@ -1,5 +1,5 @@
 /*
- * This is the source code of AyuGram for Desktop.
+ * This is the source code of AyuG for Desktop.
  *
  * We do not and cannot prevent the use of our code,
  * but be respectful and credit the original author.
@@ -24,6 +24,6 @@ inChannelBadgeSelectedIcon: icon {{ "ayu/channel", msgInDateFgSelected }};
 outChannelBadgeIcon: icon {{ "ayu/channel", msgOutDateFg }};
 outChannelBadgeSelectedIcon: icon {{ "ayu/channel", msgOutDateFgSelected }};
 
-infoExteraBadge: icon {{ "ayu/exterabadge", profileVerifiedCheckBg }};
+infoExtraBadge: icon {{ "ayu/extrabadge", profileVerifiedCheckBg }};
 
 winEnterWithGuestIcon: icon {{ "ayu/ghost_tray", windowFg }};

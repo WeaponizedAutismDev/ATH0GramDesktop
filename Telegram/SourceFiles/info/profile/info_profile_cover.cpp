@@ -42,7 +42,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "styles/style_info.h"
 #include "styles/style_dialogs.h"
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/utils/telegram_helpers.h"
 
 
@@ -326,7 +326,7 @@ Cover::Cover(
 				Window::GifPauseReason::Layer);
 		},
 		0,
-		BadgeType::None | BadgeType::AyuGram | BadgeType::Extera))
+		BadgeType::None | BadgeType::ATH0Gram | BadgeType::Extra))
 , _userpic(topic
 	? nullptr
 	: object_ptr<Ui::UserpicButton>(
@@ -372,10 +372,10 @@ Cover::Cover(
 		refreshNameGeometry(width());
 	}, _name->lifetime());
 
-	if (isAyuGramRelated(getBareID(_peer))) {
-		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::AyuGram});
-	} else if (isExteraRelated(getBareID(_peer))) {
-		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::Extera});
+	if (isATH0GramRelated(getBareID(_peer))) {
+		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::ATH0Gram});
+	} else if (isextrarRelated(getBareID(_peer))) {
+		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::Extra});
 	} else {
 		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::None});
 	}

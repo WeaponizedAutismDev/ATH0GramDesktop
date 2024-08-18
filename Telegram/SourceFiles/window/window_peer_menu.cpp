@@ -98,7 +98,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <QAction>
 #include <QtWidgets/QApplication>
 
-// AyuGram includes
+// AyuG includes
 #include "styles/style_ayu_icons.h"
 
 

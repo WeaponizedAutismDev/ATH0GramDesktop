@@ -1,4 +1,4 @@
-// This is the source code of AyuGram for Desktop.
+// This is the source code of AyuG for Desktop.
 //
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
@@ -14,7 +14,7 @@ ICON(DEFAULT, "default");
 ICON(ALT, "alt");
 ICON(DISCORD, "discord");
 ICON(SPOTIFY, "spotify");
-ICON(EXTERA, "extera");
+ICON(EXTRA, "extra");
 ICON(NOTHING, "nothing");
 ICON(BARD, "bard");
 ICON(YAPLUS, "yaplus");

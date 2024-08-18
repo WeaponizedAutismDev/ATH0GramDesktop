@@ -20,7 +20,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "main/main_session.h"
 #include "styles/style_info.h"
 
-// AyuGram includes
+// AyuG includes
 #include "styles/style_ayu_icons.h"
 
 
@@ -175,9 +175,9 @@ void Badge::setContent(Content content) {
 				st::attentionButtonFg);
 			}, _view->lifetime());
 	} break;
-	case BadgeType::AyuGram:
-	case BadgeType::Extera: {
-		const auto icon = &st::infoExteraBadge;
+	case BadgeType::ATH0Gram:
+	case BadgeType::Extra: {
+		const auto icon = &st::infoExtraBadge;
 		_view->resize(icon->size());
 		_view->paintRequest(
 		) | rpl::start_with_next([=, check = _view.data()]{

@@ -176,7 +176,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <QtGui/QWindow>
 #include <QtCore/QMimeData>
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/ayu_settings.h"
 #include "ayu/utils/telegram_helpers.h"
 #include "ayu/features/messageshot/message_shot.h"
@@ -3418,7 +3418,7 @@ void HistoryWidget::messagesReceived(
 		int requestId) {
 	// Expects(_history != nullptr);
 	if (!_history) {
-		return; // AyuGram: fix crash when using `saveDeletedMessages`
+		return; // AyuG: fix crash when using `saveDeletedMessages`
 	}
 
 	const auto toMigrated = (peer == _peer->migrateFrom());
@@ -4183,7 +4183,7 @@ Api::SendAction HistoryWidget::prepareSendAction(
 }
 
 void HistoryWidget::send(Api::SendOptions options) {
-	// AyuGram useScheduledMessages
+	// AyuG useScheduledMessages
 	const auto settings = &AyuSettings::getInstance();
 	if (settings->useScheduledMessages && !options.scheduled) {
 		auto current = base::unixtime::now();

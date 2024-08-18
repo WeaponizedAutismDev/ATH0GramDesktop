@@ -1,18 +1,16 @@
-# AyuGram
+# ATH0Gram
 
-![AyuGram Logo](.github/AyuGram.png) ![AyuChan](.github/AyuChan.png)
+![ATH0Gram Logo](.github/ATH0Gram.png) 
+
+Personal Mod of Auygram for my own use and experimentation. 
 
 ## Features
 
-- Full ghost mode (flexible)
-- Messages history
-- Anti-recall
-- Font customization
-- Streamer mode
-- Local Telegram Premium
-- Enhanced appearance
+- Blackjack
+- Hookers
+- Ayugram's Secret Recipe
 
-And many more. Check out our [Documentation](https://docs.ayugram.one/desktop/).
+Check out their [Documentation](https://docs.ayugram.one/desktop/).
 
 ## Preferences screenshots
 
@@ -21,46 +19,9 @@ And many more. Check out our [Documentation](https://docs.ayugram.one/desktop/).
 <img src='.github/demos/demo3.png' width='268'>
 <img src='.github/demos/demo4.png' width='268'>
 
-## Downloads
-
 ### Windows
 
-#### Official
-
-You can download prebuilt Windows binary from [Releases tab](https://github.com/AyuGram/AyuGramDesktop/releases) or from
-the [Telegram topic](https://t.me/ayugramchat/12788).
-
-#### Winget
-
-```bash
-winget install RadolynLabs.AyuGramDesktop
-```
-
-#### Scoop
-
-```bash
-scoop bucket add extras
-scoop install ayugram
-```
-
 #### Self-built
-
-Follow [official guide](https://github.com/AyuGram/AyuGramDesktop/blob/dev/docs/building-win-x64.md) if you want to
-build by yourself.
-
-### Arch Linux
-
-You can install `ayugram-desktop` or `ayugram-desktop-git` from [AUR](https://aur.archlinux.org/packages?O=0&K=ayugram).
-
-### NixOS
-
-See [this repository](https://github.com/kaeeraa/ayugram-desktop) for installation manual.
-
-### Any other Linux distro
-
-Follow the [official guide](https://github.com/AyuGram/AyuGramDesktop/blob/dev/docs/building-linux.md).
-
-### Remarks for Windows
 
 Make sure you have these components installed with VS Build Tools:
 
@@ -68,16 +29,18 @@ Make sure you have these components installed with VS Build Tools:
 - C++ ATL latest (x86 & x64)
 - latest Windows 11 SDK
 
-## Donation
+Follow [official guide](https://github.com/WeaponizedAutismDev/ATH0GramDesktop/blob/dev/docs/building-win-x64.md) if you want to
+build by yourself.
 
-Enjoy using **AyuGram**? Consider sending us a tip!
+### Any other Linux distro
 
-[Here's available methods.](https://docs.ayugram.one/donate/)
+Follow the [official guide](https://github.com/WeaponizedAutismDev/ATH0GramDesktop/blob/dev/docs/building-linux.md).
 
 ## Credits
 
 ### Telegram clients
 
+- [ATH0Gram Desktop](https://github.com/WeaponizedAutismDev/ATH0GramDesktop)
 - [Telegram Desktop](https://github.com/telegramdesktop/tdesktop)
 - [Kotatogram](https://github.com/kotatogram/kotatogram-desktop)
 - [64Gram](https://github.com/TDesktop-x64/tdesktop)

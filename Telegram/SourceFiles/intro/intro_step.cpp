@@ -39,7 +39,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "styles/style_intro.h"
 #include "styles/style_window.h"
 
-// AyuGram includes
+// AyuG includes
 #include "ayu/ui/ayu_logo.h"
 
 
@@ -472,8 +472,8 @@ void Step::paintCover(QPainter &p, int top) {
 		planeLeft += deltaLeft;
 	//	planeTop += top;
 	}
-	const auto ayuGramIcon = Ui::PixmapFromImage(AyuAssets::currentAppLogo());
-	QIcon(ayuGramIcon).paint(&p, QRect(width() / 2 - ayuGramIcon.width() / 2, planeTop - 16, ayuGramIcon.width(), st::introCoverIcon.height()));
+	const auto ath0gramicon = Ui::PixmapFromImage(AyuAssets::currentAppLogo());
+	QIcon(ath0gramicon).paint(&p, QRect(width() / 2 - ath0gramicon.width() / 2, planeTop - 16, ath0gramicon.width(), st::introCoverIcon.height()));
 }
 
 int Step::contentLeft() const {

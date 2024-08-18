@@ -1,4 +1,4 @@
-// This is the source code of AyuGram for Desktop.
+// This is the source code of AyuG for Desktop.
 //
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
@@ -25,7 +25,7 @@ const QVector<QString> icons{
 	AyuAssets::ALT_ICON,
 	AyuAssets::DISCORD_ICON,
 	AyuAssets::SPOTIFY_ICON,
-	AyuAssets::EXTERA_ICON,
+	AyuAssets::EXTRA_ICON,
 	AyuAssets::NOTHING_ICON,
 	AyuAssets::BARD_ICON,
 	AyuAssets::YAPLUS_ICON,
