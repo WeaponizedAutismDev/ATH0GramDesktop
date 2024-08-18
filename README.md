@@ -40,7 +40,7 @@ Follow the [official guide](https://github.com/WeaponizedAutismDev/ATH0GramDeskt
 
 ### Telegram clients
 
-- [ATH0Gram Desktop](https://github.com/WeaponizedAutismDev/ATH0GramDesktop)
+- [AyuGram Desktop](https://github.com/Ayugram/AyuGramDesktop)
 - [Telegram Desktop](https://github.com/telegramdesktop/tdesktop)
 - [Kotatogram](https://github.com/kotatogram/kotatogram-desktop)
 - [64Gram](https://github.com/TDesktop-x64/tdesktop)
