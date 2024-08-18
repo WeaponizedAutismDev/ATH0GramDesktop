@@ -2,7 +2,7 @@
 
 ![ATH0Gram Logo](.github/ATH0Gram.png) 
 
-Personal Mod of Auygram for my own use and experimentation. 
+A personal mod of Auygram Desktop for my own use and experimentation. 
 
 ## Features
 
@@ -28,6 +28,11 @@ Make sure you have these components installed with VS Build Tools:
 - C++ MFC latest (x86 & x64)
 - C++ ATL latest (x86 & x64)
 - latest Windows 11 SDK
+- The exact python version specified in the build docs
+- Ensure you have ATL libs installed that match your version of Visual studios MSVC - Select these in either the VS build tools or VS2022 isntaller, when you select c++ destkop dev tools.
+- You will need to use X64 Native Tools Command Prompt for VS 2022
+- The combinded X86 and X64 will break the build make sure you use the right command prompt, you can find it from the Start menu VS folder in windows under "all apps"
+- If you dont have the correct verison command prompt available there is a batch file that can be run to generate it look it up on MS learning site.
 
 Follow [official guide](https://github.com/WeaponizedAutismDev/ATH0GramDesktop/blob/dev/docs/building-win-x64.md) if you want to
 build by yourself.
