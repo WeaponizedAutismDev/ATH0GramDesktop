@@ -374,8 +374,8 @@ Cover::Cover(
 
 	if (isATH0GramRelated(getBareID(_peer))) {
 		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::ATH0Gram});
-	} else if (isExtraRelated(getBareID(_peer))) {
-		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::Extra});
+	} else if (isExteraRelated(getBareID(_peer))) {
+		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::Extera});
 	} else {
 		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::None});
 	}

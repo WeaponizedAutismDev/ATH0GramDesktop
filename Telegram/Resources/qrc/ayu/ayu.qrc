@@ -18,9 +18,9 @@
         <file alias="art/ayu/discord/app.png">../../art/ayu/discord/app.png</file>
         <file alias="art/ayu/discord/app_preview.png">../../art/ayu/discord/app_preview.png</file>
         <file alias="art/ayu/discord/app_icon.ico">../../art/ayu/discord/app_icon.ico</file>
-        <file alias="art/ayu/extra/app.png">../../art/ayu/extra/app.png</file>
-        <file alias="art/ayu/extra/app_preview.png">../../art/ayu/extra/app_preview.png</file>
-        <file alias="art/ayu/extra/app_icon.ico">../../art/ayu/extra/app_icon.ico</file>
+        <file alias="art/ayu/extera/app.png">../../art/ayu/extera/app.png</file>
+        <file alias="art/ayu/extera/app_preview.png">../../art/ayu/extera/app_preview.png</file>
+        <file alias="art/ayu/extera/app_icon.ico">../../art/ayu/extera/app_icon.ico</file>
         <file alias="art/ayu/nothing/app.png">../../art/ayu/nothing/app.png</file>
         <file alias="art/ayu/nothing/app_preview.png">../../art/ayu/nothing/app_preview.png</file>
         <file alias="art/ayu/nothing/app_icon.ico">../../art/ayu/nothing/app_icon.ico</file>

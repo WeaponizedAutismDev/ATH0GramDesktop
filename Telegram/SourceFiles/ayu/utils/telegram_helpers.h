@@ -23,7 +23,7 @@ ID getDialogIdFromPeer(not_null<PeerData*> peer);
 ID getBareID(not_null<PeerData*> peer);
 
 bool isATH0GramRelated(ID peerId);
-bool isExtraRelated(ID peerId);
+bool isExteraRelated(ID peerId);
 
 bool isMessageHidden(not_null<HistoryItem*> item);
 

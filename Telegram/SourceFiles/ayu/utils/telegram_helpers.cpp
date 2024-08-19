@@ -127,8 +127,8 @@ bool isATH0GramRelated(ID peerId) {
 	return ATH0Gram_devs.contains(peerId) || ATH0Gram_channels.contains(peerId);
 }
 
-bool isExtraRelated(ID peerId) {
-	return extra_devs.contains(peerId) || extra_channels.contains(peerId);
+bool isExteraRelated(ID peerId) {
+	return extera_devs.contains(peerId) || extera_channels.contains(peerId);
 }
 
 bool isMessageHidden(const not_null<HistoryItem*> item) {
