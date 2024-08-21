@@ -16,7 +16,7 @@ Release/
 *.VC.db
 *.aps
 *.xcodeproj
-ipch/
+ipchgt/
 .vs/
 .vscode/
 
