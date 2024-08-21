@@ -464,14 +464,7 @@ void Step::paintCover(QPainter &p, int top) {
 	st::introCoverLeft.paint(p, left, coverHeight - st::introCoverLeft.height(), width());
 	st::introCoverRight.paint(p, width() - right - st::introCoverRight.width(), coverHeight - st::introCoverRight.height(), width());
 
-	auto planeLeft = (width() - st::introCoverIcon.width()) / 2 - st::introCoverIconLeft;
 	auto planeTop = top + st::introCoverIconTop;
-	if (top < 0 && !_hasCover) {
-		auto deltaLeft = -qRound(float64(st::introPlaneWidth / st::introPlaneHeight) * top);
-//		auto deltaTop = top;
-		planeLeft += deltaLeft;
-	//	planeTop += top;
-	}
 	const auto ath0gramicon = Ui::PixmapFromImage(AyuAssets::currentAppLogo());
 	QIcon(ath0gramicon).paint(&p, QRect(width() / 2 - ath0gramicon.width() / 2, planeTop - 16, ath0gramicon.width(), st::introCoverIcon.height()));
 }
