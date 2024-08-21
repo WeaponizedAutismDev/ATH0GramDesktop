@@ -51,3 +51,4 @@ stage
 *.*~
 .idea/
 cmake-build-debug/
+build-debug-mscv/
