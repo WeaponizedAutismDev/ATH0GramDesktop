@@ -46,11 +46,11 @@ std::unordered_set<ID> ATH0gram_devs = {
 	0000000000
 };
 
-std::unordered_set<ID> extra_channels = {
+std::unordered_set<ID> extera_channels = {
 	0000000000
 };
 
-std::unordered_set<ID> extra_devs = {
+std::unordered_set<ID> extera_devs = {
 	0000000000
 };
 

@@ -176,8 +176,8 @@ void Badge::setContent(Content content) {
 			}, _view->lifetime());
 	} break;
 	case BadgeType::ATH0Gram:
-	case BadgeType::Extra: {
-		const auto icon = &st::infoExtraBadge;
+	case BadgeType::Extera: {
+		const auto icon = &st::infoExteraBadge;
 		_view->resize(icon->size());
 		_view->paintRequest(
 		) | rpl::start_with_next([=, check = _view.data()]{
