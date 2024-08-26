@@ -1,10 +1,3 @@
-# This file is part of Telegram Desktop,
-# the official desktop application for the Telegram messaging service.
-#
-# For license and copyright information please follow this link:
-# https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
-
-if (APPLE)
     # target_precompile_headers with COMPILE_LANGUAGE restriction.
     cmake_minimum_required(VERSION 3.23)
 else()
@@ -31,7 +24,7 @@ project(Telegram
     LANGUAGES ${project_langs}
     VERSION ${desktop_app_version_cmake}
     DESCRIPTION "ATH0Gram Desktop"
-    HOMEPAGE_URL "https://weaponizedautism.dev"
+    HOMEPAGE_URL "https://WeaponizedAutism.dev"
 )
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Telegram)
 
