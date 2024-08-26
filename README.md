@@ -2,15 +2,14 @@
 
 ![ATH0Gram Logo](.github/ATH0Gram.png) 
 
-A personal mod of Auygram Desktop for my own use and experimentation. 
+A fork of [AyuGram Desktop](https://github.com/AyuGram/AyuGramDesktop) for personal use and experimentation.
 
 ## Features
 
 - Blackjack
 - Hookers
-- Ayugram's Secret Recipe
+- [Ayugram's](https://docs.ayugram.one/desktop/) original recipe with 11 herbs and spices. 
 
-Check out their [Documentation](https://docs.ayugram.one/desktop/).
 
 ## Preferences screenshots
 
@@ -31,8 +30,8 @@ Make sure you have these components installed with VS Build Tools:
 - The exact python version specified in the build docs
 - Ensure you have ATL libs installed that match your version of Visual studios MSVC - Select these in either the VS build tools or VS2022 isntaller, when you select c++ destkop dev tools.
 - You will need to use X64 Native Tools Command Prompt for VS 2022
-- The combinded X86 and X64 will break the build make sure you use the right command prompt, you can find it from the Start menu VS folder in windows under "all apps"
-- If you dont have the correct verison command prompt available there is a batch file that can be run to generate it look it up on MS learning site.
+- The combinded X86 and X64 will break the build make sure you use the correct x64 command prompt, you can find it from the Start menu VS folder in Windows under "all apps"
+- If you dont have the correct verison command prompt available read [Microsoft's guide](https://learn.microsoft.com/en-us/cpp/build/how-to-enable-a-64-bit-visual-cpp-toolset-on-the-command-line?view=msvc-170) on how to enable it.
 
 Follow [official guide](https://github.com/WeaponizedAutismDev/ATH0GramDesktop/blob/dev/docs/building-win-x64.md) if you want to
 build by yourself.
@@ -59,4 +58,6 @@ Follow the [official guide](https://github.com/WeaponizedAutismDev/ATH0GramDeskt
 
 ### Icons
 
+- [FluentUI System Icons](https://github.com/microsoft/fluentui-system-icons)
 - [Solar Icon Set](https://www.figma.com/community/file/1166831539721848736)
+- [iconify.design](https://icon-sets.iconify.design/)
