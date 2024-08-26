@@ -19,7 +19,7 @@ Release/
 ipchgt/
 .vs/
 .vscode/
-
+.code-workspace
 /Telegram/log.txt
 /Telegram/data
 /Telegram/data_config
