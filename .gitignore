@@ -53,3 +53,4 @@ stage
 cmake-build-debug/
 build-debug-mscv/
 build/
+.code-workspace
