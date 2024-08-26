@@ -163,10 +163,10 @@ void load() {
 		try {
 			settings = p.get<ATH0GramSettings>();
 		} catch (...) {
-			LOG(("ATH0gramSettings: failed to parse settings file"));
+			LOG(("ATH0GramSettings: failed to parse settings file"));
 		}
 	} catch (...) {
-		LOG(("ATH0gramSettings: failed to read settings file (not json-like)"));
+		LOG(("ATH0GramSettings: failed to read settings file (not json-like)"));
 	}
 
 	if (cGhost()) {
@@ -312,7 +312,7 @@ void ATH0GramSettings::set_sendOfflinePacketAfterOnline(bool val) {
 void ATH0GramSettings::set_ghostModeEnabled(bool val) {
 	set_sendReadMessages(!val);
 	set_sendReadStories(!val);
-	set_sendOnlinePackets(!val);
+	set_sendOnlinePackets(!val);	
 	set_sendUploadProgress(!val);
 	set_sendOfflinePacketAfterOnline(val);
 

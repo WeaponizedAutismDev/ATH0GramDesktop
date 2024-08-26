@@ -52,10 +52,10 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "Weaponized Autism Dev"
-            VALUE "FileDescription", "ATH0gram Desktop Updater"
+            VALUE "FileDescription", "ATH0Gram Desktop Updater"
             VALUE "FileVersion", "5.4.1.0"
             VALUE "LegalCopyright", "Copyright (C) 2014-2024"
-            VALUE "ProductName", "ATH0gram Desktop"
+            VALUE "ProductName", "ATH0Gram Desktop"
             VALUE "ProductVersion", "5.4.1.0"
         END
     END

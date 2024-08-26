@@ -19,9 +19,9 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 // used in Updater.cpp and Setup.iss for Windows
 constexpr auto AppId = "{53F49750-6209-4FBF-9CA8-7A333C87D666}"_cs;
-constexpr auto AppNameOld = "ATH0gram for Windows"_cs;
-constexpr auto AppName = "ATH0gram Desktop"_cs;
-constexpr auto AppFile = "ATH0gram"_cs;
+constexpr auto AppNameOld = "ATH0Gram for Windows"_cs;
+constexpr auto AppName = "ATH0Gram Desktop"_cs;
+constexpr auto AppFile = "ATH0Gram"_cs;
 constexpr auto AppVersion = 5004001;
 constexpr auto AppVersionStr = "5.4.1";
 constexpr auto AppBetaVersion = false;

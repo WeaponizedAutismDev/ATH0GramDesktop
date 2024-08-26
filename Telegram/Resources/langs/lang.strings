@@ -5872,5 +5872,5 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 "ayu_ConfirmationVoice" = "Do you want to send this voice message?";
 "ayu_IntroAbout" = "Welcome to the ATH0Gram Desktop.\nMake Telegram Great Again.";
 "ayu_AboutText1" = "A humble Telegram client based on {api_link}.";
-"ayu_updateATH0gram" = "Update ATH0Gram";
+"ayu_UpdateATH0Gram" = "Update ATH0Gram";
 "ayu_UtilityRestartRequired" = "App will close in 5 seconds.";

@@ -832,7 +832,7 @@ void CheckReactionNotificationSchedule(
 [[nodiscard]] TextWithEntities UnsupportedMessageText() {
 	const auto siteLink = u"https://t.me/4214270631/"_q;
 	auto result = TextWithEntities{
-		tr::lng_message_unsupported(tr::now, lt_link, siteLink).replace("Telegram", "ATH0gram")
+		tr::lng_message_unsupported(tr::now, lt_link, siteLink).replace("Telegram", "ATH0Gram")
 	};
 	TextUtilities::ParseEntities(result, Ui::ItemTextNoMonoOptions().flags);
 	result.entities.push_front(

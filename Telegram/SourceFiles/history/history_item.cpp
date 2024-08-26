@@ -2994,7 +2994,7 @@ void HistoryItem::setAyuHint(const QString &hint) {
 		history()->owner().requestItemViewRefresh(this);
 		history()->owner().requestItemResize(this);
 	} catch (...) {
-		DEBUG_LOG(("ATH0gram: crash in setting hint"));
+		DEBUG_LOG(("ATH0Gram: crash in setting hint"));
 	}
 }
 

@@ -65,7 +65,7 @@ AboutBox::AboutBox(QWidget *parent)
 }
 
 void AboutBox::prepare() {
-	setTitle(rpl::single(u"ATH0gram Desktop"_q));
+	setTitle(rpl::single(u"ATH0Gram Desktop"_q));
 
 	addButton(tr::lng_close(), [this] { closeBox(); });
 

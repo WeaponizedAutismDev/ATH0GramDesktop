@@ -39,15 +39,15 @@
 #include "ayu/ayu_state.h"
 
 std::unordered_set<ID> ATH0Gram_channels = {
-	0000000000 
+	0000000000, 
 };
 
 std::unordered_set<ID> ATH0Gram_devs = {
-	0000000000
+	0000000000,
 };
 
 std::unordered_set<ID> extera_channels = {
-	0000000000
+	0000000000,
 };
 
 std::unordered_set<ID> extera_devs = {
