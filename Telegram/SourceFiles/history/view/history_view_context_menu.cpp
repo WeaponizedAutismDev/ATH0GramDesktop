@@ -1877,7 +1877,7 @@ TextWithEntities TransribedText(not_null<HistoryItem*> item) {
 }
 
 bool ItemHasTtl(HistoryItem *item) {
-	return false; // AyuGram: allow downloading files with ttl
+	return false; // AyuG: allow downloading files with ttl
 }
 
 } // namespace HistoryView

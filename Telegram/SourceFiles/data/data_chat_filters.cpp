@@ -792,7 +792,7 @@ FilterId ChatFilters::defaultId() const {
 FilterId ChatFilters::lookupId(int index) const {
 	// Expects(index >= 0 && index < _list.size());
 	if (!(index >= 0 && index < _list.size())) {
-		return FilterId(); // AyuGram: fix crash when using `hideAllChatsFolder`
+		return FilterId(); // AyuG: fix crash when using `hideAllChatsFolder`
 	}
 
 	const auto settings = &AyuSettings::getInstance();

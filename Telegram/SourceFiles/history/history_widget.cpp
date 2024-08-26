@@ -3486,7 +3486,7 @@ void HistoryWidget::messagesReceived(
 		int requestId) {
 	// Expects(_history != nullptr);
 	if (!_history) {
-		return; // AyuGram: fix crash when using `saveDeletedMessages`
+		return; // AyuG: fix crash when using `saveDeletedMessages`
 	}
 
 	const auto toMigrated = (peer == _peer->migrateFrom());

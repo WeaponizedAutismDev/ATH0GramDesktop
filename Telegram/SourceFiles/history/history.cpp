@@ -502,7 +502,7 @@ not_null<HistoryItem*> History::insertItem(
 void History::destroyMessage(not_null<HistoryItem*> item) {
 	// Expects(item->isHistoryEntry() || !item->mainView());
 	if (!(item->isHistoryEntry() || !item->mainView())) {
-		return; // AyuGram: fix crash when using `saveDeletedMessages`
+		return; // AyuG: fix crash when using `saveDeletedMessages`
 	}
 
 	const auto peerId = peer->id;

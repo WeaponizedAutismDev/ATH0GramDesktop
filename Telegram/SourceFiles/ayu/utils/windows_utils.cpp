@@ -12,11 +12,11 @@
 
 void reloadAppIconFromTaskBar() {
 	QString appdata = QDir::fromNativeSeparators(qgetenv("APPDATA"));
-	QString ayugramIconPath = appdata + "/AyuGram.ico";
+	QString ath0gramiconPath = appdata + "/ATH0Gram.ico";
 
-	QString shortcut = appdata + "/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/AyuGram Desktop.lnk";
+	QString shortcut = appdata + "/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/ATH0Gram Desktop.lnk";
 	if (!QFile::exists(shortcut)) {
-		shortcut = appdata + "/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/AyuGram.lnk";
+		shortcut = appdata + "/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/ATH0Gram.lnk";
 	}
 
 	if (QFile::exists(shortcut)) {
@@ -36,7 +36,7 @@ void reloadAppIconFromTaskBar() {
 				wszShortcutPath[shortcut.length()] = '\0';
 
 				if (SUCCEEDED(pPersistFile->Load(wszShortcutPath, STGM_READWRITE))) {
-					pShellLink->SetIconLocation(ayugramIconPath.toStdWString().c_str(), 0);
+					pShellLink->SetIconLocation(ath0gramiconPath.toStdWString().c_str(), 0);
 					pPersistFile->Save(wszShortcutPath, TRUE);
 				}
 

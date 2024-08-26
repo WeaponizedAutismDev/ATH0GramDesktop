@@ -821,7 +821,7 @@ void Selector::finishExpand() {
 }
 
 void Selector::paintBubble(QPainter &p, int innerWidth) {
-	// AyuGram: removed
+	// AyuG: removed
 }
 
 void Selector::paintEvent(QPaintEvent *e) {

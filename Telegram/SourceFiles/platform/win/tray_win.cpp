@@ -182,7 +182,7 @@ bool DarkTasbarValueValid/* = false*/;
 		return Window::WithSmallCounter(std::move(result), std::move(args));
 	}
 	QPainter p(&result);
-	PainterHighQualityEnabler hq(p); // AyuGram: fix for lq icons
+	PainterHighQualityEnabler hq(p); // AyuG: fix for lq icons
 	const auto half = args.size / 2;
 	args.size = half;
 	p.drawPixmap(

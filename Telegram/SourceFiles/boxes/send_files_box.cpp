@@ -1730,7 +1730,7 @@ void SendFilesBox::send(
 	// AyuGram useScheduledMessages
 	const auto settings = &AyuSettings::getInstance();
 	if (settings->useScheduledMessages && !options.scheduled) {
-		DEBUG_LOG(("[AyuGram] Scheduling files"));
+		DEBUG_LOG(("[ATH0Gram] Scheduling files"));
 		const auto sumSize = ranges::accumulate(
 			_list.files,
 			0,

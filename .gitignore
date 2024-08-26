@@ -16,10 +16,10 @@ Release/
 *.VC.db
 *.aps
 *.xcodeproj
-ipch/
+ipchgt/
 .vs/
 .vscode/
-
+.code-workspace
 /Telegram/log.txt
 /Telegram/data
 /Telegram/data_config
@@ -51,3 +51,6 @@ stage
 *.*~
 .idea/
 cmake-build-debug/
+build-debug-mscv/
+build/
+.code-workspace

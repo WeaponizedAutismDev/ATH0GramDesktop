@@ -40,11 +40,11 @@ rpl::producer<TextWithEntities> Text2() {
 		lt_gpl_link,
 		rpl::single(Ui::Text::Link(
 			"GNU GPL",
-			"https://github.com/AyuGram/AyuGramDesktop/blob/master/LICENSE")),
+			"https://github.com/WeaponizedAutismDev/ATH0GramDesktop/blob/master/LICENSE")),
 		lt_github_link,
 		rpl::single(Ui::Text::Link(
 			"GitHub",
-			"https://github.com/AyuGram/AyuGramDesktop")),
+			"https://github.com/WeaponizedAutismDev/ATH0GramDesktop")),
 		Ui::Text::WithEntities);
 }
 
@@ -65,7 +65,7 @@ AboutBox::AboutBox(QWidget *parent)
 }
 
 void AboutBox::prepare() {
-	setTitle(rpl::single(u"AyuGram Desktop"_q));
+	setTitle(rpl::single(u"ATH0gram Desktop"_q));
 
 	addButton(tr::lng_close(), [this] { closeBox(); });
 

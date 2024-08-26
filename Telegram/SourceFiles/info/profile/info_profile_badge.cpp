@@ -175,7 +175,7 @@ void Badge::setContent(Content content) {
 				st::attentionButtonFg);
 			}, _view->lifetime());
 	} break;
-	case BadgeType::AyuGram:
+	case BadgeType::ATH0Gram:
 	case BadgeType::Extera: {
 		const auto icon = &st::infoExteraBadge;
 		_view->resize(icon->size());

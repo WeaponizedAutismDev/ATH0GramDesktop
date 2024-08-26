@@ -465,8 +465,8 @@ void Step::paintCover(QPainter &p, int top) {
 	st::introCoverRight.paint(p, width() - right - st::introCoverRight.width(), coverHeight - st::introCoverRight.height(), width());
 
 	auto planeTop = top + st::introCoverIconTop;
-	const auto ayuGramIcon = Ui::PixmapFromImage(AyuAssets::currentAppLogo());
-	QIcon(ayuGramIcon).paint(&p, QRect(width() / 2 - ayuGramIcon.width() / 2, planeTop - 16, ayuGramIcon.width(), st::introCoverIcon.height()));
+	const auto ath0gramicon = Ui::PixmapFromImage(AyuAssets::currentAppLogo());
+	QIcon(ath0gramicon).paint(&p, QRect(width() / 2 - ath0gramicon.width() / 2, planeTop - 16, ath0gramicon.width(), st::introCoverIcon.height()));
 }
 
 int Step::contentLeft() const {

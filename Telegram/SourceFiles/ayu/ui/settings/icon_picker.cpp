@@ -28,7 +28,7 @@ const QVector<QString> icons{
 	AyuAssets::ALT_ICON,
 	AyuAssets::DISCORD_ICON,
 	AyuAssets::SPOTIFY_ICON,
-	AyuAssets::EXTERA_ICON,
+	AyuAssets::EXTRA_ICON,
 	AyuAssets::NOTHING_ICON,
 	AyuAssets::BARD_ICON,
 	AyuAssets::YAPLUS_ICON,

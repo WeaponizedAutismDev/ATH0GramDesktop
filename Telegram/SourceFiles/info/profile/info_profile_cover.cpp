@@ -326,7 +326,7 @@ Cover::Cover(
 				Window::GifPauseReason::Layer);
 		},
 		0,
-		BadgeType::None | BadgeType::AyuGram | BadgeType::Extera))
+		BadgeType::None | BadgeType::ATH0Gram | BadgeType::Extra))
 , _userpic(topic
 	? nullptr
 	: object_ptr<Ui::UserpicButton>(
@@ -372,8 +372,8 @@ Cover::Cover(
 		refreshNameGeometry(width());
 	}, _name->lifetime());
 
-	if (isAyuGramRelated(getBareID(_peer))) {
-		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::AyuGram});
+	if (isATH0GramRelated(getBareID(_peer))) {
+		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::ATH0Gram});
 	} else if (isExteraRelated(getBareID(_peer))) {
 		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::Extera});
 	} else {

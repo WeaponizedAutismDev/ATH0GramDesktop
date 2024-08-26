@@ -15,7 +15,7 @@ ICON(DEFAULT_MACOS, "macos");
 ICON(ALT, "alt");
 ICON(DISCORD, "discord");
 ICON(SPOTIFY, "spotify");
-ICON(EXTERA, "extera");
+ICON(EXTRA, "extra");
 ICON(NOTHING, "nothing");
 ICON(BARD, "bard");
 ICON(YAPLUS, "yaplus");

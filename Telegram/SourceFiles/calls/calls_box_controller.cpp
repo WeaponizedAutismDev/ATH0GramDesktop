@@ -6,7 +6,6 @@ For license and copyright information please follow this link:
 https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 */
 #include "calls/calls_box_controller.h"
-
 #include "lang/lang_keys.h"
 #include "ui/effects/ripple_animation.h"
 #include "ui/widgets/labels.h"
