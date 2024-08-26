@@ -2071,7 +2071,7 @@ endif()
 
 if (LINUX AND DESKTOP_APP_USE_PACKAGED)
     include(GNUInstallDirs)
-    configure_file("../lib/xdg/com.ath0gram.desktop.service" "${CMAKE_CURRENT_BINARY_DIR}/com.ath0gramdesktop.service" @ONLY)
+    configure_file("../lib/xdg/com.ath0gram.desktop.service" "${CMAKE_CURRENT_BINARY_DIR}/com.ath0gram.desktop.service" @ONLY)
     configure_file("../lib/xdg/com.ath0gram.desktop.metainfo.xml" "${CMAKE_CURRENT_BINARY_DIR}/com.ath0gram.desktop.metainfo.xml" @ONLY)
     generate_appdata_changelog(Telegram "${CMAKE_SOURCE_DIR}/changelog.txt" "${CMAKE_CURRENT_BINARY_DIR}/com.ath0gram.desktop.metainfo.xml")
     install(TARGETS Telegram RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" BUNDLE DESTINATION "${CMAKE_INSTALL_BINDIR}")
