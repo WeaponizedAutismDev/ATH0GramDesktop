@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/gui">
+        <file alias="art/ayu/default/app.png">../../art/ayu/default/app.png</file>
+        <file alias="art/ayu/default/app_icon.ico">../../art/ayu/default/app_icon.ico</file>
+        <file alias="art/ayu/default/app_macos.png">../../art/ayu/default/app_macos.png</file>
+        <file alias="art/ayu/default/app_preview.png">../../art/ayu/default/app_preview.png</file>
         <file alias="art/ayu/GNP/app.png">../../art/ayu/GNP/app.png</file>
         <file alias="art/ayu/GNP/app_icon.ico">../../art/ayu/GNP/app_icon.ico</file>
         <file alias="art/ayu/GNP/app_macos.png">../../art/ayu/GNP/app_macos.png</file>
