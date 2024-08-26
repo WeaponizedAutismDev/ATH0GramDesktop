@@ -5,7 +5,7 @@ TryExec=ath0gram-desktop
 Exec=DESKTOPINTEGRATION=1 ath0gram-desktop -- %u
 Icon=ath0gram
 Terminal=false
-StartupWMClass=ath0Gram
+StartupWMClass=ath0gram
 Type=Application
 Categories=Chat;Network;InstantMessaging;Qt;
 MimeType=x-scheme-handler/tg;
@@ -17,6 +17,6 @@ X-GNOME-UsesNotifications=true
 X-GNOME-SingleWindow=true
 
 [Desktop Action quit]
-Exec=athogram-desktop -quit
+Exec=ath0gram-desktop -quit
 Name=Quit ATH0Gram
 Icon=application-exit
