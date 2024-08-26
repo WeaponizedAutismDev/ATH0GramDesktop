@@ -326,7 +326,7 @@ Cover::Cover(
 				Window::GifPauseReason::Layer);
 		},
 		0,
-		BadgeType::None | BadgeType::ATH0Gram | BadgeType::Extra))
+		BadgeType::None | BadgeType::ATH0Gram | BadgeType::Extera))
 , _userpic(topic
 	? nullptr
 	: object_ptr<Ui::UserpicButton>(
