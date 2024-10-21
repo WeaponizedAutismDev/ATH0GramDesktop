@@ -140,11 +140,11 @@ void SetupExperimental(
 				: rpl::producer<>()));
 	};
 
-	addToggle(ChatHelpers::kOptionTabbedPanelShowOnClick);
+	// addToggle(ChatHelpers::kOptionTabbedPanelShowOnClick);
 	addToggle(Dialogs::kOptionForumHideChatsList);
 	addToggle(Core::kOptionFractionalScalingEnabled);
 	addToggle(Window::kOptionViewProfileInChatsListContextMenu);
-	addToggle(Info::Profile::kOptionShowPeerIdBelowAbout);
+	// addToggle(Info::Profile::kOptionShowPeerIdBelowAbout);
 	addToggle(Ui::kOptionUseSmallMsgBubbleRadius);
 	addToggle(Media::Player::kOptionDisableAutoplayNext);
 	addToggle(kOptionSendLargePhotos);
@@ -156,6 +156,7 @@ void SetupExperimental(
 	addToggle(Core::kOptionSkipUrlSchemeRegister);
 	addToggle(Data::kOptionExternalVideoPlayer);
 	addToggle(Window::kOptionNewWindowsSizeAsFirst);
+	addToggle(Window::kOptionDisableTouchbar);
 }
 
 } // namespace

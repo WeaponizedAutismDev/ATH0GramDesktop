@@ -12,8 +12,12 @@
 
 namespace AyuMessages {
 
-void addEditedMessage(HistoryMessageEdition &edition, not_null<HistoryItem*> item);
-std::vector<EditedMessage> getEditedMessages(not_null<HistoryItem*> item);
+void addEditedMessage(not_null<HistoryItem *> item);
+std::vector<AyuMessageBase> getEditedMessages(not_null<HistoryItem*> item, ID minId, ID maxId, int totalLimit);
 bool hasRevisions(not_null<HistoryItem*> item);
+
+void addDeletedMessage(not_null<HistoryItem*> item);
+std::vector<AyuMessageBase> getDeletedMessages(not_null<PeerData*> peer, ID topicId, ID minId, ID maxId, int totalLimit);
+bool hasDeletedMessages(not_null<PeerData*> peer, ID topicId);
 
 }

@@ -10,7 +10,6 @@
 
 #define ID long long
 
-template<typename TableName>
 class AyuMessageBase
 {
 public:
@@ -31,12 +30,14 @@ public:
 	std::string fwdName;
 	int fwdDate;
 	std::string fwdPostAuthor;
+	std::string postAuthor;
 	int replyFlags;
 	int replyMessageId;
 	ID replyPeerId;
 	int replyTopId;
 	bool replyForumTopic;
 	std::vector<char> replySerialized;
+	std::vector<char> replyMarkupSerialized;
 	int entityCreateDate;
 	std::string text;
 	std::vector<char> textEntities;
@@ -49,9 +50,13 @@ public:
 	std::string mimeType;
 };
 
-using DeletedMessage = AyuMessageBase<struct DeletedMessageTag>;
+class DeletedMessage : public AyuMessageBase
+{
+};
 
-using EditedMessage = AyuMessageBase<struct EditedMessageTag>;
+class EditedMessage : public AyuMessageBase
+{
+};
 
 class DeletedDialog
 {
@@ -73,6 +78,7 @@ public:
 	std::vector<char> id;
 	std::string text;
 	bool enabled;
+	bool reversed;
 	bool caseInsensitive;
 	std::unique_ptr<ID> dialogId; // nullable
 };

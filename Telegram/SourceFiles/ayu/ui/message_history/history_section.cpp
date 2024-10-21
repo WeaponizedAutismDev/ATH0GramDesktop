@@ -4,10 +4,10 @@
 // but be respectful and credit the original author.
 //
 // Copyright @Radolyn, 2024
-#include "ayu/ui/sections/edited/edited_log_section.h"
+#include "ayu/ui/message_history/history_section.h"
 
 #include "apiwrap.h"
-#include "ayu/ui/sections/edited/edited_log_inner.h"
+#include "ayu/ui/message_history/history_inner.h"
 #include "base/timer.h"
 #include "data/data_channel.h"
 #include "data/data_session.h"
@@ -25,7 +25,7 @@
 #include "window/window_session_controller.h"
 #include "window/themes/window_theme.h"
 
-namespace EditedLog {
+namespace MessageHistory {
 
 class FixedBar final : public TWidget
 {
@@ -63,7 +63,7 @@ object_ptr<Window::SectionWidget> SectionMemento::createWidget(
 	if (column == Window::Column::Third) {
 		return nullptr;
 	}
-	auto result = object_ptr<Widget>(parent, controller, _peer, _item);
+	auto result = object_ptr<Widget>(parent, controller, _peer, _item, _topicId);
 	result->setInternalState(geometry, this);
 	return result;
 }
@@ -142,12 +142,14 @@ Widget::Widget(
 	QWidget *parent,
 	not_null<Window::SessionController*> controller,
 	not_null<PeerData*> peer,
-	not_null<HistoryItem*> item)
+	HistoryItem *item,
+	ID topicId)
 	: Window::SectionWidget(parent, controller, rpl::single<PeerData*>(peer)),
 	  _scroll(this, st::historyScroll, false),
 	  _fixedBar(this, controller, peer),
 	  _fixedBarShadow(this),
-	  _item(item) {
+	  _item(item),
+	  _topicId(topicId) {
 	_fixedBar->move(0, 0);
 	_fixedBar->resizeToWidth(width());
 	_fixedBar->show();
@@ -161,7 +163,7 @@ Widget::Widget(
 							 },
 							 lifetime());
 
-	_inner = _scroll->setOwnedWidget(object_ptr<InnerWidget>(this, controller, peer, item));
+	_inner = _scroll->setOwnedWidget(object_ptr<InnerWidget>(this, controller, peer, item, topicId));
 	_inner->scrollToSignal(
 	) | rpl::start_with_next([=](int top)
 							 {
@@ -190,7 +192,7 @@ void Widget::updateAdaptiveLayout() {
 }
 
 not_null<PeerData*> Widget::channel() const {
-	return _inner->channel();
+	return _inner->peer();
 }
 
 Dialogs::RowDescriptor Widget::activeChat() const {
@@ -234,7 +236,7 @@ void Widget::setupShortcuts() {
 }
 
 std::shared_ptr<Window::SectionMemento> Widget::createMemento() {
-	auto result = std::make_shared<SectionMemento>(channel(), _item);
+	auto result = std::make_shared<SectionMemento>(channel(), _item, _topicId);
 	saveState(result.get());
 	return result;
 }
@@ -321,4 +323,4 @@ QRect Widget::floatPlayerAvailableRect() {
 	return mapToGlobal(_scroll->geometry());
 }
 
-} // namespace EditedLog
+} // namespace MessageHistory

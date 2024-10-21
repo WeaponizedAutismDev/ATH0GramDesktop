@@ -25,9 +25,12 @@ public:
 
 	bool markReadAfterAction;
 	bool useScheduledMessages;
+	bool sendWithoutSound;
 
 	bool saveDeletedMessages;
 	bool saveMessagesHistory;
+
+	bool saveForBots;
 
 	bool hideFromBlocked;
 
@@ -55,6 +58,15 @@ public:
 	int showHideMessageInContextMenu;
 	int showUserMessagesInContextMenu;
 	int showMessageDetailsInContextMenu;
+
+	bool showAttachButtonInMessageField;
+	bool showCommandsButtonInMessageField;
+	bool showEmojiButtonInMessageField;
+	bool showMicrophoneButtonInMessageField;
+	bool showAutoDeleteButtonInMessageField;
+
+	bool showAttachPopup;
+	bool showEmojiPopup;
 
 	bool showLReadToggleInDrawer;
 	bool showSReadToggleInDrawer;
@@ -90,9 +102,12 @@ public:
 
 	void set_markReadAfterAction(bool val);
 	void set_useScheduledMessages(bool val);
+	void set_sendWithoutSound(bool val);
 
 	void set_saveDeletedMessages(bool val);
 	void set_saveMessagesHistory(bool val);
+
+	void set_saveForBots(bool val);
 
 	void set_hideFromBlocked(bool val);
 
@@ -120,6 +135,15 @@ public:
 	void set_showHideMessageInContextMenu(int val);
 	void set_showUserMessagesInContextMenu(int val);
 	void set_showMessageDetailsInContextMenu(int val);
+
+	void set_showAttachButtonInMessageField(bool val);
+	void set_showCommandsButtonInMessageField(bool val);
+	void set_showEmojiButtonInMessageField(bool val);
+	void set_showMicrophoneButtonInMessageField(bool val);
+	void set_showAutoDeleteButtonInMessageField(bool val);
+
+	void set_showAttachPopup(bool val);
+	void set_showEmojiPopup(bool val);
 
 	void set_showLReadToggleInDrawer(bool val);
 	void set_showSReadToggleInDrawer(bool val);
@@ -155,8 +179,10 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(
 	sendOfflinePacketAfterOnline,
 	markReadAfterAction,
 	useScheduledMessages,
+	sendWithoutSound,
 	saveDeletedMessages,
 	saveMessagesHistory,
+	saveForBots,
 	hideFromBlocked,
 	disableAds,
 	disableStories,
@@ -178,6 +204,13 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(
 	showHideMessageInContextMenu,
 	showUserMessagesInContextMenu,
 	showMessageDetailsInContextMenu,
+	showAttachButtonInMessageField,
+	showCommandsButtonInMessageField,
+	showEmojiButtonInMessageField,
+	showMicrophoneButtonInMessageField,
+	showAutoDeleteButtonInMessageField,
+	showAttachPopup,
+	showEmojiPopup,
 	showLReadToggleInDrawer,
 	showSReadToggleInDrawer,
 	showGhostToggleInDrawer,
@@ -211,5 +244,8 @@ bool get_ghostModeEnabled();
 rpl::producer<bool> get_ghostModeEnabledReactive();
 
 rpl::producer<bool> get_hideFromBlockedReactive();
+
+void triggerHistoryUpdate();
+rpl::producer<> get_historyUpdateReactive();
 
 }

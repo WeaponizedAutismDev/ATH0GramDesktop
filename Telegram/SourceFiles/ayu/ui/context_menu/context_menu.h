@@ -8,10 +8,22 @@
 
 #include "data/data_document.h"
 #include "ui/widgets/popup_menu.h"
+#include "window/window_peer_menu.h"
+#include "window/window_session_controller.h"
 
 namespace AyuUi {
 
 bool needToShowItem(int state);
+
+void AddDeletedMessagesActions(PeerData *peerData,
+							   Data::Thread *thread,
+							   not_null<Window::SessionController*> sessionController,
+							   const Window::PeerMenuCallback &addCallback);
+
+void AddJumpToBeginningAction(PeerData *peerData,
+							  Data::Thread *thread,
+							  not_null<Window::SessionController*> sessionController,
+							  const Window::PeerMenuCallback &addCallback);
 
 void AddHistoryAction(not_null<Ui::PopupMenu*> menu, HistoryItem *item);
 void AddHideMessageAction(not_null<Ui::PopupMenu*> menu, HistoryItem *item);

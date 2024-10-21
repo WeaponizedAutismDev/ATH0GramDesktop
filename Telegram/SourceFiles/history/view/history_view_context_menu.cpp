@@ -410,6 +410,10 @@ bool AddForwardMessageAction(
 		const ContextMenuRequest &request,
 		not_null<ListWidget*> list) {
 	const auto item = request.item;
+	if (item->isDeleted()) {
+		return false;
+	}
+
 	if (!request.selectedItems.empty()) {
 		return false;
 	} else if (!item || !item->allowsForward()) {
@@ -592,7 +596,7 @@ bool AddRescheduleAction(
 		const auto itemDate = firstItem->date();
 		const auto date = (itemDate == Api::kScheduledUntilOnlineTimestamp)
 			? HistoryView::DefaultScheduleTime()
-			: itemDate + 600;
+			: itemDate + (firstItem->isScheduled() ? 0 : crl::time(600));
 
 		const auto box = request.navigation->parentController()->show(
 			HistoryView::PrepareScheduleBox(
@@ -632,7 +636,7 @@ bool AddReplyToMessageAction(
 		? Data::CanSendAnything(topic)
 		: Data::CanSendAnything(peer);
 	const auto canReply = canSendReply || item->allowsForward();
-	if (!canReply) {
+	if (!canReply || item->isDeleted()) {
 		return false;
 	}
 
