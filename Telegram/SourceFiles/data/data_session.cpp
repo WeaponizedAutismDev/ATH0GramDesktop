@@ -221,7 +221,7 @@ bool NeedSaveMessage(not_null<HistoryItem *> item) {
 	}
 
 	if (const auto possiblyBot = item->history()->peer->asUser()) {
-		return !possiblyBot->isBot() || settings->saveForBots && possiblyBot->isBot();
+		return !possiblyBot->isBot() || (settings->saveForBots && possiblyBot->isBot());
 	}
 	return true;
 }
@@ -1666,6 +1666,14 @@ void Session::notifyNewItemAdded(not_null<HistoryItem*> item) {
 
 rpl::producer<not_null<HistoryItem*>> Session::newItemAdded() const {
 	return _newItemAdded.events();
+}
+
+void Session::notifyGiftUpdate(GiftUpdate &&update) {
+	_giftUpdates.fire(std::move(update));
+}
+
+rpl::producer<GiftUpdate> Session::giftUpdates() const {
+	return _giftUpdates.events();
 }
 
 HistoryItem *Session::changeMessageId(PeerId peerId, MsgId wasId, MsgId nowId) {
