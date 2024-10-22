@@ -1,6 +1,6 @@
-# AyuGram
+ATH0Gram
 
-![AyuGram Лого](.github/AyuGram.png) ![AyuChan](.github/AyuChan.png)
+ATH0Gram.png) ![AyuChan](.github/AyuChan.png)
 
 [ [English](README.md)  | Русский ]
 
@@ -42,17 +42,17 @@ winget install RadolynLabs.AyuGramDesktop
 
 ```bash
 scoop bucket add extras
-scoop install ayugram
+ATH0Gram
 ```
 
 #### Сборка вручную
 
 Следуйте [официальному руководству](https://github.com/AyuGram/AyuGramDesktop/blob/dev/docs/building-win-x64.md), если
-вы хотите собрать AyuGram сами.
+ATH0Gram сами.
 
 ### Arch Linux
 
-Вы можете установить `ayugram-desktop` или `ayugram-desktop-git`
+ATH0Gram-desktop-git`
 из [AUR](https://aur.archlinux.org/packages?O=0&K=ayugram).
 
 ### NixOS
@@ -73,7 +73,7 @@ scoop install ayugram
 
 ## Пожертвования
 
-Вам нравится использовать **AyuGram**? Оставьте нам чаевые!
+ATH0Gram**? Оставьте нам чаевые!
 
 [Здесь доступные варианты.](https://docs.ayugram.one/donate/)
 

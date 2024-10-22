@@ -33,7 +33,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "styles/style_chat_helpers.h"
 #include "styles/style_window.h"
 
-// AyuGram includes
+// ayu includes
 #include "ayu/features/messageshot/message_shot.h"
 
 

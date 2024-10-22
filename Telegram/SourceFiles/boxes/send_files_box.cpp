@@ -64,7 +64,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 #include <QtCore/QMimeData>
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ayu_settings.h"
 #include "base/unixtime.h"
 #include "styles/style_menu_icons.h"
@@ -1728,7 +1728,7 @@ bool SendFilesBox::validateLength(const QString &text) const {
 void SendFilesBox::send(
 		Api::SendOptions options,
 		bool ctrlShiftEnter) {
-	// AyuGram useScheduledMessages
+	// ayu useScheduledMessages
 	const auto settings = &AyuSettings::getInstance();
 	if (settings->useScheduledMessages && !options.scheduled) {
 		DEBUG_LOG(("[ATH0Gram] Scheduling files"));

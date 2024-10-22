@@ -43,7 +43,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <QtGui/QGuiApplication>
 #include <QtGui/QScreen>
 
-// AyuGram includes
+// ayu includes
 #include "ayu/utils/telegram_helpers.h"
 #include "ayu/features/streamer_mode/streamer_mode.h"
 

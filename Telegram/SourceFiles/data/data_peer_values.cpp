@@ -20,7 +20,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "ui/image/image_prepare.h"
 #include "base/unixtime.h"
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ayu_settings.h"
 
 

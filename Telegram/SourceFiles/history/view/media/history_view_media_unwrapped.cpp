@@ -22,7 +22,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "ui/painter.h"
 #include "styles/style_chat.h"
 
-// AyuGram includes
+// ayu includes
 #include "ayu/features/messageshot/message_shot.h"
 
 

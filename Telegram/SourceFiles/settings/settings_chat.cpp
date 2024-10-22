@@ -76,7 +76,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "styles/style_menu_icons.h"
 #include "styles/style_window.h"
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ui/settings/settings_ayu.h"
 #include "ayu/features/messageshot/message_shot.h"
 #include "window/themes/window_theme_preview.h"

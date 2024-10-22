@@ -23,7 +23,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "lang/lang_keys.h"
 #include "apiwrap.h"
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ayu_settings.h"
 
 

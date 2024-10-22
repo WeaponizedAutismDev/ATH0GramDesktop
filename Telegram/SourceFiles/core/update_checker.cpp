@@ -62,8 +62,6 @@ constexpr auto kMaxResponseSize = 1024 * 1024;
 #ifdef TDESKTOP_DISABLE_AUTOUPDATE
 bool UpdaterIsDisabled = true;
 #else // TDESKTOP_DISABLE_AUTOUPDATE
-bool UpdaterIsDisabled = false;
-#endif // TDESKTOP_DISABLE_AUTOUPDATE
 
 std::weak_ptr<Updater> UpdaterInstance;
 
@@ -1483,6 +1481,7 @@ int UpdateChecker::size() const {
 //}
 
 bool checkReadyUpdate() {
+	return false;
 	QString readyFilePath = cWorkingDir() + u"tupdates/temp/ready"_q, readyPath = cWorkingDir() + u"tupdates/temp"_q;
 	if (!QFile(readyFilePath).exists() || cExeName().isEmpty()) {
 		if (QDir(cWorkingDir() + u"tupdates/ready"_q).exists() || QDir(cWorkingDir() + u"tupdates/temp"_q).exists()) {
@@ -1527,6 +1526,7 @@ bool checkReadyUpdate() {
 	}
 
 #ifdef Q_OS_WIN
+	return false;
 	QString curUpdater = (cExeDir() + u"Updater.exe"_q);
 	QFileInfo updater(cWorkingDir() + u"tupdates/temp/Updater.exe"_q);
 #elif defined Q_OS_MAC // Q_OS_WIN
@@ -1548,6 +1548,7 @@ bool checkReadyUpdate() {
 		}
 	}
 #ifdef Q_OS_WIN
+	return;
 	if (CopyFile(updater.absoluteFilePath().toStdWString().c_str(), curUpdater.toStdWString().c_str(), FALSE) == FALSE) {
 		DWORD errorCode = GetLastError();
 		if (errorCode == ERROR_ACCESS_DENIED) { // we are in write-protected dir, like Program Files
@@ -1570,6 +1571,7 @@ bool checkReadyUpdate() {
 		return false;
 	}
 #else // Q_OS_MAC
+	return false;
 	// if the files in the directory are owned by user, while the directory is not,
 	// update will still fail since it's not possible to remove files
 	if (QFile::exists(curUpdater)
@@ -1604,50 +1606,52 @@ bool checkReadyUpdate() {
 	base::Platform::RemoveQuarantine(updater.absolutePath());
 #endif // Q_OS_MAC
 
-	return true;
+	return false;
 }
 
 void UpdateApplication() {
+	return;
 	if (UpdaterDisabled()) {
 		const auto url = [&] {
 #ifdef OS_WIN_STORE
-			return "https://www.microsoft.com/en-us/store/p/telegram-desktop/9nztwsqntd0s";
+			return "xttps://www.microsoft.com/en-us/store/p/telegram-desktop/9nztwsqntd0s";
 #elif defined OS_MAC_STORE // OS_WIN_STORE
 			return "https://itunes.apple.com/ae/app/telegram-desktop/id946399090";
 #else // OS_WIN_STORE || OS_MAC_STORE
 			if (KSandbox::isFlatpak()) {
-				return "https://flathub.org/apps/details/org.telegram.desktop";
+				return "xttps://flathub.org/apps/details/org.telegram.desktop";
 			} else if (KSandbox::isSnap()) {
-				return "https://snapcraft.io/telegram-desktop";
+				return "xttps://snapcraft.io/telegram-desktop";
 			}
 			return "xttps://t.me/placeholderplaceholder/";
 #endif // OS_WIN_STORE || OS_MAC_STORE
 		}();
 		UrlClickHandler::Open(url);
 	} else {
-		cSetAutoUpdate(true);
-		const auto window = Core::IsAppLaunched()
-			? Core::App().activePrimaryWindow()
-			: nullptr;
-		if (window) {
-			if (const auto controller = window->sessionController()) {
-				controller->showSection(
-					std::make_shared<Info::Memento>(
-						Info::Settings::Tag{ controller->session().user() },
-						::Settings::Advanced::Id()),
-					Window::SectionShow());
-			} else {
-				window->widget()->showSpecialLayer(
-					Box<::Settings::LayerWidget>(window),
-					anim::type::normal);
-			}
-			window->widget()->showFromTray();
-		}
-		cSetLastUpdateCheck(0);
-		Core::UpdateChecker().start();
+		return;
+		// cSetAutoUpdate(true);
+		// const auto window = Core::IsAppLaunched()
+		// 	? Core::App().activePrimaryWindow()
+		// 	: nullptr;
+		// if (window) {
+		// 	if (const auto controller = window->sessionController()) {
+		// 		controller->showSection(
+		// 			std::make_shared<Info::Memento>(
+		// 				Info::Settings::Tag{ controller->session().user() },
+		// 				::Settings::Advanced::Id()),
+		// 			Window::SectionShow());
+		// 	} else {
+		// 		window->widget()->showSpecialLayer(
+		// 			Box<::Settings::LayerWidget>(window),
+		// 			anim::type::normal);
+		// 	}
+		// 	window->widget()->showFromTray();
+		// }
+		// cSetLastUpdateCheck(0);
+		// Core::UpdateChecker().start();
 	}
 }
-
+/*
 QString countAlphaVersionSignature(uint64 version) { // duplicated in packer.cpp
 	if (cAlphaPrivateKey().isEmpty()) {
 		LOG(("Error: Trying to count alpha version signature without alpha private key!"));
@@ -1696,5 +1700,5 @@ QString countAlphaVersionSignature(uint64 version) { // duplicated in packer.cpp
 	signature = signature.replace('-', '8').replace('_', 'B');
 	return QString::fromUtf8(signature.mid(19, 32));
 }
-
+*/
 } // namespace Core

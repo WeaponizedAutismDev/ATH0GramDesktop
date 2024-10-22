@@ -11,7 +11,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "settings/settings_chat.h"
 #include "settings/settings_main.h"
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ui/settings/settings_ayu.h"
 
 

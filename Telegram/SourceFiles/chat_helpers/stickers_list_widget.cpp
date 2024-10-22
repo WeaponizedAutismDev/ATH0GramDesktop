@@ -56,7 +56,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 #include <QtWidgets/QApplication>
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ayu_settings.h"
 #include "styles/style_ayu_styles.h"
 #include "boxes/abstract_box.h"

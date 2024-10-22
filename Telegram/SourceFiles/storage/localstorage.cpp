@@ -36,7 +36,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <unistd.h>
 #endif // Q_OS_WIN
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ayu_infra.h"
 #include "ayu/ayu_settings.h"
 

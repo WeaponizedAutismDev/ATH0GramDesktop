@@ -1,9 +1,9 @@
-// This is the source code of AyuGram for Desktop.
+// This is the source code of Ayu for Desktop.
 //
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
 //
-// Copyright @Radolyn, 2024
+// Copyright @Radscorp, 2024
 #include "icon_picker.h"
 #include "tray.h"
 #include "ayu/ayu_settings.h"
@@ -25,16 +25,25 @@ const QVector<QString> icons{
 	AyuAssets::DEFAULT_MACOS_ICON,
 #endif
 	AyuAssets::DEFAULT_ICON,
-	AyuAssets::ALT_ICON,
-	AyuAssets::DISCORD_ICON,
-	AyuAssets::SPOTIFY_ICON,
-	AyuAssets::EXTRA_ICON,
-	AyuAssets::NOTHING_ICON,
-	AyuAssets::BARD_ICON,
-	AyuAssets::YAPLUS_ICON,
-	AyuAssets::WIN95_ICON,
-	AyuAssets::CHIBI_ICON,
-	AyuAssets::CHIBI2_ICON,
+	// ATH0 add icons
+	AyuAssets::YS_ICON,
+	AyuAssets::YR_ICON,
+	AyuAssets::YNP_ICON,
+	AyuAssets::RR_ICON,
+	AyuAssets::RS_ICON,
+	AyuAssets::RNP_ICON,
+	AyuAssets::GS_ICON,
+	AyuAssets::GR_ICON,
+	AyuAssets::GNP_ICON,
+	AyuAssets::TR_ICON,
+	AyuAssets::TS_ICON,
+	AyuAssets::TNP_ICON,
+	AyuAssets::PR_ICON,
+	AyuAssets::PS_ICON,
+	AyuAssets::PNP_ICON,
+	AyuAssets::PRNP_ICON,
+	AyuAssets::PRR_ICON,
+	AyuAssets::PRS_ICON,
 };
 
 const auto rows = static_cast<int>(icons.size()) / 4 + std::min(1, static_cast<int>(icons.size()) % 4);

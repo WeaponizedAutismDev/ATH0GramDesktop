@@ -48,7 +48,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 #include <kurlmimedata.h>
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ui/ayu_logo.h"
 
 

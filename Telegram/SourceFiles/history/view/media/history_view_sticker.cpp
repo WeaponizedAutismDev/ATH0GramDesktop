@@ -34,7 +34,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "chat_helpers/stickers_lottie.h"
 #include "styles/style_chat.h"
 
-// AyuGram includes
+// ayu includes
 #include "history/view/media/history_view_media.h"
 #include "ui/chat/message_bubble.h"
 

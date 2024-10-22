@@ -39,7 +39,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "styles/style_chat_helpers.h"
 #include "styles/style_chat.h"
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ui/context_menu/context_menu.h"
 #include "ayu/ayu_settings.h"
 

@@ -41,7 +41,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "ui/toast/toast.h"
 #include "styles/style_chat.h"
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ayu_settings.h"
 
 

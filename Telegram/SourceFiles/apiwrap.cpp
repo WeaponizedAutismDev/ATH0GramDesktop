@@ -86,7 +86,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "storage/file_upload.h"
 #include "storage/storage_account.h"
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ayu_settings.h"
 #include "ayu/ayu_worker.h"
 #include "ayu/utils/telegram_helpers.h"
@@ -3661,7 +3661,7 @@ void ApiWrap::sendUploadedPhoto(
 		Api::RemoteFileInfo info,
 		Api::SendOptions options) {
 	if (const auto item = _session->data().message(localId)) {
-		// AyuGram useScheduledMessages
+		// ayu useScheduledMessages
 		const auto settings = &AyuSettings::getInstance();
 		if (settings->useScheduledMessages && !options.scheduled) {
 			auto current = base::unixtime::now();
@@ -3686,7 +3686,7 @@ void ApiWrap::sendUploadedDocument(
 			return;
 		}
 
-		// AyuGram useScheduledMessages
+		// ayu useScheduledMessages
 		const auto settings = &AyuSettings::getInstance();
 		if (settings->useScheduledMessages && !options.scheduled) {
 			auto current = base::unixtime::now();
@@ -4199,7 +4199,7 @@ void ApiWrap::sendMediaWithRandomId(
 		Api::SendOptions options,
 		uint64 randomId,
 		Fn<void(bool)> done) {
-	// AyuGram useScheduledMessages
+	// ayu useScheduledMessages
 	const auto settings = &AyuSettings::getInstance();
 	if (settings->useScheduledMessages && !options.scheduled) {
 		auto current = base::unixtime::now();
@@ -4415,7 +4415,7 @@ void ApiWrap::sendAlbumIfReady(not_null<SendingAlbum*> album) {
 		return;
 	}
 
-	// AyuGram useScheduledMessages
+	// ayu useScheduledMessages
 	const auto settings = &AyuSettings::getInstance();
 	if (settings->useScheduledMessages && !album->options.scheduled) {
 		auto current = base::unixtime::now();

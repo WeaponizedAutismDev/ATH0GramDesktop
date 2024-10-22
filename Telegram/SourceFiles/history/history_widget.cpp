@@ -179,7 +179,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include <QtGui/QWindow>
 #include <QtCore/QMimeData>
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ayu_settings.h"
 #include "ayu/utils/telegram_helpers.h"
 #include "ayu/features/messageshot/message_shot.h"
@@ -4294,7 +4294,7 @@ Api::SendAction HistoryWidget::prepareSendAction(
 }
 
 void HistoryWidget::send(Api::SendOptions options) {
-	// AyuGram useScheduledMessages
+	// ayu useScheduledMessages
 	const auto settings = &AyuSettings::getInstance();
 	if (settings->useScheduledMessages && !options.scheduled) {
 		auto current = base::unixtime::now();

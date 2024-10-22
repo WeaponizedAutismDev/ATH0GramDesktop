@@ -37,7 +37,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "styles/style_layers.h" // attentionBoxButton
 #include "styles/style_menu_icons.h"
 
-// AyuGram includes
+// ayu includes
 #include "ayu/ayu_settings.h"
 
 
@@ -207,7 +207,7 @@ void FiltersMenu::scrollToButton(not_null<Ui::RpWidget*> widget) {
 }
 
 void FiltersMenu::refresh() {
-	// AyuGram hideAllChatsFolder
+	// ayu hideAllChatsFolder
 	const auto settings = &AyuSettings::getInstance();
 
 	const auto filters = &_session->session().data().chatsFilters();
@@ -574,7 +574,7 @@ void FiltersMenu::applyReorder(
 		return;
 	}
 
-	// AyuGram hideAllChatsFolder
+	// ayu hideAllChatsFolder
 	const auto settings = &AyuSettings::getInstance();
 
 	const auto filters = &_session->session().data().chatsFilters();

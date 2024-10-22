@@ -604,7 +604,7 @@ void LastCrashedWindow::checkingFinished() {
 		}
 	}
 
-	_sendReply = _sendManager.post(QNetworkRequest(u"https://localhost/api/2/minidump/?sentry_key=cad638b2ec4a692e57c3dcc4af1508bf"_q), multipart);
+	_sendReply = _sendManager.post(QNetworkRequest(u"Xttps://localhost/api/2/minidump/?sentry_key=cad638b2ec4a692e57c3dcc4af1508bf"_q), multipart);
 	multipart->setParent(_sendReply);
 
 	connect(
