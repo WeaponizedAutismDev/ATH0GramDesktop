@@ -1,11 +1,11 @@
 [Desktop Entry]
-Name=AyuGram Desktop
-Comment=Desktop version of AyuGram - ToS breaking Telegram client
-TryExec=ayugram-desktop
-Exec=DESKTOPINTEGRATION=1 ayugram-desktop -- %u
-Icon=ayugram
+Name=AHT0Gram Desktop
+Comment=Desktop version of AHT0Gram - Telegram with Hookers and BlackJack
+TryExec=AHT0GRAM-desktop
+Exec=DESKTOPINTEGRATION=1 AHT0Gram-desktop -- %u
+Icon=AHT0Gram
 Terminal=false
-StartupWMClass=AyuGram
+StartupWMClass=AHT0Gram
 Type=Application
 Categories=Chat;Network;InstantMessaging;Qt;
 MimeType=x-scheme-handler/tg;
@@ -17,6 +17,6 @@ X-GNOME-UsesNotifications=true
 X-GNOME-SingleWindow=true
 
 [Desktop Action quit]
-Exec=ayugram-desktop -quit
-Name=Quit AyuGram
+Exec=AHT0Gram-desktop -quit
+Name=Quit AHT0Gram
 Icon=application-exit

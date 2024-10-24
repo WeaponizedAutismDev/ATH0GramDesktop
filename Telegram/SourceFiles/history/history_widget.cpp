@@ -3482,7 +3482,7 @@ void HistoryWidget::messagesReceived(
 		int requestId) {
 	// Expects(_history != nullptr);
 	if (!_history || !_peer) {
-		return; // AyuGram: fix crash when using `saveDeletedMessages`
+		return; // AHT0Gram: fix crash when using `saveDeletedMessages`
 	}
 
 	const auto toMigrated = (peer == _peer->migrateFrom());
