@@ -1,0 +1,22 @@
+[Desktop Entry]
+Name=ATH0Gram Desktop
+Comment=Desktop version of ATH0Gram - Disconnected from the Narrative
+TryExec=ATH0Gram-desktop
+Exec=DESKTOPINTEGRATION=1 ATH0Gram-desktop -- %u
+Icon=ATH0Gram
+Terminal=false
+StartupWMClass=ATH0Gram
+Type=Application
+Categories=Chat;Network;InstantMessaging;Qt;
+MimeType=x-scheme-handler/tg;
+Keywords=tg;chat;im;messaging;messenger;sms;telegram;tdesktop;ATH0Gram;
+Actions=quit;
+DBusActivatable=true
+SingleMainWindow=true
+X-GNOME-UsesNotifications=true
+X-GNOME-SingleWindow=true
+
+[Desktop Action quit]
+Exec=ATH0Gram-desktop -quit
+Name=Quit ATH0Gram
+Icon=application-exit

@@ -1719,7 +1719,7 @@ void Widget::checkUpdateStatus() {
 		}
 		_updateTelegram.create(
 			this,
-			tr::ayu_UpdateAyuGram(tr::now),
+			tr::ayu_UpdateATH0Gram(tr::now),
 			st::dialogsUpdateButton,
 			st::dialogsInstallUpdate,
 			st::dialogsInstallUpdateOver,

@@ -575,7 +575,7 @@ void Histories::sendReadRequests() {
 	// AyuGram sendReadMessages
 	const auto settings = &AyuSettings::getInstance();
 	if (!settings->sendReadMessages) {
-		DEBUG_LOG(("[AyuGram] Don't read messages"));
+		DEBUG_LOG(("[ATH0Gram] Don't read messages"));
 		_states.clear();
 		return;
 	}

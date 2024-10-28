@@ -121,7 +121,7 @@ void SendProgressManager::send(const Key &key, int progress) {
 	const auto settings = &AyuSettings::getInstance();
 	if (!settings->sendUploadProgress)
 	{
-		DEBUG_LOG(("[AyuGram] Don't send upload progress"));
+		DEBUG_LOG(("[ATH0Gram] Don't send upload progress"));
 		return;
 	}
 

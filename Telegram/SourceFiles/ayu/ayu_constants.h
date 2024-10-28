@@ -6,7 +6,7 @@
 // Copyright @Radolyn, 2024
 #pragma once
 
-// https://github.com/AyuGram/AyuGram4AX/blob/rewrite/TMessagesProj/src/main/java/com/radolyn/ayugram/AyuConstants.java
+// https://github.com/Ayugram/AyuGram4AX/blob/rewrite/TMessagesProj/src/main/java/com/radolyn/AyuGram/AyuConstants.java
 constexpr int DOCUMENT_TYPE_NONE = 0;
 constexpr int DOCUMENT_TYPE_PHOTO = 1;
 constexpr int DOCUMENT_TYPE_STICKER = 2;

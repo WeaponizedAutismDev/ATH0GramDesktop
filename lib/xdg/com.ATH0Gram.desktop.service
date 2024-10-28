@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=com.ATH0Gram.desktop
+Exec=@CMAKE_INSTALL_FULL_BINDIR@/ATH0Gram-desktop
