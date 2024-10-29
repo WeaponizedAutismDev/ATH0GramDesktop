@@ -55,7 +55,7 @@ std::unordered_set<ID> ATH0Gram_devs = {
 	// 238292700, // @MaxPlays
 	// 1795176335, // @radolyn_services
 	// 1752394339, // mouse
-	   0000000000, //dummy
+	   0000000001, //dummy
 };
 
 // https://github.com/Ayugram/AyuGram4AX/blob/rewrite/TMessagesProj/src/main/java/com/exteragram/messenger/ExteraConfig.java
@@ -71,10 +71,9 @@ std::unordered_set<ID> extera_channels = {
 	// 1634905346, // @moex_log
 	// 1516526055, // @moexci
 	// 1622008530, // @moe_chat
-	0000000000, //dummy
+	  0000000002, //dummy
 };
 
-};
 
 std::unordered_set<ID> extera_devs = {
 	// 963080346,
@@ -89,8 +88,7 @@ std::unordered_set<ID> extera_devs = {
 	// 5330087923,
 	// 666154369,
 	// 139303278
-	   0000000000 //dummy
-};
+	   0000000003 //dummy
 };
 
 Main::Session *getSession(ID userId) {
