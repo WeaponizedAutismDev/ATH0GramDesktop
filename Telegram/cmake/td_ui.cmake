@@ -21,6 +21,7 @@ set(style_files
     ui/chat/chat.style
     ui/effects/credits.style
     ui/effects/premium.style
+    ui/color_indices.style
     boxes/boxes.style
     dialogs/dialogs.style
     chat_helpers/chat_helpers.style
@@ -156,6 +157,8 @@ PRIVATE
 
     info/channel_statistics/earn/earn_format.cpp
     info/channel_statistics/earn/earn_format.h
+    info/channel_statistics/earn/earn_icons.cpp
+    info/channel_statistics/earn/earn_icons.h
 
     intro/intro_code_input.cpp
     intro/intro_code_input.h
@@ -311,6 +314,8 @@ PRIVATE
     ui/chat/attach/attach_album_preview.h
     ui/chat/attach/attach_album_thumbnail.cpp
     ui/chat/attach/attach_album_thumbnail.h
+    ui/chat/attach/attach_bot_downloads.cpp
+    ui/chat/attach/attach_bot_downloads.h
     ui/chat/attach/attach_bot_webview.cpp
     ui/chat/attach/attach_bot_webview.h
     ui/chat/attach/attach_controls.cpp
@@ -369,6 +374,8 @@ PRIVATE
     ui/controls/invite_link_label.h
     ui/controls/peer_list_dummy.cpp
     ui/controls/peer_list_dummy.h
+    ui/controls/round_video_recorder.cpp
+    ui/controls/round_video_recorder.h
     ui/controls/send_as_button.cpp
     ui/controls/send_as_button.h
     ui/controls/send_button.cpp
@@ -420,6 +427,10 @@ PRIVATE
     ui/widgets/fields/time_part_input_with_placeholder.cpp
     ui/widgets/fields/time_part_input_with_placeholder.h
 
+    ui/widgets/chat_filters_tabs_slider.cpp
+    ui/widgets/chat_filters_tabs_slider.h
+    ui/widgets/chat_filters_tabs_slider_reorder.cpp
+    ui/widgets/chat_filters_tabs_slider_reorder.h
     ui/widgets/color_editor.cpp
     ui/widgets/color_editor.h
     ui/widgets/continuous_sliders.cpp
@@ -503,4 +514,6 @@ PRIVATE
     desktop-app::lib_spellcheck
     desktop-app::lib_stripe
     desktop-app::external_kcoreaddons
+    desktop-app::external_openh264
+    desktop-app::external_webrtc
 )

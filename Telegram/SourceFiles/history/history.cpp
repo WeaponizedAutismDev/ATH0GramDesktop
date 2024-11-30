@@ -549,8 +549,10 @@ void History::destroyMessage(not_null<HistoryItem*> item) {
 	const auto i = _items.find(hack);
 	hack.release();
 
-	Assert(i != end(_items));
-	_items.erase(i);
+	// hack for Hide message
+	if (i != end(_items)) {
+		_items.erase(i);
+	}
 
 	if (documentToCancel) {
 		session().data().documentMessageRemoved(documentToCancel);
@@ -718,6 +720,14 @@ not_null<HistoryItem*> History::addNewLocalMessage(
 	return addNewItem(
 		makeMessage(WithLocalFlag(std::move(fields)), game),
 		true);
+}
+
+not_null<HistoryItem*> History::addNewLocalMessage(
+		not_null<HistoryItem*> item) {
+	Expects(item->history() == this);
+	Expects(item->isLocal());
+
+	return addNewItem(item, true);
 }
 
 not_null<HistoryItem*> History::addSponsoredMessage(

@@ -23,6 +23,6 @@ constexpr auto AppNameOld = "ATH0Gram for Windows"_cs;
 constexpr auto AppName = "ATH0Gram Desktop"_cs;
 constexpr auto AppFile = "ATH0Gram"_cs;
 constexpr auto AppVersion = 5006003;
-constexpr auto AppVersionStr = "5.6.3";
+constexpr auto AppVersionStr = "5.8.3";
 constexpr auto AppBetaVersion = false;
 constexpr auto AppAlphaVersion = TDESKTOP_ALPHA_VERSION;

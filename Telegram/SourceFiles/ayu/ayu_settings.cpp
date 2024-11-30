@@ -222,6 +222,8 @@ ATH0GramSettings::ATH0GramSettings() {
 	collapseSimilarChannels = true;
 	hideSimilarChannels = false;
 
+	wideMultiplier = 1.0;
+
 	spoofWebviewAsAndroid = false;
 	increaseWebviewHeight = false;
 	increaseWebviewWidth = false;
@@ -385,7 +387,11 @@ void ATH0GramSettings::set_hideSimilarChannels(bool val) {
 	hideSimilarChannels = val;
 }
 
-void ATH0GramSettings::set_spoofWebviewAsAndroid(bool val) {
+void ATH0GramSettings::set_wideMultiplier(double val) {
+	wideMultiplier = val;
+}
+
+void ATH0GGramSettings::set_spoofWebviewAsAndroid(bool val) {
 	spoofWebviewAsAndroid = val;
 }
 
