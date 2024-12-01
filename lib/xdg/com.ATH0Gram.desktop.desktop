@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=ATH0Gram Desktop
-Comment=Desktop version of ATH0Gram - Disconnected from the Narrative
+Comment=Disconnected from the Narrative
 TryExec=ATH0Gram-desktop
 Exec=DESKTOPINTEGRATION=1 ATH0Gram-desktop -- %u
 Icon=ATH0Gram
