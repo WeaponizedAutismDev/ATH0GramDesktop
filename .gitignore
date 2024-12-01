@@ -54,3 +54,7 @@ cmake-build-debug/
 
 # Project specific
 Telegram/SourceFiles/_other/packer_private.h
+node_modules/
+package.json
+package-lock.json
+venv/

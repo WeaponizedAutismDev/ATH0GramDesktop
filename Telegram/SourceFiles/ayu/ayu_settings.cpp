@@ -391,7 +391,7 @@ void ATH0GramSettings::set_wideMultiplier(double val) {
 	wideMultiplier = val;
 }
 
-void ATH0GGramSettings::set_spoofWebviewAsAndroid(bool val) {
+void ATH0GramSettings::set_spoofWebviewAsAndroid(bool val) {
 	spoofWebviewAsAndroid = val;
 }
 
