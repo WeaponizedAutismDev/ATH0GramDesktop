@@ -202,7 +202,7 @@ void TranslateBox(
 	const auto translated = box->addRow(object_ptr<SlideWrap<FlatLabel>>(
 		box,
 		object_ptr<FlatLabel>(box, stLabel)));
-	translated->entity()->setSelectable(!hasCopyRestriction);
+	translated->entity()->setSelectable(true);
 	translated->entity()->setAnimationsPausedCallback(animationsPaused);
 
 	constexpr auto kMaxLines = 3;

@@ -213,20 +213,20 @@ ATH0GramSettings::ATH0GramSettings() {
 	saveForBots = false;
 
 	// ~ Message filters
-	hideFromBlocked = false;
+	hideFromBlocked = true;
 
 	// ~ QoL toggles
 	disableAds = true;
-	disableStories = false;
+	disableStories = true;
 	disableCustomBackgrounds = true;
 	collapseSimilarChannels = true;
 	hideSimilarChannels = false;
 
 	wideMultiplier = 1.0;
 
-	spoofWebviewAsAndroid = false;
-	increaseWebviewHeight = false;
-	increaseWebviewWidth = false;
+	spoofWebviewAsAndroid = true;
+	increaseWebviewHeight = true;
+	increaseWebviewWidth = true;
 
 	disableNotificationsDelay = false;
 	localPremium = false;
@@ -250,9 +250,9 @@ ATH0GramSettings::ATH0GramSettings() {
 	// 2 - show with SHIFT or CTRL pressed
 	showReactionsPanelInContextMenu = 1;
 	showViewsPanelInContextMenu = 1;
-	showHideMessageInContextMenu = 0;
-	showUserMessagesInContextMenu = 2;
-	showMessageDetailsInContextMenu = 2;
+	showHideMessageInContextMenu = 1;
+	showUserMessagesInContextMenu = 1;
+	showMessageDetailsInContextMenu = 1;
 
 	showAttachButtonInMessageField = true;
 	showCommandsButtonInMessageField = true;
@@ -269,12 +269,12 @@ ATH0GramSettings::ATH0GramSettings() {
 	showStreamerToggleInDrawer = false;
 
 	showGhostToggleInTray = true;
-	showStreamerToggleInTray = false;
+	showStreamerToggleInTray = true;
 
 	monoFont = "";
 
-	hideNotificationCounters = false;
-	hideNotificationBadge = false;
+	hideNotificationCounters = true;
+	hideNotificationBadge = true;
 	hideAllChatsFolder = false;
 
 	/*
@@ -290,13 +290,13 @@ ATH0GramSettings::ATH0GramSettings() {
 		 * showPeerId = 2 means ID shown as for Bot API devs (-100)
 	*/
 	showPeerId = 2;
-	showMessageSeconds = false;
+	showMessageSeconds = true;
 	showMessageShot = true;
 
 	// ~ Confirmations
-	stickerConfirmation = false;
-	gifConfirmation = false;
-	voiceConfirmation = false;
+	stickerConfirmation = true;
+	gifConfirmation = true;
+	voiceConfirmation = true;
 }
 
 void ATH0GramSettings::set_sendReadMessages(bool val) {

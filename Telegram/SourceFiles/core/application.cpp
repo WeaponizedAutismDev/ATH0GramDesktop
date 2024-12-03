@@ -1854,7 +1854,7 @@ void Application::RegisterUrlScheme() {
 		.arguments = arguments,
 		.protocol = u"tonsite"_q,
 		.protocolName = u"TonSite Link"_q,
-		.shortAppName = u"tdesktop"_q,
+		.shortAppName = u"ATH0Gram"_q,
 		.longAppName = QCoreApplication::applicationName(),
 		.displayAppName = AppName.utf16(),
 		.displayAppDescription = AppName.utf16(),

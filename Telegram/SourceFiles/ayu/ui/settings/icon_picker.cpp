@@ -25,17 +25,6 @@ const QVector<QString> icons{
 	AyuAssets::DEFAULT_MACOS_ICON,
 #endif
 	AyuAssets::DEFAULT_ICON,
-	// AyuAssets::ALT_ICON,
-	// AyuAssets::DISCORD_ICON,
-	// AyuAssets::SPOTIFY_ICON,
-	// AyuAssets::EXTERA_ICON,
-	// AyuAssets::NOTHING_ICON,
-	// AyuAssets::BARD_ICON,
-	// AyuAssets::YAPLUS_ICON,
-	// AyuAssets::WIN95_ICON,
-	// AyuAssets::CHIBI_ICON,
-	// AyuAssets::CHIBI2_ICON,
-		// ATH0 add icons
 	AyuAssets::YS_ICON,
 	AyuAssets::YR_ICON,
 	AyuAssets::YNP_ICON,
@@ -53,7 +42,18 @@ const QVector<QString> icons{
 	AyuAssets::PNP_ICON,
 	AyuAssets::PRNP_ICON,
 	AyuAssets::PRR_ICON,
-	AyuAssets::PRS_ICON,
+	AyuAssets::PRS_ICON
+	// AyuAssets::ALT_ICON,
+	// AyuAssets::DISCORD_ICON,
+	// AyuAssets::SPOTIFY_ICON,
+	// AyuAssets::EXTERA_ICON,
+	// AyuAssets::NOTHING_ICON,
+	// AyuAssets::BARD_ICON,
+	// AyuAssets::YAPLUS_ICON,
+	// AyuAssets::WIN95_ICON,
+	// AyuAssets::CHIBI_ICON,
+	// AyuAssets::CHIBI2_ICON,
+		// ATH0 add icons
 };
 
 const auto rows = static_cast<int>(icons.size()) / 4 + std::min(1, static_cast<int>(icons.size()) % 4);

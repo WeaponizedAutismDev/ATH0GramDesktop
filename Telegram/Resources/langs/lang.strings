@@ -6126,7 +6126,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 "ayu_ConfirmationSticker" = "Do you want to send this sticker?";
 "ayu_ConfirmationGIF" = "Do you want to send this GIF?";
 "ayu_ConfirmationVoice" = "Do you want to send this voice message?";
-"ayu_IntroAbout" = "Hop on board ATH0Gram Desktop.\nDisconnect the Narrative.";
+"ayu_IntroAbout" = "+++ATH0\nDisconnect the Narrative.";
 "ayu_AboutText1" = "Unofficial Telegram client based on {api_link}.";
 "ayu_UpdateATH0Gram" = "Update ATH0Gram";
 "ayu_UtilityRestartRequired" = "App will close in 5 seconds.";
