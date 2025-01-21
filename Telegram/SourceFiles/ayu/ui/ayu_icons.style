@@ -4,7 +4,7 @@
  * We do not and cannot prevent the use of our code,
  * but be respectful and credit the original author.
  *
- * Copyright @Radolyn, 2024
+ * Copyright @Radolyn, 2025
  */
 
 using "ui/colors.palette";
@@ -30,6 +30,13 @@ inChannelBadgeSelectedIcon: icon {{ "ayu/channel", msgInDateFgSelected }};
 outChannelBadgeIcon: icon {{ "ayu/channel", msgOutDateFg }};
 outChannelBadgeSelectedIcon: icon {{ "ayu/channel", msgOutDateFgSelected }};
 
-infoExteraBadge: icon {{ "ayu/exterabadge", profileVerifiedCheckBg }};
+infoExteraOfficialBadge: icon {{ "ayu/extera_official", profileVerifiedCheckBg }};
+infoExteraSupporterBadge: icon {{ "ayu/extera_badge", profileVerifiedCheckBg }};
 
 winEnterWithGuestIcon: icon {{ "ayu/ghost_tray", windowFg }};
+
+editedIcon: icon {{ "ayu/edited", windowFg }};
+editedIconPadding: margins(0px, 0px, 0px, 0px);
+
+deletedIcon: icon {{ "ayu/trash_bin", windowFg }};
+deletedIconPadding: margins(0px, 0px, 0px, 0px);

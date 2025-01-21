@@ -1,9 +1,9 @@
-// This is the source code of AyuGram for Desktop.
+// This is the source code of ATH0Gram for Desktop.
 //
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
 //
-// Copyright @Radolyn, 2024
+// Copyright @Radolyn, 2025
 #include "ayu_settings.h"
 
 #include "ayu/ui/ayu_logo.h"
@@ -213,20 +213,20 @@ ATH0GramSettings::ATH0GramSettings() {
 	saveForBots = false;
 
 	// ~ Message filters
-	hideFromBlocked = true;
+	hideFromBlocked = false;
 
 	// ~ QoL toggles
 	disableAds = true;
-	disableStories = true;
+	disableStories = false;
 	disableCustomBackgrounds = true;
 	collapseSimilarChannels = true;
 	hideSimilarChannels = false;
 
 	wideMultiplier = 1.0;
 
-	spoofWebviewAsAndroid = true;
-	increaseWebviewHeight = true;
-	increaseWebviewWidth = true;
+	spoofWebviewAsAndroid = false;
+	increaseWebviewHeight = false;
+	increaseWebviewWidth = false;
 
 	disableNotificationsDelay = false;
 	localPremium = false;
@@ -240,6 +240,7 @@ ATH0GramSettings::ATH0GramSettings() {
 #endif
 	;
 	simpleQuotesAndReplies = true;
+	replaceBottomInfoWithIcons = false;
 	deletedMark = "🧹";
 	editedMark = Core::IsAppLaunched() ? tr::lng_edited(tr::now) : QString("edited");
 	recentStickersCount = 100;
@@ -250,9 +251,9 @@ ATH0GramSettings::ATH0GramSettings() {
 	// 2 - show with SHIFT or CTRL pressed
 	showReactionsPanelInContextMenu = 1;
 	showViewsPanelInContextMenu = 1;
-	showHideMessageInContextMenu = 1;
-	showUserMessagesInContextMenu = 1;
-	showMessageDetailsInContextMenu = 1;
+	showHideMessageInContextMenu = 0;
+	showUserMessagesInContextMenu = 2;
+	showMessageDetailsInContextMenu = 2;
 
 	showAttachButtonInMessageField = true;
 	showCommandsButtonInMessageField = true;
@@ -269,12 +270,12 @@ ATH0GramSettings::ATH0GramSettings() {
 	showStreamerToggleInDrawer = false;
 
 	showGhostToggleInTray = true;
-	showStreamerToggleInTray = true;
+	showStreamerToggleInTray = false;
 
 	monoFont = "";
 
-	hideNotificationCounters = true;
-	hideNotificationBadge = true;
+	hideNotificationCounters = false;
+	hideNotificationBadge = false;
 	hideAllChatsFolder = false;
 
 	/*
@@ -290,13 +291,13 @@ ATH0GramSettings::ATH0GramSettings() {
 		 * showPeerId = 2 means ID shown as for Bot API devs (-100)
 	*/
 	showPeerId = 2;
-	showMessageSeconds = true;
+	showMessageSeconds = false;
 	showMessageShot = true;
 
 	// ~ Confirmations
-	stickerConfirmation = true;
-	gifConfirmation = true;
-	voiceConfirmation = true;
+	stickerConfirmation = false;
+	gifConfirmation = false;
+	voiceConfirmation = false;
 }
 
 void ATH0GramSettings::set_sendReadMessages(bool val) {
@@ -417,6 +418,10 @@ void ATH0GramSettings::set_appIcon(QString val) {
 
 void ATH0GramSettings::set_simpleQuotesAndReplies(bool val) {
 	simpleQuotesAndReplies = val;
+}
+
+void ATH0GramSettings::set_replaceBottomInfoWithIcons(bool val) {
+	replaceBottomInfoWithIcons = val;
 }
 
 void ATH0GramSettings::set_deletedMark(QString val) {

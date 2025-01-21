@@ -3,7 +3,7 @@
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
 //
-// Copyright @Radolyn, 2024
+// Copyright @Radolyn, 2025
 #include "ayu/ayu_url_handlers.h"
 
 #include "base/qthelp_url.h"
@@ -45,7 +45,6 @@ bool ResolveUser(
 
 	searchById(userId,
 			   &controller->session(),
-			   false,
 			   [=](const QString &title, UserData *data)
 			   {
 				   if (data) {
@@ -80,7 +79,7 @@ bool TryHandleSpotify(const QString &url) {
 	// https://www.iana.org/assignments/uri-schemes/prov/spotify
 
 	using namespace qthelp;
-	const auto matchOptions = RegExOption::CaseInsensitive;
+	constexpr auto matchOptions = RegExOption::CaseInsensitive;
 	// https://regex101.com/r/l4Ogzf/2
 	const auto match = regex_match(
 		u"^(https?:\\/\\/)?([a-zA-Z0-9_]+)\\.spotify\\.com\\/(?<type>track|album|artist|user|playlist)\\/(?<identifier>[a-zA-Z0-9_\\/]+?)((\\?si=.+)?)$"_q,

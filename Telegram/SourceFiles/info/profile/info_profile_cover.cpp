@@ -48,6 +48,8 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 
 // AyuGram includes
 #include "ayu/utils/telegram_helpers.h"
+#include "styles/style_ayu_styles.h"
+#include "ui/toast/toast.h"
 
 
 namespace Info::Profile {
@@ -96,6 +98,16 @@ auto ChatStatusText(int fullCount, int onlineCount, bool isGroup) {
 		: peer->isMegagroup()
 		? st::infoProfileMegagroupCover
 		: st::infoProfileCover;
+}
+
+[[nodiscard]] QMargins LargeCustomEmojiMargins() {
+	const auto ratio = style::DevicePixelRatio();
+	const auto emoji = Ui::Emoji::GetSizeLarge() / ratio;
+	const auto size = Data::FrameSizeFromTag(Data::CustomEmojiSizeTag::Large)
+		/ ratio;
+	const auto left = (size - emoji) / 2;
+	const auto right = size - emoji - left;
+	return { left, left, right, right };
 }
 
 } // namespace
@@ -297,6 +309,20 @@ Cover::Cover(
 	std::move(title)) {
 }
 
+[[nodiscard]] rpl::producer<Badge::Content> VerifyBadgeForPeer(
+		not_null<PeerData*> peer) {
+	return peer->session().changes().peerFlagsValue(
+		peer,
+		Data::PeerUpdate::Flag::VerifyInfo
+	) | rpl::map([=] {
+		const auto info = peer->botVerifyDetails();
+		return Badge::Content{
+			.badge = info ? BadgeType::BotVerified : BadgeType::None,
+			.emojiStatusId = info ? info->iconId : DocumentId(),
+		};
+	});
+}
+
 Cover::Cover(
 	QWidget *parent,
 	not_null<Window::SessionController*> controller,
@@ -312,6 +338,17 @@ Cover::Cover(
 , _emojiStatusPanel(peer->isSelf()
 	? std::make_unique<EmojiStatusPanel>()
 	: nullptr)
+, _verify(
+	std::make_unique<Badge>(
+		this,
+		st::infoPeerBadge,
+		&peer->session(),
+		VerifyBadgeForPeer(peer),
+		nullptr,
+		[=] {
+			return controller->isGifPausedAtLeastFor(
+				Window::GifPauseReason::Layer);
+		}))
 , _badge(
 	std::make_unique<Badge>(
 		this,
@@ -322,7 +359,7 @@ Cover::Cover(
 			return controller->isGifPausedAtLeastFor(
 				Window::GifPauseReason::Layer);
 		}))
-, _devBadge(
+, _exteraBadge(
 	std::make_unique<Badge>(
 		this,
 		st::infoPeerBadge,
@@ -334,7 +371,7 @@ Cover::Cover(
 				Window::GifPauseReason::Layer);
 		},
 		0,
-		BadgeType::None | BadgeType::ATH0Gram | BadgeType::Extera))
+		BadgeType::None | BadgeType::Extera | BadgeType::ExteraSupporter))
 , _userpic(topic
 	? nullptr
 	: object_ptr<Ui::UserpicButton>(
@@ -376,24 +413,49 @@ Cover::Cover(
 			::Settings::ShowEmojiStatusPremium(_controller, _peer);
 		}
 	});
-	_badge->updated() | rpl::start_with_next([=] {
+	if (_peer->isUser()) {
+		_exteraBadge->setPremiumClickCallback([=]
+		{
+			TextWithEntities text;
+			if (isExteraPeer(getBareID(_peer))) {
+				text = tr::ayu_DeveloperPopup(
+					tr::now,
+					lt_item,
+					TextWithEntities{_peer->name()},
+					Ui::Text::RichLangValue);
+			} else if (isSupporterPeer(getBareID(_peer))) {
+				text = tr::ayu_SupporterPopup(
+					tr::now,
+					lt_item,
+					TextWithEntities{_peer->name()},
+					Ui::Text::RichLangValue);
+			} else {
+				return;
+			}
+
+			Ui::Toast::Show({
+				.text = text,
+				.st = &st::exteraBadgeToast,
+				.adaptive = true,
+				.duration = 3 * crl::time(1000),
+			});
+		});
+	}
+	rpl::merge(
+		_verify->updated(),
+		_badge->updated(),
+		_exteraBadge->updated()
+	) | rpl::start_with_next([=] {
 		refreshNameGeometry(width());
 	}, _name->lifetime());
 
-	if (isATH0GramRelated(getBareID(_peer))) {
-		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::ATH0Gram});
-	} else if (isExteraRelated(getBareID(_peer))) {
-		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::Extera});
+	if (isExteraPeer(getBareID(_peer))) {
+		_exteraBadge->setContent(Info::Profile::Badge::Content{BadgeType::Extera});
+	} else if (isSupporterPeer(getBareID(_peer))) {
+		_exteraBadge->setContent(Info::Profile::Badge::Content{BadgeType::ExteraSupporter});
 	} else {
-		_devBadge->setContent(Info::Profile::Badge::Content{BadgeType::None});
+		_exteraBadge->setContent(Info::Profile::Badge::Content{BadgeType::None});
 	}
-
-	_devBadge->updated() | rpl::start_with_next(
-		[=]
-		{
-			refreshNameGeometry(width());
-		},
-		_name->lifetime());
 
 	initViewers(std::move(title));
 	setupChildGeometry();
@@ -731,20 +793,38 @@ void Cover::refreshNameGeometry(int newWidth) {
 	if (const auto widget = _badge->widget()) {
 		nameWidth -= st::infoVerifiedCheckPosition.x() + widget->width();
 	}
-	if (const auto widget = _devBadge->widget()) {
-		nameWidth -= st::infoVerifiedCheckPosition.x() + widget->width();
+	if (const auto widget = _exteraBadge->widget()) {
+		nameWidth -= st::infoVerifiedCheckPosition.x()
+			+ widget->width()
+			+ (_badge->widget()
+				   ? (_badge->widget()->width() +
+					   st::infoVerifiedCheckPosition.x())
+				   : 0);
 	}
-	_name->resizeToNaturalWidth(nameWidth);
-	_name->moveToLeft(_st.nameLeft, _st.nameTop, newWidth);
-	const auto badgeLeft = _st.nameLeft + _name->width();
+	auto nameLeft = _st.nameLeft;
 	const auto badgeTop = _st.nameTop;
 	const auto badgeBottom = _st.nameTop + _name->height();
+	const auto margins = LargeCustomEmojiMargins();
+
+	_verify->move(nameLeft - margins.left(), badgeTop, badgeBottom);
+	if (const auto widget = _verify->widget()) {
+		const auto skip = widget->width()
+			+ st::infoVerifiedCheckPosition.x();
+		nameLeft += skip;
+		nameWidth -= skip;
+	}
+	_name->resizeToNaturalWidth(nameWidth);
+	_name->moveToLeft(nameLeft, _st.nameTop, newWidth);
+	const auto badgeLeft = nameLeft + _name->width();
 	_badge->move(badgeLeft, badgeTop, badgeBottom);
 
-	const auto devBadgeLeft = badgeLeft + (_badge->widget() ? (_badge->widget()->width() + 2) : 0) + 4;
+	const auto devBadgeLeft = badgeLeft
+		+ (_badge->widget()
+			   ? (_badge->widget()->width() + st::infoVerifiedCheckPosition.x())
+			   : 0);
 	const auto devBadgeTop = _st.nameTop;
 	const auto devBadgeBottom = _st.nameTop + _name->height();
-	_devBadge->move(devBadgeLeft, devBadgeTop, devBadgeBottom);
+	_exteraBadge->move(devBadgeLeft, devBadgeTop, devBadgeBottom);
 }
 
 void Cover::refreshStatusGeometry(int newWidth) {

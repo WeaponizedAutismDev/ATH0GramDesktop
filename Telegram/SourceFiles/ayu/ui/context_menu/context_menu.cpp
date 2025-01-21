@@ -3,7 +3,7 @@
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
 //
-// Copyright @Radolyn, 2024
+// Copyright @Radolyn, 2025
 #include "ayu/ui/context_menu/context_menu.h"
 
 #include "apiwrap.h"
@@ -391,7 +391,7 @@ void AddMessageDetailsAction(not_null<Ui::PopupMenu*> menu, HistoryItem *item) {
 				}
 
 				if (isSticker) {
-					const auto authorId = media->document()->sticker()->set.id >> 32;
+					const auto authorId = getUserIdFromPackId(media->document()->sticker()->set.id);
 
 					if (authorId != 0) {
 						menu2->addAction(Ui::ContextActionStickerAuthor(
@@ -404,7 +404,7 @@ void AddMessageDetailsAction(not_null<Ui::PopupMenu*> menu, HistoryItem *item) {
 			}
 
 			if (containsSingleCustomEmojiPack) {
-				const auto authorId = emojiPacks.front().id >> 32;
+				const auto authorId = getUserIdFromPackId(emojiPacks.front().id);
 
 				if (authorId != 0) {
 					menu2->addAction(Ui::ContextActionStickerAuthor(

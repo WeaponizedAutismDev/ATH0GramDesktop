@@ -3,16 +3,16 @@
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
 //
-// Copyright @Radolyn, 2024
+// Copyright @Radolyn, 2025
 #include "telegram_helpers.h"
 
 #include <functional>
 #include <QTimer>
 
 #include "apiwrap.h"
-#include "api/api_text_entities.h"
 
 #include "lang_auto.h"
+#include "rc_manager.h"
 #include "ayu/ayu_worker.h"
 #include "ayu/data/entities.h"
 #include "core/mime_type.h"
@@ -23,7 +23,6 @@
 #include "data/data_peer_id.h"
 #include "data/data_photo.h"
 #include "data/data_user.h"
-#include "inline_bots/inline_bot_result.h"
 
 #include "data/data_document.h"
 #include "data/data_session.h"
@@ -37,59 +36,6 @@
 
 #include "ayu/ayu_settings.h"
 #include "ayu/ayu_state.h"
-
-// https://github.com/Ayugram/AyuGram4AX/blob/rewrite/TMessagesProj/src/main/java/com/radolyn/AyuGram/AyuConstants.java
-std::unordered_set<ID> ATH0Gram_channels = {
-	// 1905581924, // @ayugramchat
-	// 1794457129, // @ayugram1338
-	// 1434550607, // @radolyn
-	// 1947958814, // @ayugramfun
-	// 1815864846, // @ayugramfcm
-	// 2130395384, // @ayugram_easter
-	   0000000000, //dummy
-};
-
-std::unordered_set<ID> ATH0Gram_devs = {
-	// 139303278, // @alexeyzavar
-	// 778327202, // @sharapagorg
-	// 238292700, // @MaxPlays
-	// 1795176335, // @radolyn_services
-	// 1752394339, // mouse
-	   0000000001, //dummy
-};
-
-// https://github.com/Ayugram/AyuGram4AX/blob/rewrite/TMessagesProj/src/main/java/com/exteragram/messenger/ExteraConfig.java
-std::unordered_set<ID> extera_channels = {
-	// 1233768168,
-	// 1524581881,
-	// 1571726392,
-	// 1632728092,
-	// 1172503281,
-	// 1877362358,
-	// // custom
-	// 1812843581, // @moeGramX
-	// 1634905346, // @moex_log
-	// 1516526055, // @moexci
-	// 1622008530, // @moe_chat
-	  0000000002, //dummy
-};
-
-
-std::unordered_set<ID> extera_devs = {
-	// 963080346,
-	// 1282540315,
-	// 1374434073,
-	// 388099852,
-	// 1972014627,
-	// 168769611,
-	// 480000401,
-	// 639891381,
-	// 1773117711,
-	// 5330087923,
-	// 666154369,
-	// 139303278
-	   0000000003 //dummy
-};
 
 Main::Session *getSession(ID userId) {
 	for (const auto &[index, account] : Core::App().domain().accounts()) {
@@ -130,12 +76,13 @@ ID getBareID(not_null<PeerData*> peer) {
 	return peer->id.value & PeerId::kChatTypeMask;
 }
 
-bool isATH0GramRelated(ID peerId) {
-	return ATH0Gram_devs.contains(peerId) || ATH0Gram_channels.contains(peerId);
+bool isExteraPeer(ID peerId) {
+	return RCManager::getInstance().developers().contains(peerId) || RCManager::getInstance().channels().
+		contains(peerId);
 }
 
-bool isExteraRelated(ID peerId) {
-	return extera_devs.contains(peerId) || extera_channels.contains(peerId);
+bool isSupporterPeer(ID peerId) {
+	return RCManager::getInstance().supporters().contains(peerId);
 }
 
 bool isMessageHidden(const not_null<HistoryItem*> item) {
@@ -561,7 +508,9 @@ void resolveUser(ID userId, const QString &username, Main::Session *session, con
 	}
 
 	session->api().request(MTPcontacts_ResolveUsername(
-		MTP_string(normalized)
+		MTP_flags(0),
+		MTP_string(normalized),
+		MTP_string()
 	)).done([=](const MTPcontacts_ResolvedPeer &result)
 	{
 		Expects(result.type() == mtpc_contacts_resolvedPeer);
@@ -721,7 +670,7 @@ void searchUser(long long userId, Main::Session *session, bool searchUserFlag, c
 	}).handleAllErrors().send();
 }
 
-void searchById(ID userId, Main::Session *session, bool retry, const Callback &callback) {
+void searchById(ID userId, Main::Session *session, const Callback &callback) {
 	if (userId == 0 || !session) {
 		callback(QString(), nullptr);
 		return;
@@ -740,15 +689,20 @@ void searchById(ID userId, Main::Session *session, bool retry, const Callback &c
 				   if (data && data->accessHash()) {
 					   callback(title, data);
 				   } else {
-					   if (retry) {
-						   searchById(0x100000000 + userId, session, false, callback);
-					   } else {
-						   callback(QString(), nullptr);
-					   }
+					   callback(QString(), nullptr);
 				   }
 			   });
 }
 
-void searchById(ID userId, Main::Session *session, const Callback &callback) {
-	searchById(userId, session, true, callback);
+ID getUserIdFromPackId(uint64 id) {
+	// https://github.com/TDesktop-x64/tdesktop/pull/218/commits/844e5f0ab116e7639cfc79633a68afe8fdcbc463
+	auto ownerId = id >> 32;
+	if ((id >> 16 & 0xff) == 0x3f) {
+		ownerId |= 0x80000000;
+	}
+	if (id >> 24 & 0xff) {
+		ownerId += 0x100000000;
+	}
+
+	return ownerId;
 }

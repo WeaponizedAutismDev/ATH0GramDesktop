@@ -3,7 +3,7 @@
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
 //
-// Copyright @Radolyn, 2024
+// Copyright @Radolyn, 2025
 #include <utility>
 
 #include "ayu/ui/context_menu/menu_item_subtext.h"
@@ -232,9 +232,12 @@ void ActionStickerPackAuthor::searchAuthor(ID authorId) {
 					   setClickedCallback(
 						   [=]
 						   {
-							   const auto text =
-								   QString("int32: %1\nint64: %2").arg(authorId).arg(0x100000000L + authorId);
-							   QGuiApplication::clipboard()->setText(text);
+							   QGuiApplication::clipboard()->setText(QString::number(authorId));
+							   if (const auto window = _session->tryResolveWindow()) {
+								   if (const auto mainWidget = window->widget()->sessionController()) {
+									   mainWidget->showToast(tr::ayu_IDCopiedToast(tr::now));
+								   }
+							   }
 						   });
 
 					   crl::on_main(

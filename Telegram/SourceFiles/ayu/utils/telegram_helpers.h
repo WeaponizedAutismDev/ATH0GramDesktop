@@ -3,7 +3,7 @@
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
 //
-// Copyright @Radolyn, 2024
+// Copyright @Radolyn, 2025
 #pragma once
 
 #include "ayu/data/entities.h"
@@ -20,8 +20,8 @@ ID getDialogIdFromPeer(not_null<PeerData*> peer);
 
 ID getBareID(not_null<PeerData*> peer);
 
-bool isATH0GramRelated(ID peerId);
-bool isExteraRelated(ID peerId);
+bool isExteraPeer(ID peerId);
+bool isSupporterPeer(ID peerId);
 
 bool isMessageHidden(not_null<HistoryItem*> item);
 
@@ -47,3 +47,5 @@ int getScheduleTime(int64 sumSize);
 
 void searchById(ID userId, Main::Session *session, bool retry, const Callback &callback);
 void searchById(ID userId, Main::Session *session, const Callback &callback);
+
+ID getUserIdFromPackId(uint64 id);

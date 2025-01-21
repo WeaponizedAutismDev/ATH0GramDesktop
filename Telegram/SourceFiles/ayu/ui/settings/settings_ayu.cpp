@@ -3,7 +3,7 @@
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
 //
-// Copyright @Radolyn, 2024
+// Copyright @Radolyn, 2025
 #include "settings_ayu.h"
 
 #include "ayu/ayu_settings.h"
@@ -1325,7 +1325,8 @@ void SetupWideMultiplierSlider(not_null<Ui::VerticalLayout*> container,
 	constexpr auto kMinSize = 1.00;
 	// const auto kMaxSize = 4.00;
 	constexpr auto kStep = 0.05;
-	const auto valueToIndex = [=](double value) {
+	const auto valueToIndex = [=](double value)
+	{
 		return static_cast<int>(std::round((value - kMinSize) / kStep));
 	};
 	const auto indexToValue = [=](int index)
@@ -1456,6 +1457,30 @@ void SetupSendConfirmations(not_null<Ui::VerticalLayout*> container) {
 }
 
 void SetupMarks(not_null<Ui::VerticalLayout*> container) {
+	auto settings = &AyuSettings::getInstance();
+
+	AddButtonWithIcon(
+		container,
+		tr::ayu_ReplaceMarksWithIcons() | rpl::map([=](QString val)
+		{
+			return val + " β";
+		}),
+		st::settingsButtonNoIcon
+	)->toggleOn(
+		rpl::single(settings->replaceBottomInfoWithIcons)
+	)->toggledValue(
+	) | rpl::filter(
+		[=](bool enabled)
+		{
+			return (enabled != settings->replaceBottomInfoWithIcons);
+		}) | start_with_next(
+		[=](bool enabled)
+		{
+			settings->set_replaceBottomInfoWithIcons(enabled);
+			AyuSettings::save();
+		},
+		container->lifetime());
+
 	AddButtonWithLabel(
 		container,
 		tr::ayu_DeletedMarkText(),

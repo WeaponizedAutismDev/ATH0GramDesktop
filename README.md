@@ -22,6 +22,27 @@ A fork of [AyuGram Desktop](https://github.com/AyuGram/AyuGramDesktop) for perso
 
 #### Self-built
 
+Follow [official guide](https://github.com/AyuGram/AyuGramDesktop/blob/dev/docs/building-win-x64.md) if you want to
+build by yourself.
+
+### macOS
+
+You can download prebuilt macOS package from [Releases tab](https://github.com/AyuGram/AyuGramDesktop/releases).
+
+### Arch Linux
+
+You can install `ayugram-desktop` from [AUR](https://aur.archlinux.org/packages?O=0&K=ayugram).
+
+### NixOS
+
+See [this repository](https://github.com/ayugram-port/ayugram-desktop) for installation manual.
+
+### Any other Linux distro
+
+Follow the [official guide](https://github.com/AyuGram/AyuGramDesktop/blob/dev/docs/building-linux.md).
+
+### Remarks for Windows
+
 Make sure you have these components installed with VS Build Tools:
 
 - C++ MFC latest (x86 & x64)
