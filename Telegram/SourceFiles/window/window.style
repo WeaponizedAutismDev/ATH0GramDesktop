@@ -18,10 +18,10 @@ windowBigDefaultWidth: 1024px;
 windowBigDefaultHeight: 768px;
 
 columnMinimalWidthLeft: 260px;
-columnMaximalWidthLeft: 540px;
+columnMaximalWidthLeft: 840px;
 columnMinimalWidthMain: 380px;
 columnMinimalWidthThird: 292px;
-columnMaximalWidthThird: 392px;
+columnMaximalWidthThird: 1092px;
 
 adaptiveChatWideWidth: 880px;
 
