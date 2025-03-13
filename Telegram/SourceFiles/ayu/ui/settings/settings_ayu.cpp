@@ -1741,7 +1741,7 @@ void SetupCustomization(not_null<Ui::VerticalLayout*> container,
 	SetupFonts(container, controller);
 }
 
-void SetupAyuGramSettings(not_null<Ui::VerticalLayout*> container,
+void SetupATH0GramSettings(not_null<Ui::VerticalLayout*> container,
 						  not_null<Window::SessionController*> controller) {
 	AddSkip(container);
 	SetupGhostEssentials(container);
@@ -1785,7 +1785,7 @@ void SetupAyuGramSettings(not_null<Ui::VerticalLayout*> container,
 void Ayu::setupContent(not_null<Window::SessionController*> controller) {
 	const auto content = Ui::CreateChild<Ui::VerticalLayout>(this);
 
-	SetupAyuGramSettings(content, controller);
+	SetupATH0GramSettings(content, controller);
 
 	ResizeFitChild(this, content);
 }

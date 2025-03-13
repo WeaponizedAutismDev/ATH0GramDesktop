@@ -1,4 +1,4 @@
-// This is the source code of AyuGram for Desktop.
+// This is the source code of ATH0Gram for Desktop.
 //
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
@@ -12,10 +12,10 @@
 
 namespace AyuSettings {
 
-class AyuGramSettings
+class ATH0GramSettings
 {
 public:
-	AyuGramSettings();
+	ATH0GramSettings();
 
 	bool sendReadMessages;
 	bool sendReadStories;
@@ -177,7 +177,7 @@ public:
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(
-	AyuGramSettings,
+	ATH0GramSettings,
 	sendReadMessages,
 	sendReadStories,
 	sendOnlinePackets,
@@ -238,7 +238,7 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(
 	voiceConfirmation
 );
 
-AyuGramSettings &getInstance();
+ATH0GramSettings &getInstance();
 
 void load();
 void save();

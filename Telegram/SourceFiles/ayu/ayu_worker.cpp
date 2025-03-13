@@ -1,4 +1,4 @@
-// This is the source code of AyuGram for Desktop.
+// This is the source code of ATH0gram for Desktop.
 //
 // We do not and cannot prevent the use of our code,
 // but be respectful and credit the original author.
@@ -64,7 +64,7 @@ void runOnce() {
 					)).send();
 					state[id] = false;
 
-					DEBUG_LOG(("[AyuGram] Sent offline for account with uid %1, invalidate %2").arg(id).arg(invalidateAll));
+					DEBUG_LOG(("[ATH0gram] Sent offline for account with uid %1, invalidate %2").arg(id).arg(invalidateAll));
 				}
 			}
 		}

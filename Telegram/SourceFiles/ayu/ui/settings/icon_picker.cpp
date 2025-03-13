@@ -36,6 +36,24 @@ const QVector<QString> icons{
 	AyuAssets::CHIBI_ICON,
 	AyuAssets::CHIBI2_ICON,
 	AyuAssets::EXTERA2_ICON,
+	AyuAssets::YS_ICON,
+	AyuAssets::YR_ICON,
+	AyuAssets::YNP_ICON,
+	AyuAssets::RR_ICON,
+	AyuAssets::RS_ICON,
+	AyuAssets::RNP_ICON,
+	AyuAssets::GS_ICON,
+	AyuAssets::GR_ICON,
+	AyuAssets::GNP_ICON,
+	AyuAssets::TR_ICON,
+	AyuAssets::TS_ICON,
+	AyuAssets::TNP_ICON,
+	AyuAssets::PR_ICON,
+	AyuAssets::PS_ICON,
+	AyuAssets::PNP_ICON,
+	AyuAssets::PRNP_ICON,
+	AyuAssets::PRR_ICON,
+	AyuAssets::PRS_ICON	
 };
 
 const auto rows = static_cast<int>(icons.size()) / 4 + std::min(1, static_cast<int>(icons.size()) % 4);

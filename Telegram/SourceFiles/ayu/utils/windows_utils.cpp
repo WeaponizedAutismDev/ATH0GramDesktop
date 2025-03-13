@@ -47,9 +47,9 @@ void processIcon(QString shortcut, QString iconPath) {
 }
 
 void processLegacy(const QString &appdata, const QString &iconPath) {
-	auto shortcut = appdata + "/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/AyuGram Desktop.lnk";
+	auto shortcut = appdata + "/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/ATH0gram Desktop.lnk";
 	if (!QFile::exists(shortcut)) {
-		shortcut = appdata + "/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/AyuGram.lnk";
+		shortcut = appdata + "/Microsoft/Internet Explorer/Quick Launch/User Pinned/TaskBar/ATH0gram.lnk";
 	}
 	if (!QFile::exists(shortcut)) {
 		return;
@@ -139,7 +139,7 @@ void processNewShortcuts(const QString &iconPath) {
 		return;
 	}
 
-	const auto shortcut = path + u"AyuGram Desktop/AyuGram.lnk"_q;
+	const auto shortcut = path + u"ATH0gram Desktop/ATH0gram.lnk"_q;
 	const auto native = QDir::toNativeSeparators(path).toStdWString();
 
 	DWORD attributes = GetFileAttributes(native.c_str());
@@ -153,7 +153,7 @@ void processNewShortcuts(const QString &iconPath) {
 
 void reloadAppIconFromTaskBar() {
 	QString appdata = QDir::fromNativeSeparators(qgetenv("APPDATA"));
-	QString iconPath = appdata + "/AyuGram.ico";
+	QString iconPath = appdata + "/ATH0gram.ico";
 
 	processNewPinned(iconPath);
 	processNewShortcuts(iconPath);

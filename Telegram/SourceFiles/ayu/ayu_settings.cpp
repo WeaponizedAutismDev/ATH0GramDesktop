@@ -26,7 +26,7 @@ namespace AyuSettings {
 
 const std::string filename = "tdata/ayu_settings.json";
 
-std::optional<AyuGramSettings> settings = std::nullopt;
+std::optional<ATH0GramSettings> settings = std::nullopt;
 
 rpl::variable<bool> sendReadMessagesReactive;
 rpl::variable<bool> sendReadStoriesReactive;
@@ -46,7 +46,7 @@ rpl::event_stream<> historyUpdateReactive;
 
 rpl::lifetime lifetime = rpl::lifetime();
 
-bool ghostModeEnabled_util(const AyuGramSettings &settingsUtil) {
+bool ghostModeEnabled_util(const ATH0GramSettings &settingsUtil) {
 	return
 		!settingsUtil.sendReadMessages
 		&& !settingsUtil.sendReadStories
@@ -60,7 +60,7 @@ void initialize() {
 		return;
 	}
 
-	settings = AyuGramSettings();
+	settings = ATH0GramSettings();
 
 	sendReadMessagesReactive.value() | rpl::filter(
 		[=](bool val)
@@ -143,7 +143,7 @@ void postinitialize() {
 	ghostModeEnabled = ghostModeEnabled_util(settings.value());
 }
 
-AyuGramSettings &getInstance() {
+ATH0GramSettings &getInstance() {
 	initialize();
 	return settings.value();
 }
@@ -162,12 +162,12 @@ void load() {
 		file.close();
 
 		try {
-			settings = p.get<AyuGramSettings>();
+			settings = p.get<ATH0GramSettings>();
 		} catch (...) {
-			LOG(("AyuGramSettings: failed to parse settings file"));
+			LOG(("ATH0GramSettings: failed to parse settings file"));
 		}
 	} catch (...) {
-		LOG(("AyuGramSettings: failed to read settings file (not json-like)"));
+		LOG(("ATH0GramSettings: failed to read settings file (not json-like)"));
 	}
 
 	if (cGhost()) {
@@ -194,7 +194,7 @@ void save() {
 	postinitialize();
 }
 
-AyuGramSettings::AyuGramSettings() {
+ATH0GramSettings::ATH0GramSettings() {
 	// ~ Ghost essentials
 	sendReadMessages = true;
 	sendReadStories = true;
@@ -300,32 +300,32 @@ AyuGramSettings::AyuGramSettings() {
 	voiceConfirmation = false;
 }
 
-void AyuGramSettings::set_sendReadMessages(bool val) {
+void ATH0GramSettings::set_sendReadMessages(bool val) {
 	sendReadMessages = val;
 	sendReadMessagesReactive = val;
 }
 
-void AyuGramSettings::set_sendReadStories(bool val) {
+void ATH0GramSettings::set_sendReadStories(bool val) {
 	sendReadStories = val;
 	sendReadStoriesReactive = val;
 }
 
-void AyuGramSettings::set_sendOnlinePackets(bool val) {
+void ATH0GramSettings::set_sendOnlinePackets(bool val) {
 	sendOnlinePackets = val;
 	sendOnlinePacketsReactive = val;
 }
 
-void AyuGramSettings::set_sendUploadProgress(bool val) {
+void ATH0GramSettings::set_sendUploadProgress(bool val) {
 	sendUploadProgress = val;
 	sendUploadProgressReactive = val;
 }
 
-void AyuGramSettings::set_sendOfflinePacketAfterOnline(bool val) {
+void ATH0GramSettings::set_sendOfflinePacketAfterOnline(bool val) {
 	sendOfflinePacketAfterOnline = val;
 	sendOfflinePacketAfterOnlineReactive = val;
 }
 
-void AyuGramSettings::set_ghostModeEnabled(bool val) {
+void ATH0GramSettings::set_ghostModeEnabled(bool val) {
 	set_sendReadMessages(!val);
 	set_sendReadStories(!val);
 	set_sendOnlinePackets(!val);
@@ -339,226 +339,226 @@ void AyuGramSettings::set_ghostModeEnabled(bool val) {
 	}
 }
 
-void AyuGramSettings::set_markReadAfterAction(bool val) {
+void ATH0GramSettings::set_markReadAfterAction(bool val) {
 	markReadAfterAction = val;
 }
 
-void AyuGramSettings::set_useScheduledMessages(bool val) {
+void ATH0GramSettings::set_useScheduledMessages(bool val) {
 	useScheduledMessages = val;
 }
 
-void AyuGramSettings::set_sendWithoutSound(bool val) {
+void ATH0GramSettings::set_sendWithoutSound(bool val) {
 	sendWithoutSound = val;
 }
 
-void AyuGramSettings::set_saveDeletedMessages(bool val) {
+void ATH0GramSettings::set_saveDeletedMessages(bool val) {
 	saveDeletedMessages = val;
 }
 
-void AyuGramSettings::set_saveMessagesHistory(bool val) {
+void ATH0GramSettings::set_saveMessagesHistory(bool val) {
 	saveMessagesHistory = val;
 }
 
-void AyuGramSettings::set_saveForBots(bool val) {
+void ATH0GramSettings::set_saveForBots(bool val) {
 	saveForBots = val;
 }
 
-void AyuGramSettings::set_hideFromBlocked(bool val) {
+void ATH0GramSettings::set_hideFromBlocked(bool val) {
 	hideFromBlocked = val;
 	hideFromBlockedReactive = val;
 }
 
-void AyuGramSettings::set_disableAds(bool val) {
+void ATH0GramSettings::set_disableAds(bool val) {
 	disableAds = val;
 }
 
-void AyuGramSettings::set_disableStories(bool val) {
+void ATH0GramSettings::set_disableStories(bool val) {
 	disableStories = val;
 }
 
-void AyuGramSettings::set_disableCustomBackgrounds(bool val) {
+void ATH0GramSettings::set_disableCustomBackgrounds(bool val) {
 	disableCustomBackgrounds = val;
 }
 
-void AyuGramSettings::set_collapseSimilarChannels(bool val) {
+void ATH0GramSettings::set_collapseSimilarChannels(bool val) {
 	collapseSimilarChannels = val;
 }
 
-void AyuGramSettings::set_hideSimilarChannels(bool val) {
+void ATH0GramSettings::set_hideSimilarChannels(bool val) {
 	hideSimilarChannels = val;
 }
 
-void AyuGramSettings::set_wideMultiplier(double val) {
+void ATH0GramSettings::set_wideMultiplier(double val) {
 	wideMultiplier = val;
 }
 
-void AyuGramSettings::set_spoofWebviewAsAndroid(bool val) {
+void ATH0GramSettings::set_spoofWebviewAsAndroid(bool val) {
 	spoofWebviewAsAndroid = val;
 }
 
-void AyuGramSettings::set_increaseWebviewHeight(bool val) {
+void ATH0GramSettings::set_increaseWebviewHeight(bool val) {
 	increaseWebviewHeight = val;
 }
 
-void AyuGramSettings::set_increaseWebviewWidth(bool val) {
+void ATH0GramSettings::set_increaseWebviewWidth(bool val) {
 	increaseWebviewWidth = val;
 }
 
-void AyuGramSettings::set_disableNotificationsDelay(bool val) {
+void ATH0GramSettings::set_disableNotificationsDelay(bool val) {
 	disableNotificationsDelay = val;
 }
 
-void AyuGramSettings::set_localPremium(bool val) {
+void ATH0GramSettings::set_localPremium(bool val) {
 	localPremium = val;
 }
 
-void AyuGramSettings::set_appIcon(QString val) {
+void ATH0GramSettings::set_appIcon(QString val) {
 	appIcon = std::move(val);
 }
 
-void AyuGramSettings::set_simpleQuotesAndReplies(bool val) {
+void ATH0GramSettings::set_simpleQuotesAndReplies(bool val) {
 	simpleQuotesAndReplies = val;
 }
 
-void AyuGramSettings::set_replaceBottomInfoWithIcons(bool val) {
+void ATH0GramSettings::set_replaceBottomInfoWithIcons(bool val) {
 	replaceBottomInfoWithIcons = val;
 }
 
-void AyuGramSettings::set_deletedMark(QString val) {
+void ATH0GramSettings::set_deletedMark(QString val) {
 	deletedMark = std::move(val);
 	deletedMarkReactive = deletedMark;
 }
 
-void AyuGramSettings::set_editedMark(QString val) {
+void ATH0GramSettings::set_editedMark(QString val) {
 	editedMark = std::move(val);
 	editedMarkReactive = editedMark;
 }
 
-void AyuGramSettings::set_recentStickersCount(int val) {
+void ATH0GramSettings::set_recentStickersCount(int val) {
 	recentStickersCount = val;
 }
 
-void AyuGramSettings::set_showReactionsPanelInContextMenu(int val) {
+void ATH0GramSettings::set_showReactionsPanelInContextMenu(int val) {
 	showReactionsPanelInContextMenu = val;
 }
 
-void AyuGramSettings::set_showViewsPanelInContextMenu(int val) {
+void ATH0GramSettings::set_showViewsPanelInContextMenu(int val) {
 	showViewsPanelInContextMenu = val;
 }
 
-void AyuGramSettings::set_showHideMessageInContextMenu(int val) {
+void ATH0GramSettings::set_showHideMessageInContextMenu(int val) {
 	showHideMessageInContextMenu = val;
 }
 
-void AyuGramSettings::set_showUserMessagesInContextMenu(int val) {
+void ATH0GramSettings::set_showUserMessagesInContextMenu(int val) {
 	showUserMessagesInContextMenu = val;
 }
 
-void AyuGramSettings::set_showMessageDetailsInContextMenu(int val) {
+void ATH0GramSettings::set_showMessageDetailsInContextMenu(int val) {
 	showMessageDetailsInContextMenu = val;
 }
 
-void AyuGramSettings::set_showAttachButtonInMessageField(bool val) {
+void ATH0GramSettings::set_showAttachButtonInMessageField(bool val) {
 	showAttachButtonInMessageField = val;
 	triggerHistoryUpdate();
 }
 
-void AyuGramSettings::set_showCommandsButtonInMessageField(bool val) {
+void ATH0GramSettings::set_showCommandsButtonInMessageField(bool val) {
 	showCommandsButtonInMessageField = val;
 	triggerHistoryUpdate();
 }
 
-void AyuGramSettings::set_showEmojiButtonInMessageField(bool val) {
+void ATH0GramSettings::set_showEmojiButtonInMessageField(bool val) {
 	showEmojiButtonInMessageField = val;
 	triggerHistoryUpdate();
 }
 
-void AyuGramSettings::set_showMicrophoneButtonInMessageField(bool val) {
+void ATH0GramSettings::set_showMicrophoneButtonInMessageField(bool val) {
 	showMicrophoneButtonInMessageField = val;
 	triggerHistoryUpdate();
 }
 
-void AyuGramSettings::set_showAutoDeleteButtonInMessageField(bool val) {
+void ATH0GramSettings::set_showAutoDeleteButtonInMessageField(bool val) {
 	showAutoDeleteButtonInMessageField = val;
 	triggerHistoryUpdate();
 }
 
-void AyuGramSettings::set_showAttachPopup(bool val) {
+void ATH0GramSettings::set_showAttachPopup(bool val) {
 	showAttachPopup = val;
 	triggerHistoryUpdate();
 }
 
-void AyuGramSettings::set_showEmojiPopup(bool val) {
+void ATH0GramSettings::set_showEmojiPopup(bool val) {
 	showEmojiPopup = val;
 	triggerHistoryUpdate();
 }
 
-void AyuGramSettings::set_showLReadToggleInDrawer(bool val) {
+void ATH0GramSettings::set_showLReadToggleInDrawer(bool val) {
 	showLReadToggleInDrawer = val;
 }
 
-void AyuGramSettings::set_showSReadToggleInDrawer(bool val) {
+void ATH0GramSettings::set_showSReadToggleInDrawer(bool val) {
 	showSReadToggleInDrawer = val;
 }
 
-void AyuGramSettings::set_showGhostToggleInDrawer(bool val) {
+void ATH0GramSettings::set_showGhostToggleInDrawer(bool val) {
 	showGhostToggleInDrawer = val;
 }
 
-void AyuGramSettings::set_showStreamerToggleInDrawer(bool val) {
+void ATH0GramSettings::set_showStreamerToggleInDrawer(bool val) {
 	showStreamerToggleInDrawer = val;
 }
 
-void AyuGramSettings::set_showGhostToggleInTray(bool val) {
+void ATH0GramSettings::set_showGhostToggleInTray(bool val) {
 	showGhostToggleInTray = val;
 }
 
-void AyuGramSettings::set_showStreamerToggleInTray(bool val) {
+void ATH0GramSettings::set_showStreamerToggleInTray(bool val) {
 	showStreamerToggleInTray = val;
 }
 
-void AyuGramSettings::set_monoFont(QString val) {
+void ATH0GramSettings::set_monoFont(QString val) {
 	monoFont = val;
 }
 
-void AyuGramSettings::set_showPeerId(int val) {
+void ATH0GramSettings::set_showPeerId(int val) {
 	showPeerId = val;
 	showPeerIdReactive = val;
 }
 
-void AyuGramSettings::set_hideNotificationCounters(bool val) {
+void ATH0GramSettings::set_hideNotificationCounters(bool val) {
 	hideNotificationCounters = val;
 }
 
-void AyuGramSettings::set_hideNotificationBadge(bool val) {
+void ATH0GramSettings::set_hideNotificationBadge(bool val) {
 	hideNotificationBadge = val;
 }
 
-void AyuGramSettings::set_hideAllChatsFolder(bool val) {
+void ATH0GramSettings::set_hideAllChatsFolder(bool val) {
 	hideAllChatsFolder = val;
 }
 
-void AyuGramSettings::set_channelBottomButton(int val) {
+void ATH0GramSettings::set_channelBottomButton(int val) {
 	channelBottomButton = val;
 }
 
-void AyuGramSettings::set_showMessageSeconds(bool val) {
+void ATH0GramSettings::set_showMessageSeconds(bool val) {
 	showMessageSeconds = val;
 }
 
-void AyuGramSettings::set_showMessageShot(bool val) {
+void ATH0GramSettings::set_showMessageShot(bool val) {
 	showMessageShot = val;
 }
 
-void AyuGramSettings::set_stickerConfirmation(bool val) {
+void ATH0GramSettings::set_stickerConfirmation(bool val) {
 	stickerConfirmation = val;
 }
 
-void AyuGramSettings::set_gifConfirmation(bool val) {
+void ATH0GramSettings::set_gifConfirmation(bool val) {
 	gifConfirmation = val;
 }
 
-void AyuGramSettings::set_voiceConfirmation(bool val) {
+void ATH0GramSettings::set_voiceConfirmation(bool val) {
 	voiceConfirmation = val;
 }
 
