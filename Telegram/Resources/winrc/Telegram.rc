@@ -60,11 +60,11 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "Radolyn Labs"
-            VALUE "FileDescription", "AyuGram Desktop"
+            VALUE "CompanyName", "Weaponized Autism Dev"
+            VALUE "FileDescription", "ATH0Gram Desktop"
             VALUE "FileVersion", "5.11.1.0"
             VALUE "LegalCopyright", "Copyright (C) 2014-2025"
-            VALUE "ProductName", "AyuGram Desktop"
+            VALUE "ProductName", "ATH0Gram Desktop"
             VALUE "ProductVersion", "5.11.1.0"
         END
     END

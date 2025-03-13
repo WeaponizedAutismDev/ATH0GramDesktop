@@ -456,8 +456,8 @@ MainMenu::MainMenu(
 	parentResized();
 
 	_telegram->setMarkedText(Ui::Text::Link(
-		u"AyuGram Desktop"_q,
-		u"https://ayugram.one"_q));
+		u"ATH0Gram Desktop"_q,
+		u"https://weaponizedautism.dev"_q));
 	_telegram->setLinksTrusted();
 	_version->setMarkedText(
 		Ui::Text::Link(

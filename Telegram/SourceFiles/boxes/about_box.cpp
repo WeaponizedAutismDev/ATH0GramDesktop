@@ -37,11 +37,11 @@ rpl::producer<TextWithEntities> Text() {
 		lt_gpl_link,
 		rpl::single(Ui::Text::Link(
 			"GNU GPL",
-			"https://github.com/AyuGram/AyuGramDesktop/blob/master/LICENSE")),
+			"https://github.com/WeaponizedAutismDev/ATH0GramDesktop/blob/dev/LICENSE")),
 		lt_github_link,
 		rpl::single(Ui::Text::Link(
 			"GitHub",
-			"https://github.com/AyuGram/AyuGramDesktop")),
+			"https://github.com/WeaponizedAutismDev/ATH0GramDesktop")),
 		Ui::Text::WithEntities);
 }
 
@@ -54,16 +54,16 @@ AboutBox::AboutBox(QWidget *parent, Window::SessionController* controller)
 }
 
 void AboutBox::prepare() {
-	setTitle(rpl::single(u"AyuGram Desktop"_q));
+	setTitle(rpl::single(u"ATH0Gram Desktop"_q));
 
 	addButton(tr::lng_close(), [this] { closeBox(); });
 	addLeftButton(
-		rpl::single(QString("@ayugramchat")),
+		rpl::single(QString("@ATH0Gramchat")),
 		[this, controller = _controller]
 		{
 			closeBox();
 			controller->showPeerByLink(Window::PeerByLinkInfo{
-				.usernameOrId = QString("ayugramchat"),
+				.usernameOrId = QString("ATH0Gramchat"),
 			});
 		});
 
