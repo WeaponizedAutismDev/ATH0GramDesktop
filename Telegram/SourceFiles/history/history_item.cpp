@@ -276,7 +276,7 @@ std::unique_ptr<Data::Media> HistoryItem::CreateMedia(
 		});
 	}, [&](const MTPDmessageMediaPhoto &media) -> Result {
 		const auto photo = media.vphoto();
-		if (media.vttl_seconds() && false) {  // ATH0Gram: show expiring messages
+		if (false) {  // AyuGram: show expiring messages
 			LOG(("App Error: "
 				"Unexpected MTPMessageMediaPhoto "
 				"with ttl_seconds in CreateMedia."));
@@ -408,6 +408,7 @@ HistoryItem::HistoryItem(
 	.from = data.vfrom_id() ? peerFromMTP(*data.vfrom_id()) : PeerId(0),
 	.date = data.vdate().v,
 	.shortcutId = data.vquick_reply_shortcut_id().value_or_empty(),
+	.starsPaid = int(data.vpaid_message_stars().value_or_empty()),
 	.effectId = data.veffect().value_or_empty(),
 }) {
 	_boostsApplied = data.vfrom_boosts_applied().value_or_empty();
@@ -437,6 +438,7 @@ HistoryItem::HistoryItem(
 		createServiceFromMtp(data);
 		applyTTL(data);
 	} else {
+		auto skipSetText = false;
 		createComponents(data);
 		if (media) {
 			setMedia(*media);
@@ -444,13 +446,25 @@ HistoryItem::HistoryItem(
 				media->match(
 					[&](const MTPDmessageMediaPhoto &media)
 					{
-						auto time = media.vttl_seconds()->v;
+						if (!data.is_media_unread()) {
+							createServiceFromMtp(data);
+							skipSetText = true;
+						}
+
+						const auto time = media.vttl_seconds()->v;
 						setAyuHint(formatTTL(time));
+						_unsupportedTTL = time;
 					},
 					[&](const MTPDmessageMediaDocument &media)
 					{
-						auto time = media.vttl_seconds()->v;
+						if (!data.is_media_unread()) {
+							createServiceFromMtp(data);
+							skipSetText = true;
+						}
+
+						const auto time = media.vttl_seconds()->v;
 						setAyuHint(formatTTL(time));
+						_unsupportedTTL = time;
 					},
 					[&](const MTPDmessageMediaWebPage &media)
 					{
@@ -481,7 +495,9 @@ HistoryItem::HistoryItem(
 				&history->session(),
 				data.ventities().value_or_empty())
 		};
-		setText(_media ? textWithEntities : EnsureNonEmpty(textWithEntities));
+		if (!skipSetText) {
+			setText(_media ? textWithEntities : EnsureNonEmpty(textWithEntities));
+		}
 		if (const auto groupedId = data.vgrouped_id()) {
 			setGroupId(
 				MessageGroupId::FromRaw(
@@ -785,6 +801,7 @@ HistoryItem::HistoryItem(
 	: history->peer)
 , _flags(FinalizeMessageFlags(history, fields.flags))
 , _date(fields.date)
+, _starsPaid(fields.starsPaid)
 , _shortcutId(fields.shortcutId)
 , _effectId(fields.effectId) {
 	Expects(!_shortcutId
@@ -831,6 +848,10 @@ HistoryItem::~HistoryItem() {
 
 TimeId HistoryItem::date() const {
 	return _date;
+}
+
+int HistoryItem::starsPaid() const {
+	return _starsPaid;
 }
 
 bool HistoryItem::awaitingVideoProcessing() const {
@@ -2315,6 +2336,10 @@ void HistoryItem::setRealId(MsgId newId) {
 	if (const auto reply = Get<HistoryMessageReply>()) {
 		incrementReplyToTopCounter();
 	}
+
+	if (out() && starsPaid()) {
+		_history->session().credits().load(true);
+	}
 }
 
 bool HistoryItem::canPin() const {
@@ -3085,7 +3110,12 @@ void HistoryItem::setDeleted() {
 	_deleted = true;
 
 	const auto settings = &AyuSettings::getInstance();
-	setAyuHint(settings->deletedMark);
+	if (settings->replaceBottomInfoWithIcons) {
+		history()->owner().requestItemViewRefresh(this);
+		history()->owner().requestItemResize(this);
+	} else {
+		setAyuHint(settings->deletedMark);
+	}
 }
 
 bool HistoryItem::isDeleted() const {
@@ -3094,7 +3124,32 @@ bool HistoryItem::isDeleted() const {
 
 void HistoryItem::setAyuHint(const QString &hint) {
 	try {
-		if (isService() && !_text.empty()) {
+		auto msgsigned = Get<HistoryMessageSigned>();
+		if (hint.isEmpty()) {
+			if (!msgsigned) {
+				return;
+			}
+			RemoveComponents(HistoryMessageSigned::Bit());
+			history()->owner().requestItemViewRefresh(this);
+			history()->owner().requestItemResize(this);
+			return;
+		}
+
+		if (!isService()) {
+			if (!(_flags & MessageFlag::HasPostAuthor)) {
+				_flags |= MessageFlag::HasPostAuthor;
+			}
+
+			if (!msgsigned) {
+				AddComponents(HistoryMessageSigned::Bit());
+				msgsigned = Get<HistoryMessageSigned>();
+			} else if (msgsigned->author == hint) {
+				return;
+			}
+			msgsigned->author = hint;
+			msgsigned->isAnonymousRank = !isDiscussionPost()
+				&& this->author()->isMegagroup();
+		} else if (/* isService() && */!_text.empty()) {
 			const auto data = Get<HistoryServiceData>();
 			const auto postfix = QString(" (%1)").arg(hint);
 			if (!_text.text.endsWith(postfix)) { // fix stacking for TTL messages
@@ -3104,6 +3159,8 @@ void HistoryItem::setAyuHint(const QString &hint) {
 				};
 				setServiceText(std::move(prepared));
 			}
+		} else {
+			return;
 		}
 
 		// update bottom info

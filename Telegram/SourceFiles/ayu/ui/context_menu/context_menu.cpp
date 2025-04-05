@@ -34,6 +34,7 @@
 #include "data/data_session.h"
 #include "history/view/history_view_context_menu.h"
 #include "history/view/history_view_element.h"
+#include "window/window_controller.h"
 #include "window/window_session_controller.h"
 
 namespace AyuUi {
@@ -58,13 +59,14 @@ void AddDeletedMessagesActions(PeerData *peerData,
 		return;
 	}
 
-	addCallback(tr::ayu_ViewDeletedMenuText(tr::now),
-				[=]
-				{
-					sessionController->session().tryResolveWindow()
-						->showSection(std::make_shared<MessageHistory::SectionMemento>(peerData, nullptr, topicId));
-				},
-				&st::menuIconArchive);
+	addCallback(
+		tr::ayu_ViewDeletedMenuText(tr::now),
+		[=]
+		{
+			sessionController->session().tryResolveWindow()
+				->showSection(std::make_shared<MessageHistory::SectionMemento>(peerData, nullptr, topicId));
+		},
+		&st::menuIconArchive);
 }
 
 void AddJumpToBeginningAction(PeerData *peerData,
@@ -147,16 +149,38 @@ void AddJumpToBeginningAction(PeerData *peerData,
 		&st::ayuMenuIconToBeginning);
 }
 
+void AddOpenChannelAction(PeerData *peerData,
+						  not_null<Window::SessionController*> sessionController,
+						  const Window::PeerMenuCallback &addCallback) {
+	if (!peerData || !peerData->isMegagroup()) {
+		return;
+	}
+
+	const auto chat = peerData->asMegagroup()->linkedChat();
+	if (!chat) {
+		return;
+	}
+
+	addCallback(
+		tr::lng_context_open_channel(tr::now),
+		[=]
+		{
+			sessionController->showPeerHistory(chat, Window::SectionShow::Way::Forward);
+		},
+		&st::menuIconChannel);
+}
+
 void AddHistoryAction(not_null<Ui::PopupMenu*> menu, HistoryItem *item) {
 	if (AyuMessages::hasRevisions(item)) {
-		menu->addAction(tr::ayu_EditsHistoryMenuText(tr::now),
-						[=]
-						{
-							item->history()->session().tryResolveWindow()
-								->showSection(
-									std::make_shared<MessageHistory::SectionMemento>(item->history()->peer, item, 0));
-						},
-						&st::ayuEditsHistoryIcon);
+		menu->addAction(
+			tr::ayu_EditsHistoryMenuText(tr::now),
+			[=]
+			{
+				item->history()->session().tryResolveWindow()
+					->showSection(
+						std::make_shared<MessageHistory::SectionMemento>(item->history()->peer, item, 0));
+			},
+			&st::ayuEditsHistoryIcon);
 	}
 }
 
@@ -171,15 +195,16 @@ void AddHideMessageAction(not_null<Ui::PopupMenu*> menu, HistoryItem *item) {
 	}
 
 	const auto history = item->history();
-	menu->addAction(tr::ayu_ContextHideMessage(tr::now),
-					[=]()
-					{
-						item->destroy();
-						history->requestChatListMessage();
+	menu->addAction(
+		tr::ayu_ContextHideMessage(tr::now),
+		[=]()
+		{
+			item->destroy();
+			history->requestChatListMessage();
 
-						AyuState::hide(item);
-					},
-					&st::menuIconClear);
+			AyuState::hide(item);
+		},
+		&st::menuIconClear);
 }
 
 void AddUserMessagesAction(not_null<Ui::PopupMenu*> menu, HistoryItem *item) {
@@ -432,31 +457,77 @@ void AddReadUntilAction(not_null<Ui::PopupMenu*> menu, HistoryItem *item) {
 		return;
 	}
 
-	menu->addAction(tr::ayu_ReadUntilMenuText(tr::now),
-					[=]()
+	menu->addAction(
+		tr::ayu_ReadUntilMenuText(tr::now),
+		[=]()
+		{
+			readHistory(item);
+			if (item->media() && item->media()->ttlSeconds() <= 0 && item->unsupportedTTL() <= 0 && !item->out() && item
+				->isUnreadMedia()) {
+				const auto ids = MTP_vector<MTPint>(1, MTP_int(item->id));
+				if (const auto channel = item->history()->peer->asChannel()) {
+					item->history()->session().api().request(MTPchannels_ReadMessageContents(
+						channel->inputChannel,
+						ids
+					)).send();
+				} else {
+					item->history()->session().api().request(MTPmessages_ReadMessageContents(
+						ids
+					)).done([=](const MTPmessages_AffectedMessages &result)
 					{
-						readHistory(item);
-						if (item->media() && !item->media()->ttlSeconds()) {
-							const auto ids = MTP_vector<MTPint>(1, MTP_int(item->id));
-							if (const auto channel = item->history()->peer->asChannel()) {
-								item->history()->session().api().request(MTPchannels_ReadMessageContents(
-									channel->inputChannel,
-									ids
-								)).send();
-							} else {
-								item->history()->session().api().request(MTPmessages_ReadMessageContents(
-									ids
-								)).done([=](const MTPmessages_AffectedMessages &result)
-								{
-									item->history()->session().api().applyAffectedMessages(
-										item->history()->peer,
-										result);
-								}).send();
-							}
-							item->markContentsRead();
-						}
-					},
-					&st::menuIconShowInChat);
+						item->history()->session().api().applyAffectedMessages(
+							item->history()->peer,
+							result);
+					}).send();
+				}
+				item->markContentsRead();
+			}
+		},
+		&st::menuIconShowInChat);
+}
+
+void AddBurnAction(not_null<Ui::PopupMenu*> menu, HistoryItem *item) {
+	if (!item->media() || item->media()->ttlSeconds() <= 0 && item->unsupportedTTL() <= 0 || item->out() ||
+		!item->isUnreadMedia()) {
+		return;
+	}
+
+	menu->addAction(
+		tr::ayu_ExpireMediaContextMenuText(tr::now),
+		[=]()
+		{
+			const auto ids = MTP_vector<MTPint>(1, MTP_int(item->id));
+			const auto callback = [=]()
+			{
+				if (const auto window = Core::App().activeWindow()) {
+					if (const auto controller = window->sessionController()) {
+						controller->showToast(tr::lng_box_ok(tr::now));
+					}
+				}
+			};
+
+			if (const auto channel = item->history()->peer->asChannel()) {
+				item->history()->session().api().request(MTPchannels_ReadMessageContents(
+					channel->inputChannel,
+					ids
+				)).done([=]()
+				{
+					callback();
+				}).send();
+			} else {
+				item->history()->session().api().request(MTPmessages_ReadMessageContents(
+					ids
+				)).done([=](const MTPmessages_AffectedMessages &result)
+				{
+					item->history()->session().api().applyAffectedMessages(
+						item->history()->peer,
+						result);
+					callback();
+				}).send();
+			}
+			item->markContentsRead();
+		},
+		&st::menuIconTTLAny);
 }
 
 } // namespace AyuUi

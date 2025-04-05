@@ -2608,6 +2608,7 @@ void HistoryInner::showContextMenu(QContextMenuEvent *e, bool showFromTouch) {
 		}
 
 		AyuUi::AddReadUntilAction(_menu, item);
+		AyuUi::AddBurnAction(_menu, item);
 	};
 
 	const auto addReplyAction = [&](HistoryItem *item) {
@@ -3961,7 +3962,8 @@ auto HistoryInner::reactionButtonParameters(
 }
 
 void HistoryInner::mouseActionUpdate() {
-	if (hasPendingResizedItems() || !_mouseActive) {
+	if (hasPendingResizedItems()
+		|| (!_mouseActive && !window()->isActiveWindow())) {
 		return;
 	}
 
@@ -4407,6 +4409,12 @@ void HistoryInner::refreshAboutView(bool force) {
 			_aboutView = std::make_unique<HistoryView::AboutView>(
 				_history,
 				_history->delegateMixin()->delegate());
+			_aboutView->refreshRequests() | rpl::start_with_next([=] {
+				updateBotInfo();
+			}, _aboutView->lifetime());
+			_aboutView->sendIntroSticker() | rpl::start_to_stream(
+				_sendIntroSticker,
+				_aboutView->lifetime());
 		}
 	};
 	if (const auto user = _peer->asUser()) {
@@ -4415,15 +4423,17 @@ void HistoryInner::refreshAboutView(bool force) {
 			if (!info->inited) {
 				session().api().requestFullPeer(user);
 			}
-		} else if (user->meRequiresPremiumToWrite()
-			&& !user->session().premium()
-			&& !historyHeight()) {
+		} else if (!user->isContact()
+			&& !user->phoneCountryCode().isEmpty()) {
 			refresh();
 		} else if (!historyHeight()) {
-			if (!user->isFullLoaded()) {
-				session().api().requestFullPeer(user);
-			} else {
+			if (user->starsPerMessage() > 0
+				|| (user->requiresPremiumToWrite()
+					&& !user->session().premium())
+				|| user->isFullLoaded()) {
 				refresh();
+			} else {
+				session().api().requestFullPeer(user);
 			}
 		}
 	}
@@ -4838,6 +4848,11 @@ ClickContext HistoryInner::prepareClickContext(
 		button,
 		QVariant::fromValue(prepareClickHandlerContext(itemId)),
 	};
+}
+
+auto HistoryInner::sendIntroSticker() const
+-> rpl::producer<not_null<DocumentData*>> {
+	return _sendIntroSticker.events();
 }
 
 auto HistoryInner::DelegateMixin()

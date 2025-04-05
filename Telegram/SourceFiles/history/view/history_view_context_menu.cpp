@@ -590,6 +590,8 @@ bool AddRescheduleAction(
 		const auto peer = firstItem->history()->peer;
 		const auto sendMenuType = !peer
 			? SendMenu::Type::Disabled
+			: peer->starsPerMessageChecked()
+			? SendMenu::Type::SilentOnly
 			: peer->isSelf()
 			? SendMenu::Type::Reminder
 			: HistoryView::CanScheduleUntilOnline(peer)
@@ -1042,6 +1044,7 @@ void AddMessageActions(
 
 	if (request.item) {
 		AyuUi::AddReadUntilAction(menu, request.item);
+		AyuUi::AddBurnAction(menu, request.item);
 	}
 }
 
