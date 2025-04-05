@@ -1,93 +1,54 @@
-# AyuGram
+# ATH0Gram
 
-![AyuGram Logo](.github/AyuGram.png) ![AyuChan](.github/AyuChan.png)
+![ATH0Gram Logo](.github/ATH0Gram.png) 
 
-[ English  |   [Русский](README-RU.md) ]
+A fork of [AyuGram Desktop](https://github.com/AyuGram/AyuGramDesktop) for personal use and experimentation.
 
 ## Features
 
-- Full ghost mode (flexible)
-- Messages history
-- Anti-recall
-- Font customization
-- Streamer mode
-- Local Telegram Premium
-- Media preview & quick reaction on force click (macOS)
-- Enhanced appearance
+- Blackjack
+- Hookers
+- [Ayugram's](https://docs.ayugram.one/desktop/) original recipe with 11 herbs and spices. 
 
-And many more. Check out our [Documentation](https://docs.ayugram.one/desktop/).
+<details>
 
-<h3>
-  <details>
-    <summary>Preferences screenshots</summary>
-    <img src='.github/demos/demo1.png' width='268'>
-    <img src='.github/demos/demo2.png' width='268'>
-    <img src='.github/demos/demo3.png' width='268'>
-    <img src='.github/demos/demo4.png' width='268'>
-  </details>
-</h3>
+<summary>More Details</summary>
 
-## Downloads
+## Preferences screenshots
+
+<img src='.github/demos/demo1.png' width='268'>
+<img src='.github/demos/demo2.png' width='268'>
+<img src='.github/demos/demo3.png' width='268'>
+<img src='.github/demos/demo4.png' width='268'>
 
 ### Windows
 
-#### Official
-
-You can download prebuilt Windows binary from [Releases tab](https://github.com/AyuGram/AyuGramDesktop/releases) or from
-the [Telegram topic](https://t.me/ayugramchat/12788).
-
-#### Winget
-
-```bash
-winget install RadolynLabs.AyuGramDesktop
-```
-
-#### Scoop
-
-```bash
-scoop bucket add extras
-scoop install ayugram
-```
-
 #### Self-built
-
-Follow [official guide](https://github.com/AyuGram/AyuGramDesktop/blob/dev/docs/building-win-x64.md) if you want to
-build by yourself.
-
-### macOS
-
-You can download prebuilt macOS package from [Releases tab](https://github.com/AyuGram/AyuGramDesktop/releases).
-
-### Arch Linux
-
-You can install `ayugram-desktop` from [AUR](https://aur.archlinux.org/packages?O=0&K=ayugram).
-
-### NixOS
-
-See [this repository](https://github.com/ayugram-port/ayugram-desktop) for installation manual.
-
-### Any other Linux distro
-
-Follow the [official guide](https://github.com/AyuGram/AyuGramDesktop/blob/dev/docs/building-linux.md).
-
-### Remarks for Windows
 
 Make sure you have these components installed with VS Build Tools:
 
 - C++ MFC latest (x86 & x64)
 - C++ ATL latest (x86 & x64)
 - latest Windows 11 SDK
+- The exact python version specified in the build docs
+- Ensure you have ATL libs installed that match your version of Visual studios MSVC - Select these in either the VS build tools or VS2022 isntaller, when you select c++ destkop dev tools.
+- You will need to use X64 Native Tools Command Prompt for VS 2022
+- The combinded X86 and X64 will break the build make sure you use the correct x64 command prompt, you can find it from the Start menu VS folder in Windows under "all apps"
+- If you dont have the correct verison command prompt available read [Microsoft's guide](https://learn.microsoft.com/en-us/cpp/build/how-to-enable-a-64-bit-visual-cpp-toolset-on-the-command-line?view=msvc-170) on how to enable it.
 
-## Donation
+Follow [official guide](https://github.com/WeaponizedAutismDev/ATH0GramDesktop/blob/dev/docs/building-win-x64.md) if you want to
+build by yourself.
 
-Enjoy using **AyuGram**? Consider sending us a tip!
+### Any other Linux distro
 
-[Here's available methods.](https://docs.ayugram.one/donate/)
+Follow the [official guide](https://github.com/WeaponizedAutismDev/ATH0GramDesktop/blob/dev/docs/building-linux.md).
 
 ## Credits
 
 ### Telegram clients
 
+- [AyuGram Desktop](https://github.com/Ayugram/AyuGramDesktop)
+- [MaterialGram](https://github.com/kukuruzka165/materialgram)
 - [Telegram Desktop](https://github.com/telegramdesktop/tdesktop)
 - [Kotatogram](https://github.com/kotatogram/kotatogram-desktop)
 - [64Gram](https://github.com/TDesktop-x64/tdesktop)
@@ -101,4 +62,7 @@ Enjoy using **AyuGram**? Consider sending us a tip!
 
 ### Icons
 
-- [Solar Icon Set](https://www.figma.com/community/file/1166831539721848736)
+- [FluentUI System Icons](https://github.com/microsoft/fluentui-system-icons)
+- [iconify.design](https://icon-sets.iconify.design/)
+
+</details>
