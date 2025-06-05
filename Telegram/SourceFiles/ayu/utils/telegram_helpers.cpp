@@ -123,6 +123,18 @@ bool isMessageHidden(const not_null<HistoryItem*> item) {
 				return true;
 			}
 		}
+
+		if (settings.hideJoinLeave &&
+			item->isService() &&
+			(item->serviceType() == HistoryItem::ServiceType::Join ||
+			 item->serviceType() == HistoryItem::ServiceType::Leave)) {
+			return true;
+		}
+
+		if (settings.hideRegexFiltered &&
+			item->isFiltered()) {
+			return true;
+		}
 	}
 
 	return false;

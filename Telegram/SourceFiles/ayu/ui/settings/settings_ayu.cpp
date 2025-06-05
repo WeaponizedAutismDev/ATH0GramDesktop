@@ -684,6 +684,43 @@ void SetupMessageFilters(not_null<Ui::VerticalLayout*> container) {
 			AyuSettings::save();
 		},
 		container->lifetime());
+
+	AddButtonWithIcon(
+		container,
+		tr::ayu_FiltersHideJoinLeave(),
+		st::settingsButtonNoIcon
+	)->toggleOn(
+		rpl::single(settings.hideJoinLeave)
+	)->toggledValue(
+	) | rpl::filter(
+		[=](bool enabled)
+		{
+			return (enabled != settings.hideJoinLeave);
+		}) | start_with_next(
+		[=](bool enabled)
+		{
+			AyuSettings::set_hideJoinLeave(enabled);
+			AyuSettings::save();
+		},
+		container->lifetime());
+	AddButtonWithIcon(
+		container,
+		tr::ayu_FiltersHideRegexFiltered(),
+		st::settingsButtonNoIcon
+	)->toggleOn(
+		rpl::single(settings.hideRegexFiltered)
+	)->toggledValue(
+	) | rpl::filter(
+		[=](bool enabled)
+		{
+			return (enabled != settings.hideRegexFiltered);
+		}) | start_with_next(
+		[=](bool enabled)
+		{
+			AyuSettings::set_hideRegexFiltered(enabled);
+			AyuSettings::save();
+		},
+		container->lifetime());
 }
 
 void SetupQoLToggles(not_null<Ui::VerticalLayout*> container) {

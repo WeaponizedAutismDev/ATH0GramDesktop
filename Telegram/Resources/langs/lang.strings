@@ -6713,6 +6713,8 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 "ayu_RegexFiltersExcluded" = "Excluded Filters";
 "ayu_RegexFiltersEnable" = "Enable Filters";
 "ayu_FiltersHideFromBlocked" = "Hide from Blocked Users";
+"ayu_FiltersHideJoinLeave" = "Hide join/leave messages";
+"ayu_FiltersHideRegexFiltered" = "Hide from Regex Filtered Chats";
 "ayu_FiltersHideFromBlockedNote" = "Message filters were enabled.";
 "ayu_RegexFiltersEnableSharedInChats" = "Enable Shared Filters in Chats";
 "ayu_RegexFiltersAdd" = "Add Filter";
@@ -6769,8 +6771,8 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 "ayu_IconYaPlus" = "Yandex Plus";
 "ayu_WALMode" = "Enable WAL mode";
 "ayu_PushNotificationCount" = "FCM notifications received";
-"ayu_AyuAttachments" = "AyuGram Attachments Folder";
-"ayu_AyuDatabase" = "AyuGram Messages Database";
+"ayu_AyuAttachments" = "ATH0Gram Attachments Folder";
+"ayu_AyuDatabase" = "ATH0Gram Messages Database";
 "ayu_TelegramCacheDatabase" = "Telegram Messages Database";
 "ayu_ConfirmationsTitle" = "Confirmations";
 "ayu_StickerConfirmation" = "For Stickers";

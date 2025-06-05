@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component type="desktop">
-    <id>com.ayugram.desktop</id>
+    <id>com.ATH0gram.desktop</id>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0</project_license>
-    <name>AyuGram Desktop</name>
-    <summary>Desktop version of AyuGram - ToS breaking Telegram client</summary>
+    <name>ATH0gram Desktop</name>
+    <summary>Desktop version of ATH0gram - An autistic Telegram client</summary>
     <description>
         <p>Telegram Desktop with Ghost Mode, Anti-Recall and cool design.</p>
     </description>
@@ -12,12 +12,12 @@
         <category>Network</category>
         <category>InstantMessaging</category>
     </categories>
-    <update_contact>helpdesk_at_radolyn.com</update_contact>
-    <developer_name>Radolyn Labs</developer_name>
-    <url type="homepage">https://ayugram.one/</url>
-    <url type="bugtracker">https://t.me/ayugramchat/1262</url>
-    <url type="translate">https://crowdin.com/project/ayugram</url>
-    <url type="contribute">https://github.com/AyuGram/AyuGramDesktop/blob/dev/.github/CONTRIBUTING.md</url>
+    <update_contact>helpdesk_at_weaponizedautism.dev</update_contact>
+    <developer_name>Weaponized Autism</developer_name>
+    <url type="homepage">https://weaponizedautism.dev/</url>
+    <url type="bugtracker">https://t.me/ATH0gramchat/1262</url>
+    <url type="translate">https://crowdin.com/project/ATH0gram</url>
+    <url type="contribute">https://github.com/weaponizedautismdev/ATH0gramDesktop/blob/dev/.github/CONTRIBUTING.md</url>
     <screenshots>
       <screenshot type="default">
         <image>https://raw.githubusercontent.com/telegramdesktop/tdesktop/dev/docs/assets/preview.png</image>
@@ -32,7 +32,7 @@
         <keyword>chat</keyword>
         <keyword>sms</keyword>
         <keyword>im</keyword>
-        <keyword>ayugram</keyword>
+        <keyword>ATH0gram</keyword>
     </keywords>
     <requires>
         <display_length compare="ge">medium</display_length>
@@ -55,8 +55,8 @@
         <content_attribute id="drugs-alcohol">none</content_attribute>
         <content_attribute id="drugs-narcotics">none</content_attribute>
         <content_attribute id="drugs-tobacco">none</content_attribute>
-        <content_attribute id="sex-nudity">none</content_attribute>
-        <content_attribute id="sex-themes">none</content_attribute>
+        <content_attribute id="sex-nudity">intense</content_attribute>
+        <content_attribute id="sex-themes">intense</content_attribute>
         <content_attribute id="sex-homosexuality">none</content_attribute>
         <content_attribute id="sex-prostitution">none</content_attribute>
         <content_attribute id="sex-adultery">none</content_attribute>
@@ -64,17 +64,17 @@
         <content_attribute id="language-profanity">none</content_attribute>
         <content_attribute id="language-humor">none</content_attribute>
         <content_attribute id="language-discrimination">none</content_attribute>
-        <content_attribute id="social-chat">intense</content_attribute>
+        <content_attribute id="social-chat">C</content_attribute>
         <content_attribute id="social-info">none</content_attribute>
         <content_attribute id="social-audio">intense</content_attribute>
         <content_attribute id="social-location">none</content_attribute>
         <content_attribute id="social-contacts">intense</content_attribute>
         <content_attribute id="money-purchasing">intense</content_attribute>
-        <content_attribute id="money-gambling">none</content_attribute>
+        <content_attribute id="money-gambling">intense</content_attribute>
         <content_attribute id="money-advertising">moderate</content_attribute>
     </content_rating>
-    <launchable type="desktop-id">com.ayugram.desktop.desktop</launchable>
+    <launchable type="desktop-id">com.ATH0gram.desktop.desktop</launchable>
     <provides>
-        <binary>ayugram-desktop</binary>
+        <binary>ATH0gram-desktop</binary>
     </provides>
 </component>

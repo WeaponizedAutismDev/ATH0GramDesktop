@@ -22,8 +22,8 @@ endif()
 project(Telegram
     LANGUAGES ${project_langs}
     VERSION ${desktop_app_version_cmake}
-    DESCRIPTION "AyuGram Desktop"
-    HOMEPAGE_URL "https://ayugram.one"
+    DESCRIPTION "ATH0Gram Desktop"
+    HOMEPAGE_URL "https://weaponizedautism.dev"
 )
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Telegram)
 

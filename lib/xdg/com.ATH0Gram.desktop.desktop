@@ -1,11 +1,11 @@
 [Desktop Entry]
-Name=AyuGram Desktop
-Comment=Desktop version of AyuGram - ToS breaking Telegram client
-TryExec=ayugram-desktop
-Exec=env DESKTOPINTEGRATION=1 ayugram-desktop -- %u
-Icon=com.ayugram.desktop
+Name=ATH0gram Desktop
+Comment=Desktop version of ATH0gram - Autistic Telegram client
+TryExec=ATH0gram-desktop
+Exec=env DESKTOPINTEGRATION=1 ATH0gram-desktop -- %u
+Icon=com.ATH0gram.desktop
 Terminal=false
-StartupWMClass=AyuGram
+StartupWMClass=ATH0gram
 Type=Application
 Categories=Chat;Network;InstantMessaging;Qt;
 MimeType=x-scheme-handler/tg;x-scheme-handler/tonsite;
@@ -17,6 +17,6 @@ X-GNOME-UsesNotifications=true
 X-GNOME-SingleWindow=true
 
 [Desktop Action quit]
-Exec=ayugram-desktop -quit
-Name=Quit AyuGram
+Exec=ATH0gram-desktop -quit
+Name=Quit ATH0gram
 Icon=application-exit

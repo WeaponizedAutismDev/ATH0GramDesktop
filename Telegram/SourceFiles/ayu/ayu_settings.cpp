@@ -42,6 +42,8 @@ rpl::variable<QString> editedMarkReactive;
 rpl::variable<int> showPeerIdReactive;
 
 rpl::variable<bool> hideFromBlockedReactive;
+rpl::variable<bool> hideLeaveJoinReactive;
+rpl::variable<bool> hideRegexFilteredReactive;
 rpl::event_stream<> historyUpdateReactive;
 
 rpl::lifetime lifetime = rpl::lifetime();
@@ -139,6 +141,8 @@ void postinitialize() {
 	showPeerIdReactive = settings->showPeerId;
 
 	hideFromBlockedReactive = settings->hideFromBlocked;
+	hideLeaveJoinReactive = settings->hideLeaveJoin;
+	hideRegexFilteredReactive = settings->hideFiltered;
 
 	ghostModeEnabled = ghostModeEnabled_util(settings.value());
 }
@@ -214,6 +218,8 @@ ATH0GramSettings::ATH0GramSettings() {
 
 	// ~ Message filters
 	hideFromBlocked = false;
+	hideLeaveJoin = false;
+	hideRegexFiltered = false;
 
 	// ~ QoL toggles
 	disableAds = true;
@@ -263,7 +269,7 @@ ATH0GramSettings::ATH0GramSettings() {
 	showAutoDeleteButtonInMessageField = true;
 
 	showAttachPopup = true;
-	showEmojiPopup = true;
+	showEmojiPopup = false;
 
 	showLReadToggleInDrawer = false;
 	showSReadToggleInDrawer = true;
@@ -367,6 +373,16 @@ void set_saveForBots(bool val) {
 void set_hideFromBlocked(bool val) {
 	settings->hideFromBlocked = val;
 	hideFromBlockedReactive = val;
+}
+
+void set_hideLeaveJoin(bool val) {
+	settings->hideLeaveJoin = val;
+	hideLeaveJoinReactive = val;
+}
+
+void set_hideRegexFiltered(bool val) {
+	settings->hideRegexFiltered = val;
+	hideRegexFilteredReactive = val;
 }
 
 void set_disableAds(bool val) {
