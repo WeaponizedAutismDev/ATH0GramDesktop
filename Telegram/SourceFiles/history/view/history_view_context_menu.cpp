@@ -1461,11 +1461,11 @@ void AddSaveSoundForNotifications(
 		return;
 	} else if (int(ringtones.list().size()) >= ringtones.maxSavedCount()) {
 		return;
-	} else if (const auto song = document->song()) {
+	} else if (document->song()) {
 		if (document->duration() > ringtones.maxDuration()) {
 			return;
 		}
-	} else if (const auto voice = document->voice()) {
+	} else if (document->voice()) {
 		if (document->duration() > ringtones.maxDuration()) {
 			return;
 		}
@@ -1513,8 +1513,8 @@ void AddWhoReactedAction(
 		not_null<QWidget*> context,
 		not_null<HistoryItem*> item,
 		not_null<Window::SessionController*> controller) {
-	const auto settings = &AyuSettings::getInstance();
-	if (!AyuUi::needToShowItem(settings->showViewsPanelInContextMenu)) {
+	const auto& settings = AyuSettings::getInstance();
+	if (!AyuUi::needToShowItem(settings.showViewsPanelInContextMenu)) {
 		return;
 	}
 

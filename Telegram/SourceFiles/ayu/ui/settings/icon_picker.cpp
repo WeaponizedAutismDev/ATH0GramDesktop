@@ -139,7 +139,7 @@ void IconPicker::paintEvent(QPaintEvent *e) {
 }
 
 void IconPicker::mousePressEvent(QMouseEvent *e) {
-	auto settings = &AyuSettings::getInstance();
+	const auto& settings = AyuSettings::getInstance();
 	auto changed = false;
 
 	auto x = e->pos().x();
@@ -157,8 +157,8 @@ void IconPicker::mousePressEvent(QMouseEvent *e) {
 					break;
 				}
 
-				if (settings->appIcon != iconName) {
-					wasSelected = settings->appIcon;
+				if (settings.appIcon != iconName) {
+					wasSelected = settings.appIcon;
 					animation.start(
 						[=]
 						{
@@ -170,7 +170,7 @@ void IconPicker::mousePressEvent(QMouseEvent *e) {
 						anim::easeOutCubic
 					);
 
-					settings->set_appIcon(iconName);
+					AyuSettings::set_appIcon(iconName);
 					changed = true;
 					break;
 				}

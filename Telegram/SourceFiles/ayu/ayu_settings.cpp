@@ -219,6 +219,7 @@ ATH0GramSettings::ATH0GramSettings() {
 	disableAds = true;
 	disableStories = false;
 	disableCustomBackgrounds = true;
+	showOnlyAddedEmojisAndStickers = false;
 	collapseSimilarChannels = true;
 	hideSimilarChannels = false;
 
@@ -300,32 +301,32 @@ ATH0GramSettings::ATH0GramSettings() {
 	voiceConfirmation = false;
 }
 
-void ATH0GramSettings::set_sendReadMessages(bool val) {
-	sendReadMessages = val;
+void set_sendReadMessages(bool val) {
+	settings->sendReadMessages = val;
 	sendReadMessagesReactive = val;
 }
 
-void ATH0GramSettings::set_sendReadStories(bool val) {
-	sendReadStories = val;
+void set_sendReadStories(bool val) {
+	settings->sendReadStories = val;
 	sendReadStoriesReactive = val;
 }
 
-void ATH0GramSettings::set_sendOnlinePackets(bool val) {
-	sendOnlinePackets = val;
+void set_sendOnlinePackets(bool val) {
+	settings->sendOnlinePackets = val;
 	sendOnlinePacketsReactive = val;
 }
 
-void ATH0GramSettings::set_sendUploadProgress(bool val) {
-	sendUploadProgress = val;
+void set_sendUploadProgress(bool val) {
+	settings->sendUploadProgress = val;
 	sendUploadProgressReactive = val;
 }
 
-void ATH0GramSettings::set_sendOfflinePacketAfterOnline(bool val) {
-	sendOfflinePacketAfterOnline = val;
+void set_sendOfflinePacketAfterOnline(bool val) {
+	settings->sendOfflinePacketAfterOnline = val;
 	sendOfflinePacketAfterOnlineReactive = val;
 }
 
-void ATH0GramSettings::set_ghostModeEnabled(bool val) {
+void set_ghostModeEnabled(bool val) {
 	set_sendReadMessages(!val);
 	set_sendReadStories(!val);
 	set_sendOnlinePackets(!val);
@@ -339,231 +340,234 @@ void ATH0GramSettings::set_ghostModeEnabled(bool val) {
 	}
 }
 
-void ATH0GramSettings::set_markReadAfterAction(bool val) {
-	markReadAfterAction = val;
+void set_markReadAfterAction(bool val) {
+	settings->markReadAfterAction = val;
 }
 
-void ATH0GramSettings::set_useScheduledMessages(bool val) {
-	useScheduledMessages = val;
+void set_useScheduledMessages(bool val) {
+	settings->useScheduledMessages = val;
 }
 
-void ATH0GramSettings::set_sendWithoutSound(bool val) {
-	sendWithoutSound = val;
+void set_sendWithoutSound(bool val) {
+	settings->sendWithoutSound = val;
 }
 
-void ATH0GramSettings::set_saveDeletedMessages(bool val) {
-	saveDeletedMessages = val;
+void set_saveDeletedMessages(bool val) {
+	settings->saveDeletedMessages = val;
 }
 
-void ATH0GramSettings::set_saveMessagesHistory(bool val) {
-	saveMessagesHistory = val;
+void set_saveMessagesHistory(bool val) {
+	settings->saveMessagesHistory = val;
 }
 
-void ATH0GramSettings::set_saveForBots(bool val) {
-	saveForBots = val;
+void set_saveForBots(bool val) {
+	settings->saveForBots = val;
 }
 
-void ATH0GramSettings::set_hideFromBlocked(bool val) {
-	hideFromBlocked = val;
+void set_hideFromBlocked(bool val) {
+	settings->hideFromBlocked = val;
 	hideFromBlockedReactive = val;
 }
 
-void ATH0GramSettings::set_disableAds(bool val) {
-	disableAds = val;
+void set_disableAds(bool val) {
+	settings->disableAds = val;
 }
 
-void ATH0GramSettings::set_disableStories(bool val) {
-	disableStories = val;
+void set_disableStories(bool val) {
+	settings->disableStories = val;
 }
 
-void ATH0GramSettings::set_disableCustomBackgrounds(bool val) {
-	disableCustomBackgrounds = val;
+void set_disableCustomBackgrounds(bool val) {
+	settings->disableCustomBackgrounds = val;
 }
 
-void ATH0GramSettings::set_collapseSimilarChannels(bool val) {
-	collapseSimilarChannels = val;
+void set_showOnlyAddedEmojisAndStickers(bool val) {
+	settings->showOnlyAddedEmojisAndStickers = val;
 }
 
-void ATH0GramSettings::set_hideSimilarChannels(bool val) {
-	hideSimilarChannels = val;
+void set_collapseSimilarChannels(bool val) {
+	settings->collapseSimilarChannels = val;
 }
 
-void ATH0GramSettings::set_wideMultiplier(double val) {
-	wideMultiplier = val;
+void set_hideSimilarChannels(bool val) {
+	settings->hideSimilarChannels = val;
 }
 
-void ATH0GramSettings::set_spoofWebviewAsAndroid(bool val) {
-	spoofWebviewAsAndroid = val;
+void set_wideMultiplier(double val) {
+	settings->wideMultiplier = val;
 }
 
-void ATH0GramSettings::set_increaseWebviewHeight(bool val) {
-	increaseWebviewHeight = val;
+void set_spoofWebviewAsAndroid(bool val) {
+	settings->spoofWebviewAsAndroid = val;
 }
 
-void ATH0GramSettings::set_increaseWebviewWidth(bool val) {
-	increaseWebviewWidth = val;
+void set_increaseWebviewHeight(bool val) {
+	settings->increaseWebviewHeight = val;
 }
 
-void ATH0GramSettings::set_disableNotificationsDelay(bool val) {
-	disableNotificationsDelay = val;
+void set_increaseWebviewWidth(bool val) {
+	settings->increaseWebviewWidth = val;
 }
 
-void ATH0GramSettings::set_localPremium(bool val) {
-	localPremium = val;
+void set_disableNotificationsDelay(bool val) {
+	settings->disableNotificationsDelay = val;
 }
 
-void ATH0GramSettings::set_appIcon(QString val) {
-	appIcon = std::move(val);
+void set_localPremium(bool val) {
+	settings->localPremium = val;
 }
 
-void ATH0GramSettings::set_simpleQuotesAndReplies(bool val) {
-	simpleQuotesAndReplies = val;
+void set_appIcon(QString val) {
+	settings->appIcon = std::move(val);
 }
 
-void ATH0GramSettings::set_replaceBottomInfoWithIcons(bool val) {
-	replaceBottomInfoWithIcons = val;
+void set_simpleQuotesAndReplies(bool val) {
+	settings->simpleQuotesAndReplies = val;
 }
 
-void ATH0GramSettings::set_deletedMark(QString val) {
-	deletedMark = std::move(val);
-	deletedMarkReactive = deletedMark;
+void set_replaceBottomInfoWithIcons(bool val) {
+	settings->replaceBottomInfoWithIcons = val;
 }
 
-void ATH0GramSettings::set_editedMark(QString val) {
-	editedMark = std::move(val);
-	editedMarkReactive = editedMark;
+void set_deletedMark(QString val) {
+	settings->deletedMark = std::move(val);
+	deletedMarkReactive = settings->deletedMark;
 }
 
-void ATH0GramSettings::set_recentStickersCount(int val) {
-	recentStickersCount = val;
+void set_editedMark(QString val) {
+	settings->editedMark = std::move(val);
+	editedMarkReactive = settings->editedMark;
 }
 
-void ATH0GramSettings::set_showReactionsPanelInContextMenu(int val) {
-	showReactionsPanelInContextMenu = val;
+void set_recentStickersCount(int val) {
+	settings->recentStickersCount = val;
 }
 
-void ATH0GramSettings::set_showViewsPanelInContextMenu(int val) {
-	showViewsPanelInContextMenu = val;
+void set_showReactionsPanelInContextMenu(int val) {
+	settings->showReactionsPanelInContextMenu = val;
 }
 
-void ATH0GramSettings::set_showHideMessageInContextMenu(int val) {
-	showHideMessageInContextMenu = val;
+void set_showViewsPanelInContextMenu(int val) {
+	settings->showViewsPanelInContextMenu = val;
 }
 
-void ATH0GramSettings::set_showUserMessagesInContextMenu(int val) {
-	showUserMessagesInContextMenu = val;
+void set_showHideMessageInContextMenu(int val) {
+	settings->showHideMessageInContextMenu = val;
 }
 
-void ATH0GramSettings::set_showMessageDetailsInContextMenu(int val) {
-	showMessageDetailsInContextMenu = val;
+void set_showUserMessagesInContextMenu(int val) {
+	settings->showUserMessagesInContextMenu = val;
 }
 
-void ATH0GramSettings::set_showAttachButtonInMessageField(bool val) {
-	showAttachButtonInMessageField = val;
+void set_showMessageDetailsInContextMenu(int val) {
+	settings->showMessageDetailsInContextMenu = val;
+}
+
+void set_showAttachButtonInMessageField(bool val) {
+	settings->showAttachButtonInMessageField = val;
 	triggerHistoryUpdate();
 }
 
-void ATH0GramSettings::set_showCommandsButtonInMessageField(bool val) {
-	showCommandsButtonInMessageField = val;
+void set_showCommandsButtonInMessageField(bool val) {
+	settings->showCommandsButtonInMessageField = val;
 	triggerHistoryUpdate();
 }
 
-void ATH0GramSettings::set_showEmojiButtonInMessageField(bool val) {
-	showEmojiButtonInMessageField = val;
+void set_showEmojiButtonInMessageField(bool val) {
+	settings->showEmojiButtonInMessageField = val;
 	triggerHistoryUpdate();
 }
 
-void ATH0GramSettings::set_showMicrophoneButtonInMessageField(bool val) {
-	showMicrophoneButtonInMessageField = val;
+void set_showMicrophoneButtonInMessageField(bool val) {
+	settings->showMicrophoneButtonInMessageField = val;
 	triggerHistoryUpdate();
 }
 
-void ATH0GramSettings::set_showAutoDeleteButtonInMessageField(bool val) {
-	showAutoDeleteButtonInMessageField = val;
+void set_showAutoDeleteButtonInMessageField(bool val) {
+	settings->showAutoDeleteButtonInMessageField = val;
 	triggerHistoryUpdate();
 }
 
-void ATH0GramSettings::set_showAttachPopup(bool val) {
-	showAttachPopup = val;
+void set_showAttachPopup(bool val) {
+	settings->showAttachPopup = val;
 	triggerHistoryUpdate();
 }
 
-void ATH0GramSettings::set_showEmojiPopup(bool val) {
-	showEmojiPopup = val;
+void set_showEmojiPopup(bool val) {
+	settings->showEmojiPopup = val;
 	triggerHistoryUpdate();
 }
 
-void ATH0GramSettings::set_showLReadToggleInDrawer(bool val) {
-	showLReadToggleInDrawer = val;
+void set_showLReadToggleInDrawer(bool val) {
+	settings->showLReadToggleInDrawer = val;
 }
 
-void ATH0GramSettings::set_showSReadToggleInDrawer(bool val) {
-	showSReadToggleInDrawer = val;
+void set_showSReadToggleInDrawer(bool val) {
+	settings->showSReadToggleInDrawer = val;
 }
 
-void ATH0GramSettings::set_showGhostToggleInDrawer(bool val) {
-	showGhostToggleInDrawer = val;
+void set_showGhostToggleInDrawer(bool val) {
+	settings->showGhostToggleInDrawer = val;
 }
 
-void ATH0GramSettings::set_showStreamerToggleInDrawer(bool val) {
-	showStreamerToggleInDrawer = val;
+void set_showStreamerToggleInDrawer(bool val) {
+	settings->showStreamerToggleInDrawer = val;
 }
 
-void ATH0GramSettings::set_showGhostToggleInTray(bool val) {
-	showGhostToggleInTray = val;
+void set_showGhostToggleInTray(bool val) {
+	settings->showGhostToggleInTray = val;
 }
 
-void ATH0GramSettings::set_showStreamerToggleInTray(bool val) {
-	showStreamerToggleInTray = val;
+void set_showStreamerToggleInTray(bool val) {
+	settings->showStreamerToggleInTray = val;
 }
 
-void ATH0GramSettings::set_monoFont(QString val) {
-	monoFont = val;
+void set_monoFont(QString val) {
+	settings->monoFont = val;
 }
 
-void ATH0GramSettings::set_showPeerId(int val) {
-	showPeerId = val;
+void set_showPeerId(int val) {
+	settings->showPeerId = val;
 	showPeerIdReactive = val;
 }
 
-void ATH0GramSettings::set_hideNotificationCounters(bool val) {
-	hideNotificationCounters = val;
+void set_hideNotificationCounters(bool val) {
+	settings->hideNotificationCounters = val;
 }
 
-void ATH0GramSettings::set_hideNotificationBadge(bool val) {
-	hideNotificationBadge = val;
+void set_hideNotificationBadge(bool val) {
+	settings->hideNotificationBadge = val;
 }
 
-void ATH0GramSettings::set_hideAllChatsFolder(bool val) {
-	hideAllChatsFolder = val;
+void set_hideAllChatsFolder(bool val) {
+	settings->hideAllChatsFolder = val;
 }
 
-void ATH0GramSettings::set_channelBottomButton(int val) {
-	channelBottomButton = val;
+void set_channelBottomButton(int val) {
+	settings->channelBottomButton = val;
 }
 
-void ATH0GramSettings::set_showMessageSeconds(bool val) {
-	showMessageSeconds = val;
+void set_showMessageSeconds(bool val) {
+	settings->showMessageSeconds = val;
 }
 
-void ATH0GramSettings::set_showMessageShot(bool val) {
-	showMessageShot = val;
+void set_showMessageShot(bool val) {
+	settings->showMessageShot = val;
 }
 
-void ATH0GramSettings::set_stickerConfirmation(bool val) {
-	stickerConfirmation = val;
+void set_stickerConfirmation(bool val) {
+	settings->stickerConfirmation = val;
 }
 
-void ATH0GramSettings::set_gifConfirmation(bool val) {
-	gifConfirmation = val;
+void set_gifConfirmation(bool val) {
+	settings->gifConfirmation = val;
 }
 
-void ATH0GramSettings::set_voiceConfirmation(bool val) {
-	voiceConfirmation = val;
+void set_voiceConfirmation(bool val) {
+	settings->voiceConfirmation = val;
 }
 
 bool isUseScheduledMessages() {
-	const auto settings = &getInstance();
 	return isGhostModeActive() && settings->useScheduledMessages;
 }
 

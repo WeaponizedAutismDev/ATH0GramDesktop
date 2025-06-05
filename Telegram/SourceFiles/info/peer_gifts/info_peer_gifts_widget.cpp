@@ -75,6 +75,9 @@ public:
 	[[nodiscard]] rpl::producer<bool> notifyEnabled() const {
 		return _notifyEnabled.events();
 	}
+	[[nodiscard]] rpl::producer<> resetFilterRequests() const {
+		return _resetFilterRequests.events();
+	}
 	[[nodiscard]] rpl::producer<> scrollToTop() const {
 		return _scrollToTop.events();
 	}
@@ -112,6 +115,9 @@ private:
 
 	int resizeGetHeight(int width) override;
 
+	[[nodiscard]] auto pinnedSavedGifts()
+		-> Fn<std::vector<Data::CreditsHistoryEntry>()>;
+
 	const not_null<Window::SessionController*> _window;
 	rpl::variable<Filter> _filter;
 	Delegate _delegate;
@@ -127,7 +133,9 @@ private:
 	QString _offset;
 	bool _allLoaded = false;
 	bool _reloading = false;
+	bool _aboutFiltered = false;
 
+	rpl::event_stream<> _resetFilterRequests;
 	rpl::event_stream<bool> _notifyEnabled;
 	std::vector<View> _views;
 	int _viewsForWidth = 0;
@@ -152,7 +160,7 @@ InnerWidget::InnerWidget(
 : BoxContentDivider(parent)
 , _window(controller->parentController())
 , _filter(std::move(filter))
-, _delegate(_window, GiftButtonMode::Minimal)
+, _delegate(&_window->session(), GiftButtonMode::Minimal)
 , _controller(controller)
 , _peer(peer)
 , _totalCount(_peer->peerGiftsCount())
@@ -178,7 +186,14 @@ void InnerWidget::subscribeToUpdates() {
 		const auto savedId = [](const Entry &entry) {
 			return entry.gift.manageId;
 		};
-		const auto i = ranges::find(_entries, update.id, savedId);
+		const auto bySlug = [](const Entry &entry) {
+			return entry.gift.info.unique
+				? entry.gift.info.unique->slug
+				: QString();
+		};
+		const auto i = update.id
+			? ranges::find(_entries, update.id, savedId)
+			: ranges::find(_entries, update.slug, bySlug);
 		if (i == end(_entries)) {
 			return;
 		}
@@ -221,10 +236,20 @@ void InnerWidget::subscribeToUpdates() {
 			} else {
 				markUnpinned(i);
 			}
+		} else if (update.action == Action::ResaleChange) {
+			for (auto &view : _views) {
+				if (view.index == index) {
+					view.index = -1;
+					view.manageId = {};
+				}
+			}
 		} else {
 			return;
 		}
 		refreshButtons();
+		if (update.action == Action::Pin) {
+			_scrollToTop.fire({});
+		}
 	}, lifetime());
 }
 
@@ -476,6 +501,41 @@ void InnerWidget::validateButtons() {
 	std::swap(_views, views);
 }
 
+auto InnerWidget::pinnedSavedGifts()
+-> Fn<std::vector<Data::CreditsHistoryEntry>()> {
+	struct Entry {
+		Data::SavedStarGiftId id;
+		std::shared_ptr<Data::UniqueGift> unique;
+	};
+	auto entries = std::vector<Entry>();
+	for (const auto &entry : _entries) {
+		if (entry.gift.pinned) {
+			Assert(entry.gift.info.unique != nullptr);
+			entries.push_back({
+				entry.gift.manageId,
+				entry.gift.info.unique,
+			});
+		} else {
+			break;
+		}
+	}
+	return [entries] {
+		auto result = std::vector<Data::CreditsHistoryEntry>();
+		result.reserve(entries.size());
+		for (const auto &entry : entries) {
+			const auto &id = entry.id;
+			result.push_back({
+				.bareMsgId = uint64(id.userMessageId().bare),
+				.bareEntryOwnerId = id.chat() ? id.chat()->id.value : 0,
+				.giftChannelSavedId = id.chatSavedId(),
+				.uniqueGift = entry.unique,
+				.stargift = true,
+			});
+		}
+		return result;
+	};
+}
+
 void InnerWidget::showMenuFor(not_null<GiftButton*> button, QPoint point) {
 	if (_menu) {
 		return;
@@ -495,27 +555,7 @@ void InnerWidget::showMenuFor(not_null<GiftButton*> button, QPoint point) {
 	auto entry = ::Settings::SavedStarGiftEntry(
 		_peer,
 		_entries[index].gift);
-	auto pinnedIds = std::vector<Data::SavedStarGiftId>();
-	for (const auto &entry : _entries) {
-		if (entry.gift.pinned) {
-			pinnedIds.push_back(entry.gift.manageId);
-		} else {
-			break;
-		}
-	}
-	entry.pinnedSavedGifts = [pinnedIds] {
-		auto result = std::vector<Data::CreditsHistoryEntry>();
-		result.reserve(pinnedIds.size());
-		for (const auto &id : pinnedIds) {
-			result.push_back({
-				.bareMsgId = uint64(id.userMessageId().bare),
-				.bareEntryOwnerId = id.chat() ? id.chat()->id.value : 0,
-				.giftChannelSavedId = id.chatSavedId(),
-				.stargift = true,
-			});
-		}
-		return result;
-	};
+	entry.pinnedSavedGifts = pinnedSavedGifts();
 	_menu = base::make_unique_q<Ui::PopupMenu>(this, st::popupMenuWithIcons);
 	::Settings::FillSavedStarGiftMenu(
 		_controller->uiShow(),
@@ -535,10 +575,44 @@ void InnerWidget::showGift(int index) {
 		::Settings::SavedStarGiftBox,
 		_window,
 		_peer,
-		_entries[index].gift));
+		_entries[index].gift,
+		pinnedSavedGifts()));
 }
 
 void InnerWidget::refreshAbout() {
+	const auto filter = _filter.current();
+	const auto filteredEmpty = _allLoaded
+		&& _entries.empty()
+		&& (filter.skipLimited
+			|| filter.skipUnlimited
+			|| filter.skipSaved
+			|| filter.skipUnsaved
+			|| filter.skipUnique);
+
+	if (filteredEmpty) {
+		auto text = tr::lng_peer_gifts_empty_search(
+			tr::now,
+			Ui::Text::RichLangValue);
+		if (_totalCount > 0) {
+			text.append("\n\n").append(Ui::Text::Link(
+				tr::lng_peer_gifts_view_all(tr::now)));
+		}
+		_about = std::make_unique<Ui::FlatLabel>(
+			this,
+			rpl::single(text),
+			st::giftListAbout);
+		_about->setClickHandlerFilter([=](const auto &...) {
+			_resetFilterRequests.fire({});
+			return false;
+		});
+		_about->show();
+		_aboutFiltered = true;
+		resizeToWidth(width());
+	} else if (_aboutFiltered) {
+		_about = nullptr;
+		_aboutFiltered = false;
+	}
+
 	if (!_peer->isSelf() && _peer->canManageGifts() && !_entries.empty()) {
 		if (_about) {
 			_about = nullptr;
@@ -642,6 +716,10 @@ Widget::Widget(
 	_inner->notifyEnabled(
 	) | rpl::take(1) | rpl::start_with_next([=](bool enabled) {
 		setupNotifyCheckbox(enabled);
+	}, _inner->lifetime());
+	_inner->resetFilterRequests(
+	) | rpl::start_with_next([=] {
+		_filter = Filter();
 	}, _inner->lifetime());
 	_inner->scrollToTop() | rpl::start_with_next([=] {
 		scrollTo({ 0, 0 });

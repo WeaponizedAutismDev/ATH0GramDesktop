@@ -323,7 +323,7 @@ public:
 		return (_flags & MessageFlag::HideEdited);
 	}
 	[[nodiscard]] bool hideDisplayDate() const {
-		return (_flags & MessageFlag::HideDisplayDate);
+		return isEmpty() || (_flags & MessageFlag::HideDisplayDate);
 	}
 	[[nodiscard]] bool isLocal() const {
 		return _flags & MessageFlag::Local;
@@ -379,6 +379,8 @@ public:
 	void applyEditionToHistoryCleared();
 	void updateReplyMarkup(HistoryMessageMarkupData &&markup);
 	void contributeToSlowmode(TimeId realDate = 0);
+
+	void clearMediaAsExpired();
 
 	void addToUnreadThings(HistoryUnreadThings::AddType type);
 	void destroyHistoryEntry();
@@ -603,7 +605,7 @@ private:
 		return _flags & MessageFlag::Legacy;
 	}
 
-	[[nodiscard]] bool checkCommentsLinkedChat(ChannelId id) const;
+	[[nodiscard]] bool checkDiscussionLink(ChannelId id) const;
 
 	void setReplyMarkup(HistoryMessageMarkupData &&markup);
 
@@ -675,6 +677,10 @@ private:
 		CallId linkCallId);
 	[[nodiscard]] PreparedServiceText prepareCallScheduledText(
 		TimeId scheduleDate);
+
+	[[nodiscard]] PreparedServiceText prepareServiceTextForMessage(
+		const MTPMessageMedia &media,
+		bool unread);
 
 	void flagSensitiveContent();
 	[[nodiscard]] PeerData *computeDisplayFrom() const;

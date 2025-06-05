@@ -65,4 +65,9 @@ Follow the [official guide](https://github.com/WeaponizedAutismDev/ATH0GramDeskt
 - [FluentUI System Icons](https://github.com/microsoft/fluentui-system-icons)
 - [iconify.design](https://icon-sets.iconify.design/)
 
+### Bots
+
+- [TelegramDB](https://t.me/tgdatabase) for username lookup by ID (until closing free inline mode at 25 May 2025)
+- [usinfobot](https://t.me/usinfobot) for username lookup by ID
+
 </details>

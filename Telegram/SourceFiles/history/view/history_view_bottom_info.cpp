@@ -13,6 +13,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 #include "ui/text/text_options.h"
 #include "ui/text/text_utilities.h"
 #include "ui/painter.h"
+#include "core/ui_integration.h"
 #include "lang/lang_keys.h"
 #include "history/history_item_components.h"
 #include "history/history_item.h"
@@ -204,7 +205,7 @@ ClickHandlerPtr BottomInfo::replayEffectLink(
 	const auto weak = base::make_weak(view);
 	return std::make_shared<LambdaClickHandler>([=](ClickContext context) {
 		const auto my = context.other.value<ClickHandlerContext>();
-		if (const auto controller = my.sessionWindow.get()) {
+		if ([[maybe_unused]] const auto controller = my.sessionWindow.get()) {
 			if (const auto strong = weak.get()) {
 				strong->delegate()->elementStartEffect(strong, nullptr);
 			}
@@ -414,14 +415,14 @@ void BottomInfo::layout() {
 }
 
 void BottomInfo::layoutDateText() {
-	const auto settings = &AyuSettings::getInstance();
+	const auto& settings = AyuSettings::getInstance();
 
-	if (!settings->replaceBottomInfoWithIcons) {
+	if (!settings.replaceBottomInfoWithIcons) {
 		const auto deleted = (_data.flags & Data::Flag::AyuDeleted)
-								? (settings->deletedMark + ' ')
+								? (settings.deletedMark + ' ')
 								: QString();
 		const auto edited = (_data.flags & Data::Flag::Edited)
-								? (settings->editedMark + ' ')
+								? (settings.editedMark + ' ')
 								: (_data.flags & Data::Flag::EstimateDate)
 			? (tr::lng_approximate(tr::now) + ' ')
 			: QString();
@@ -429,7 +430,7 @@ void BottomInfo::layoutDateText() {
 		const auto prefix = !author.isEmpty() ? u", "_q : QString();
 		const auto date = edited + QLocale().toString(
 			_data.date.time(),
-			settings->showMessageSeconds
+			settings.showMessageSeconds
 				? QLocale::system().timeFormat(QLocale::LongFormat).remove(" t")
 				: QLocale::system().timeFormat(QLocale::ShortFormat)
 		);
@@ -449,15 +450,18 @@ void BottomInfo::layoutDateText() {
 			: name.isEmpty()
 			? (deleted + date)
 			: (deleted + name + afterAuthor);
-		auto marked = TextWithEntities{ full };
+		auto marked = TextWithEntities();
 	if (const auto count = _data.stars) {
-		marked.append(Ui::Text::IconEmoji(&st::starIconEmoji));
-		marked.append(Lang::FormatCountToShort(count).string);
+		marked.append(
+			Ui::Text::IconEmoji(&st::starIconEmojiSmall)
+		).append(Lang::FormatCountToShort(count).string).append(u", "_q);
 	}
+	marked.append(full);
 	_authorEditedDate.setMarkedText(
 			st::msgDateTextStyle,
 			marked,
-			Ui::NameTextOptions());
+			Ui::NameTextOptions(),
+		Core::TextContext({ .session = &_reactionsOwner->session() }));
 	} else {
 		TextWithEntities deleted;
 		if (_data.flags & Data::Flag::AyuDeleted) {
@@ -492,7 +496,7 @@ void BottomInfo::layoutDateText() {
 
 		const auto date = TextWithEntities{}.append(edited).append(QLocale().toString(
 			_data.date.time(),
-			settings->showMessageSeconds
+			settings.showMessageSeconds
 				? QLocale::system().timeFormat(QLocale::LongFormat).remove(" t")
 				: QLocale::system().timeFormat(QLocale::ShortFormat)
 		));
@@ -694,7 +698,7 @@ BottomInfo::Data BottomInfoDataFromMessage(not_null<Message*> message) {
 	if (item->isSending() || item->hasFailed()) {
 		result.flags |= Flag::Sending;
 	}
-	if (item->out() && !item->history()->peer->isUser()) {
+	if (!item->history()->peer->isUser()) {
 		const auto media = message->media();
 		const auto mine = PaidInformation{
 			.messages = 1,

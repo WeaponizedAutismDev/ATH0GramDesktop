@@ -300,7 +300,9 @@ void TopBarWidget::refreshLang() {
 }
 
 void TopBarWidget::call() {
-	if (const auto peer = _activeChat.key.peer()) {
+	if (_controller->showFrozenError()) {
+		return;
+	} else if (const auto peer = _activeChat.key.peer()) {
 		if (const auto user = peer->asUser()) {
 			Core::App().calls().startOutgoingCall(user, false);
 		}
@@ -308,7 +310,9 @@ void TopBarWidget::call() {
 }
 
 void TopBarWidget::groupCall() {
-	if (const auto peer = _activeChat.key.peer()) {
+	if (_controller->showFrozenError()) {
+		return;
+	} else if (const auto peer = _activeChat.key.peer()) {
 		if (HasGroupCallMenu(peer)) {
 			showGroupCallMenu(peer);
 		} else {
@@ -765,7 +769,7 @@ void TopBarWidget::infoClicked() {
 		return;
 	} else if (const auto topic = key.topic()) {
 		_controller->showSection(std::make_shared<Info::Memento>(topic));
-	} else if (const auto sublist = key.sublist()) {
+	} else if ([[maybe_unused]] const auto sublist = key.sublist()) {
 		_controller->showSection(std::make_shared<Info::Memento>(
 			_controller->session().user(),
 			Info::Section(Storage::SharedMediaType::Photo)));
@@ -784,8 +788,8 @@ void TopBarWidget::infoClicked() {
 
 void TopBarWidget::backClicked() {
 	if (_activeChat.key.folder()) {
-		auto settings = &AyuSettings::getInstance();
-		if (settings->hideAllChatsFolder) {
+		const auto& settings = AyuSettings::getInstance();
+		if (settings.hideAllChatsFolder) {
 			const auto filters = &_controller->session().data().chatsFilters();
 			const auto lookupId = filters->lookupId(_controller->session().premium() ? 0 : 1);
 			_controller->setActiveChatsFilter(lookupId);
@@ -1152,11 +1156,11 @@ void TopBarWidget::updateControlsVisibility() {
 		return;
 	}
 
-	const auto settings = &AyuSettings::getInstance();
+	const auto& settings = AyuSettings::getInstance();
 
 	_clear->show();
 	_delete->setVisible(_canDelete);
-	_messageShot->setVisible(settings->showMessageShot);
+	_messageShot->setVisible(settings.showMessageShot);
 	_forward->setVisible(_canForward);
 	_sendNow->setVisible(_canSendNow);
 
@@ -1333,19 +1337,19 @@ void TopBarWidget::updateMembersShowArea() {
 }
 
 bool TopBarWidget::showSelectedState() const {
-	const auto settings = &AyuSettings::getInstance();
+	const auto& settings = AyuSettings::getInstance();
 
 	return (_selectedCount > 0)
-		&& (_canDelete || _canForward || _canSendNow || settings->showMessageShot);
+		&& (_canDelete || _canForward || _canSendNow || settings.showMessageShot);
 }
 
 void TopBarWidget::showSelected(SelectedState state) {
-	const auto settings = &AyuSettings::getInstance();
+	const auto& settings = AyuSettings::getInstance();
 
 	auto canDelete = (state.count > 0 && state.count == state.canDeleteCount);
 	auto canForward = (state.count > 0 && state.count == state.canForwardCount);
 	auto canSendNow = (state.count > 0 && state.count == state.canSendNowCount);
-	auto count = (!canDelete && !canForward && !canSendNow && !settings->showMessageShot) ? 0 : state.count;
+	auto count = (!canDelete && !canForward && !canSendNow && !settings.showMessageShot) ? 0 : state.count;
 	if (_selectedCount == count
 		&& _canDelete == canDelete
 		&& _canForward == canForward
@@ -1620,7 +1624,7 @@ void TopBarWidget::refreshUnreadBadge() {
 			geometry.y() + st::titleUnreadCounterTop);
 	}, _unreadBadge->lifetime());
 
-	_unreadBadge->show();
+	_unreadBadge->setVisible(!rootChatsListBar());
 	_unreadBadge->setAttribute(Qt::WA_TransparentForMouseEvents);
 	_controller->session().data().unreadBadgeChanges(
 	) | rpl::start_with_next([=] {

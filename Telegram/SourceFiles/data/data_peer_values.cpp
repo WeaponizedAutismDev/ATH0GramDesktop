@@ -399,8 +399,8 @@ rpl::producer<bool> PeerPremiumValue(not_null<PeerData*> peer) {
 }
 
 rpl::producer<bool> AmPremiumValue(not_null<Main::Session*> session) {
-	auto settings = &AyuSettings::getInstance();
-	if (settings->localPremium) {
+	const auto& settings = AyuSettings::getInstance();
+	if (settings.localPremium) {
 		return rpl::single(true);
 	}
 
@@ -608,7 +608,7 @@ rpl::producer<int> UniqueReactionsLimitValue(
 	) | rpl::map([config = &peer->session().appConfig()] {
 		return UniqueReactionsLimit(config);
 	}) | rpl::distinct_until_changed();
-	if (const auto channel = peer->asChannel()) {
+	if (peer->isChannel()) {
 		return rpl::combine(
 			PeerAllowedReactionsValue(peer),
 			std::move(configValue)
@@ -617,7 +617,7 @@ rpl::producer<int> UniqueReactionsLimitValue(
 				? allowedReactions.maxCount
 				: limit;
 		});
-	} else if (const auto chat = peer->asChat()) {
+	} else if (peer->isChat()) {
 		return rpl::combine(
 			PeerAllowedReactionsValue(peer),
 			std::move(configValue)

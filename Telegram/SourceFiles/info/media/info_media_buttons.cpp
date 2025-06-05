@@ -64,7 +64,7 @@ namespace {
 	if (separateType == Window::SeparateSharedMediaType::None) {
 		return { nullptr };
 	}
-	return { Window::SeparateSharedMedia(separateType, peer, topicRootId) };
+	return { Window::SeparateSharedMedia{ separateType, peer, topicRootId } };
 }
 
 void AddContextMenuToButton(
@@ -294,6 +294,9 @@ not_null<Ui::SettingsButton*> AddPeerGiftsButton(
 		},
 		tracker)->entity();
 	result->addClickHandler([=] {
+		if (navigation->showFrozenError()) {
+			return;
+		}
 		navigation->showSection(
 			std::make_shared<Info::Memento>(
 				peer,

@@ -97,8 +97,6 @@ namespace {
 // Save draft to the cloud with 1 sec extra delay.
 constexpr auto kSaveCloudDraftTimeout = 1000;
 
-constexpr auto kTopPromotionInterval = TimeId(60 * 60);
-constexpr auto kTopPromotionMinDelay = TimeId(10);
 constexpr auto kSmallDelayMs = 5;
 constexpr auto kReadFeaturedSetsTimeout = crl::time(1000);
 constexpr auto kFileLoaderQueueStopTimeout = crl::time(5000);
@@ -169,7 +167,6 @@ ApiWrap::ApiWrap(not_null<Main::Session*> session)
 , _featuredSetsReadTimer([=] { readFeaturedSets(); })
 , _dialogsLoadState(std::make_unique<DialogsLoadState>())
 , _fileLoader(std::make_unique<TaskQueue>(kFileLoaderQueueStopTimeout))
-, _topPromotionTimer([=] { refreshTopPromotion(); })
 , _updateNotifyTimer([=] { sendNotifySettingsUpdates(); })
 , _statsSessionKillTimer([=] { checkStatsSessions(); })
 , _authorizations(std::make_unique<Api::Authorizations>(this))
@@ -205,11 +202,6 @@ ApiWrap::ApiWrap(not_null<Main::Session*> session)
 		}, _session->lifetime());
 
 		setupSupportMode();
-
-		Core::App().settings().proxy().connectionTypeValue(
-		) | rpl::start_with_next([=] {
-			refreshTopPromotion();
-		}, _session->lifetime());
 	});
 }
 
@@ -247,79 +239,6 @@ void ApiWrap::requestChangelog(
 	//)).done(
 	//	callback
 	//).send();
-}
-
-void ApiWrap::refreshTopPromotion() {
-	const auto now = base::unixtime::now();
-	const auto next = (_topPromotionNextRequestTime != 0)
-		? _topPromotionNextRequestTime
-		: now;
-	if (_topPromotionRequestId) {
-		getTopPromotionDelayed(now, next);
-		return;
-	}
-	const auto key = [&]() -> std::pair<QString, uint32> {
-		if (!Core::App().settings().proxy().isEnabled()) {
-			return {};
-		}
-		const auto &proxy = Core::App().settings().proxy().selected();
-		if (proxy.type != MTP::ProxyData::Type::Mtproto) {
-			return {};
-		}
-		return { proxy.host, proxy.port };
-	}();
-	if (_topPromotionKey == key && now < next) {
-		getTopPromotionDelayed(now, next);
-		return;
-	}
-	_topPromotionKey = key;
-	_topPromotionRequestId = request(MTPhelp_GetPromoData(
-	)).done([=](const MTPhelp_PromoData &result) {
-		_topPromotionRequestId = 0;
-		topPromotionDone(result);
-	}).fail([=] {
-		_topPromotionRequestId = 0;
-		const auto now = base::unixtime::now();
-		const auto next = _topPromotionNextRequestTime = now
-			+ kTopPromotionInterval;
-		if (!_topPromotionTimer.isActive()) {
-			getTopPromotionDelayed(now, next);
-		}
-	}).send();
-}
-
-void ApiWrap::getTopPromotionDelayed(TimeId now, TimeId next) {
-	_topPromotionTimer.callOnce(std::min(
-		std::max(next - now, kTopPromotionMinDelay),
-		kTopPromotionInterval) * crl::time(1000));
-};
-
-void ApiWrap::topPromotionDone(const MTPhelp_PromoData &proxy) {
-	_topPromotionNextRequestTime = proxy.match([&](const auto &data) {
-		return data.vexpires().v;
-	});
-	getTopPromotionDelayed(
-		base::unixtime::now(),
-		_topPromotionNextRequestTime);
-
-	const auto settings = &AyuSettings::getInstance();
-	if (settings->disableAds) {
-		_session->data().setTopPromoted(nullptr, QString(), QString());
-		return;
-	}
-
-	proxy.match([&](const MTPDhelp_promoDataEmpty &data) {
-		_session->data().setTopPromoted(nullptr, QString(), QString());
-	}, [&](const MTPDhelp_promoData &data) {
-		_session->data().processChats(data.vchats());
-		_session->data().processUsers(data.vusers());
-		const auto peerId = peerFromMTP(data.vpeer());
-		const auto history = _session->data().history(peerId);
-		_session->data().setTopPromoted(
-			history,
-			data.vpsa_type().value_or_empty(),
-			data.vpsa_message().value_or_empty());
-	});
 }
 
 void ApiWrap::requestDeepLinkInfo(
@@ -507,8 +426,8 @@ void ApiWrap::toggleHistoryArchived(
 		if (archived) {
 			history->setFolder(_session->data().folder(archiveId));
 		} else {
-			const auto settings = &AyuSettings::getInstance();
-			if (settings->hideAllChatsFolder) {
+			const auto& settings = AyuSettings::getInstance();
+			if (settings.hideAllChatsFolder) {
 				if (const auto window = Core::App().activeWindow()) {
 					if (const auto controller = window->sessionController()) {
 						const auto filters = &_session->data().chatsFilters();
@@ -1384,7 +1303,7 @@ void ApiWrap::migrateFail(not_null<PeerData*> peer, const QString &error) {
 
 void ApiWrap::markContentsRead(
 		const base::flat_set<not_null<HistoryItem*>> &items) {
-	const auto settings = &AyuSettings::getInstance();
+	const auto& settings = AyuSettings::getInstance();
 
 	auto markedIds = QVector<MTPint>();
 	auto channelMarkedIds = base::flat_map<
@@ -1398,7 +1317,7 @@ void ApiWrap::markContentsRead(
 			continue;
 		}
 
-		if (!settings->sendReadMessages && !passthrough) {
+		if (!settings.sendReadMessages && !passthrough) {
 			continue;
 		}
 
@@ -1430,8 +1349,8 @@ void ApiWrap::markContentsRead(not_null<HistoryItem*> item) {
 		return;
 	}
 
-	const auto settings = &AyuSettings::getInstance();
-	if (!settings->sendReadMessages && !passthrough) {
+	const auto& settings = AyuSettings::getInstance();
+	if (!settings.sendReadMessages && !passthrough) {
 		return;
 	}
 
@@ -1833,8 +1752,8 @@ void ApiWrap::joinChannel(not_null<ChannelData*> channel) {
 		using Flag = ChannelDataFlag;
 		chatParticipants().loadSimilarPeers(channel);
 
-		const auto settings = &AyuSettings::getInstance();
-		if (!settings->collapseSimilarChannels) {
+		const auto& settings = AyuSettings::getInstance();
+		if (!settings.collapseSimilarChannels) {
 			channel->setFlags(channel->flags() | Flag::SimilarExpanded);
 		}
 	}
@@ -3461,8 +3380,8 @@ void ApiWrap::forwardMessages(
 					shared->callback();
 				}
 
-				const auto settings = &AyuSettings::getInstance();
-				if (!settings->sendReadMessages && settings->markReadAfterAction && history->lastMessage())
+				const auto& settings = AyuSettings::getInstance();
+				if (!settings.sendReadMessages && settings.markReadAfterAction && history->lastMessage())
 				{
 					readHistory(history->lastMessage());
 				}

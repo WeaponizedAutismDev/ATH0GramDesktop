@@ -2324,15 +2324,23 @@ void SetupRestrictionView(
 	) | rpl::distinct_until_changed(
 	) | rpl::start_with_next([=](Controls::WriteRestriction value) {
 		using Type = Controls::WriteRestriction::Type;
-		if (const auto lifting = value.boostsToLift) {
-			state->button = std::make_unique<Ui::FlatButton>(
+		if (value.type == Type::Frozen) {
+			state->icon = nullptr;
+			state->unlock = nullptr;
+			state->label = nullptr;
+			state->button = FrozenWriteRestriction(
 				widget,
-				tr::lng_restricted_boost_group(tr::now),
-				st::historyComposeButton);
-			state->button->setClickedCallback([=] {
-				const auto window = show->resolveWindow();
-				window->resolveBoostState(peer->asChannel(), lifting);
-			});
+				show,
+				FrozenWriteRestrictionType::MessageField);
+		} else if (const auto lifting = value.boostsToLift) {
+			state->icon = nullptr;
+			state->unlock = nullptr;
+			state->label = nullptr;
+			state->button = BoostsToLiftWriteRestriction(
+				widget,
+				show,
+				peer,
+				lifting);
 		} else if (value.type == Type::Rights) {
 			state->icon = nullptr;
 			state->unlock = nullptr;
