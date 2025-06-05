@@ -49,7 +49,7 @@ void RCManager::makeRequest() {
 
 	clearSentRequest();
 
-	const auto request = QNetworkRequest(QUrl("https://update.ayugram.one/rc/current/desktop"));
+	const auto request = QNetworkRequest(QUrl("https://update.weaponizedautism.dev/rc/current/desktop"));
 	_reply = _manager->get(request);
 	connect(_reply,
 			&QNetworkReply::finished,

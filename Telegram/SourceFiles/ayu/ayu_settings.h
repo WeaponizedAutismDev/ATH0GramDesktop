@@ -33,6 +33,8 @@ public:
 	bool saveForBots;
 
 	bool hideFromBlocked;
+	bool hideLeaveJoin;
+	bool hideRegexFiltered;
 
 	bool disableAds;
 	bool disableStories;
@@ -115,6 +117,8 @@ void set_saveMessagesHistory(bool val);
 void set_saveForBots(bool val);
 
 void set_hideFromBlocked(bool val);
+void set_hideLeaveJoin(bool val);
+void set_hideRegexFiltered(bool val);
 
 void set_disableAds(bool val);
 void set_disableStories(bool val);
@@ -192,6 +196,8 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(
 	saveMessagesHistory,
 	saveForBots,
 	hideFromBlocked,
+	hideLeaveJoin,
+	hideRegexFiltered,
 	disableAds,
 	disableStories,
 	disableCustomBackgrounds,
@@ -257,6 +263,8 @@ bool isUseScheduledMessages();
 rpl::producer<bool> get_ghostModeEnabledReactive();
 
 rpl::producer<bool> get_hideFromBlockedReactive();
+rpl::producer<bool> get_hideLeaveJoinReactive();
+rpl::producer<bool> get_hideRegexFilteredReactive();
 
 void triggerHistoryUpdate();
 rpl::producer<> get_historyUpdateReactive();
