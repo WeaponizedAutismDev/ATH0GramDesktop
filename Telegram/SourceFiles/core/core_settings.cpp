@@ -1679,4 +1679,189 @@ void Settings::setQuickDialogAction(Dialogs::Ui::QuickDialogAction action) {
 	_quickDialogAction = action;
 }
 
+void Settings::setGalleryZoom(int zoom) {
+	_galleryZoom = std::clamp(zoom, 50, 200); // Allow zoom from 50% to 200%
+}
+
+int Settings::galleryZoom() const {
+	return _galleryZoom.current();
+}
+
+rpl::producer<int> Settings::galleryZoomChanges() const {
+	return _galleryZoom.changes();
+}
+
+void Settings::setVisitedLinks(const QMap<QString, bool> &links) {
+    _visitedLinks = links;
+    _visitedLinksChanges.fire_copy(links);
+    saveSettings();
+}
+
+QMap<QString, bool> Settings::visitedLinks() const {
+    return _visitedLinks.current();
+}
+
+rpl::producer<QMap<QString, bool>> Settings::visitedLinksChanges() const {
+    return _visitedLinks.changes();
+}
+
+void Settings::setMemberLinks(const QMap<QString, bool> &links) {
+    _memberLinks = links;
+    _memberLinksChanges.fire_copy(links);
+    saveSettings();
+}
+
+QMap<QString, bool> Settings::memberLinks() const {
+    return _memberLinks.current();
+}
+
+rpl::producer<QMap<QString, bool>> Settings::memberLinksChanges() const {
+    return _memberLinks.changes();
+}
+
+void Settings::setChannelNames(const QMap<QString, QString> &names) {
+    _channelNames = names;
+    _channelNamesChanges.fire_copy(names);
+    saveSettings();
+}
+
+QMap<QString, QString> Settings::channelNames() const {
+    return _channelNames.current();
+}
+
+rpl::producer<QMap<QString, QString>> Settings::channelNamesChanges() const {
+    return _channelNames.changes();
+}
+
+void Settings::setLinkLastSeen(const QMap<QString, QDateTime> &timestamps) {
+    _linkLastSeen = timestamps;
+    _linkLastSeenChanges.fire_copy(timestamps);
+    saveSettings();
+}
+
+QMap<QString, QDateTime> Settings::linkLastSeen() const {
+    return _linkLastSeen.current();
+}
+
+rpl::producer<QMap<QString, QDateTime>> Settings::linkLastSeenChanges() const {
+    return _linkLastSeen.changes();
+}
+
+void Settings::cleanupExpiredLinks(int daysThreshold) {
+    const auto now = QDateTime::currentDateTime();
+    auto visitedLinks = _visitedLinks.current();
+    auto memberLinks = _memberLinks.current();
+    auto channelNames = _channelNames.current();
+    auto lastSeen = _linkLastSeen.current();
+
+    // Remove expired entries
+    for (auto it = lastSeen.begin(); it != lastSeen.end();) {
+        if (it.value().daysTo(now) > daysThreshold) {
+            const auto url = it.key();
+            visitedLinks.remove(url);
+            memberLinks.remove(url);
+            channelNames.remove(url);
+            it = lastSeen.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    // Update all maps
+    setVisitedLinks(visitedLinks);
+    setMemberLinks(memberLinks);
+    setChannelNames(channelNames);
+    setLinkLastSeen(lastSeen);
+}
+
+void Settings::backupLinkData(const QString &path) {
+    QJsonObject backup;
+    
+    // Convert visited links
+    QJsonObject visitedObj;
+    for (auto it = _visitedLinks.current().begin(); it != _visitedLinks.current().end(); ++it) {
+        visitedObj[it.key()] = it.value();
+    }
+    backup["visited"] = visitedObj;
+
+    // Convert member links
+    QJsonObject memberObj;
+    for (auto it = _memberLinks.current().begin(); it != _memberLinks.current().end(); ++it) {
+        memberObj[it.key()] = it.value();
+    }
+    backup["members"] = memberObj;
+
+    // Convert channel names
+    QJsonObject namesObj;
+    for (auto it = _channelNames.current().begin(); it != _channelNames.current().end(); ++it) {
+        namesObj[it.key()] = it.value();
+    }
+    backup["names"] = namesObj;
+
+    // Convert last seen timestamps
+    QJsonObject seenObj;
+    for (auto it = _linkLastSeen.current().begin(); it != _linkLastSeen.current().end(); ++it) {
+        seenObj[it.key()] = it.value().toString(Qt::ISODate);
+    }
+    backup["lastSeen"] = seenObj;
+
+    // Save to file
+    QFile file(path);
+    if (file.open(QIODevice::WriteOnly)) {
+        QJsonDocument doc(backup);
+        file.write(doc.toJson());
+    }
+}
+
+void Settings::restoreLinkData(const QString &path) {
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly)) {
+        return;
+    }
+
+    const auto doc = QJsonDocument::fromJson(file.readAll());
+    if (!doc.isObject()) {
+        return;
+    }
+
+    const auto backup = doc.object();
+    
+    // Restore visited links
+    QMap<QString, bool> visitedLinks;
+    const auto visitedObj = backup["visited"].toObject();
+    for (auto it = visitedObj.begin(); it != visitedObj.end(); ++it) {
+        visitedLinks[it.key()] = it.value().toBool();
+    }
+    setVisitedLinks(visitedLinks);
+
+    // Restore member links
+    QMap<QString, bool> memberLinks;
+    const auto memberObj = backup["members"].toObject();
+    for (auto it = memberObj.begin(); it != memberObj.end(); ++it) {
+        memberLinks[it.key()] = it.value().toBool();
+    }
+    setMemberLinks(memberLinks);
+
+    // Restore channel names
+    QMap<QString, QString> channelNames;
+    const auto namesObj = backup["names"].toObject();
+    for (auto it = namesObj.begin(); it != namesObj.end(); ++it) {
+        channelNames[it.key()] = it.value().toString();
+    }
+    setChannelNames(channelNames);
+
+    // Restore last seen timestamps
+    QMap<QString, QDateTime> lastSeen;
+    const auto seenObj = backup["lastSeen"].toObject();
+    for (auto it = seenObj.begin(); it != seenObj.end(); ++it) {
+        lastSeen[it.key()] = QDateTime::fromString(it.value().toString(), Qt::ISODate);
+    }
+    setLinkLastSeen(lastSeen);
+}
+
+QString Settings::getDefaultBackupPath() const {
+    return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) 
+        + "/telegram_link_data_backup.json";
+}
+
 } // namespace Core

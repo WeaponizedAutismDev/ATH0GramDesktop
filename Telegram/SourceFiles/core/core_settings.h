@@ -958,6 +958,32 @@ public:
 
 	void resetOnLastLogout();
 
+	[[nodiscard]] int galleryZoom() const;
+	[[nodiscard]] rpl::producer<int> galleryZoomChanges() const;
+	void setGalleryZoom(int zoom);
+
+	[[nodiscard]] QMap<QString, bool> visitedLinks() const;
+	[[nodiscard]] rpl::producer<QMap<QString, bool>> visitedLinksChanges() const;
+	void setVisitedLinks(const QMap<QString, bool> &links);
+
+	[[nodiscard]] QMap<QString, bool> memberLinks() const;
+	[[nodiscard]] rpl::producer<QMap<QString, bool>> memberLinksChanges() const;
+	void setMemberLinks(const QMap<QString, bool> &links);
+
+	[[nodiscard]] QMap<QString, QString> channelNames() const;
+	[[nodiscard]] rpl::producer<QMap<QString, QString>> channelNamesChanges() const;
+	void setChannelNames(const QMap<QString, QString> &names);
+
+	[[nodiscard]] QMap<QString, QDateTime> linkLastSeen() const;
+	[[nodiscard]] rpl::producer<QMap<QString, QDateTime>> linkLastSeenChanges() const;
+	void setLinkLastSeen(const QMap<QString, QDateTime> &timestamps);
+	void cleanupExpiredLinks(int daysThreshold);
+
+	// Backup/Restore functionality
+	void backupLinkData(const QString &path);
+	void restoreLinkData(const QString &path);
+	[[nodiscard]] QString getDefaultBackupPath() const;
+
 private:
 	void resolveRecentEmoji() const;
 
