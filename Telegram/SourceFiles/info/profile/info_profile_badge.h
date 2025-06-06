@@ -44,6 +44,9 @@ enum class BadgeType {
 	Fake = 0x10,
 	Extera = 0x20,
 	ExteraSupporter = 0x40,
+	Bot = 0x80,
+	App = 0x100,
+	LinkedChannel = 0x200,
 };
 inline constexpr bool is_flag_type(BadgeType) { return true; }
 
