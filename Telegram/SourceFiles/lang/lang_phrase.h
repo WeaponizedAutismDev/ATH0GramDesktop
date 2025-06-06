@@ -14,4 +14,12 @@ LANG_PHRASE(lng_media_links_export_error, "Failed to export links")
 LANG_PHRASE(lng_media_links_scam_warning, "This link appears to be a scam")
 LANG_PHRASE(lng_media_links_disguised_warning, "This link redirects to an external site")
 LANG_PHRASE(lng_media_links_member_status, "You are a member of this channel/group")
-LANG_PHRASE(lng_media_links_visited_status, "You have visited this link before") 
+LANG_PHRASE(lng_media_links_visited_status, "You have visited this link before")
+
+// Link tracking detailed messages
+LANG_PHRASE(lng_media_links_backup_no_space_details, "Please free up some disk space and try again")
+LANG_PHRASE(lng_media_links_backup_error_details, "Could not create backup file. Please check file permissions")
+LANG_PHRASE(lng_media_links_restore_error_details, "Could not read backup file. Please check file permissions")
+LANG_PHRASE(lng_media_links_restore_too_large_details, "Backup file is too large. Maximum size is 10MB")
+LANG_PHRASE(lng_media_links_backup_progress, "Creating backup...")
+LANG_PHRASE(lng_media_links_restore_progress, "Restoring data...") 

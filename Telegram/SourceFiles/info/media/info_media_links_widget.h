@@ -10,6 +10,8 @@
 #include <QJsonObject>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QRegularExpression>
+#include <QCache>
 
 namespace Ui {
 class RippleButton;
@@ -23,6 +25,8 @@ namespace Media {
 constexpr int kMaxTrackedLinks = 10000;
 constexpr int kMaxBackupSize = 10 * 1024 * 1024; // 10MB
 constexpr int kMaxChannelNameLength = 100;
+constexpr int kBatchSize = 100; // Process links in batches
+constexpr int kRegexCacheSize = 100; // Cache size for regex patterns
 
 class ScamDetection : public QObject {
     Q_OBJECT
@@ -70,23 +74,37 @@ private:
     bool _showUnique = false;
 };
 
-class LinkTracker : public QObject {
-    Q_OBJECT
-
+class LinkTracker {
 public:
-    explicit LinkTracker(QObject *parent = nullptr);
-    
+    LinkTracker();
+    ~LinkTracker();
+
     void trackVisit(const QString &url);
+    void trackMembership(const QString &url, bool isMember);
+    void setChannelName(const QString &url, const QString &name);
     bool isVisited(const QString &url) const;
     bool isMember(const QString &url) const;
-    void setMember(const QString &url, bool isMember);
     QString getChannelName(const QString &url) const;
-    void setChannelName(const QString &url, const QString &name);
+    void cleanup();
+    void backupData();
+    void restoreData();
+    void exportData(const QString &format);
 
 private:
-    QMap<QString, bool> _visitedLinks;
-    QMap<QString, bool> _memberLinks;
-    QMap<QString, QString> _channelNames;
+    QHash<QString, bool> _visitedLinks;
+    QHash<QString, bool> _memberLinks;
+    QHash<QString, QString> _channelNames;
+    QHash<QString, QDateTime> _lastSeen;
+    QCache<QString, QRegularExpression> _regexCache;
+    QTimer _cleanupTimer;
+    bool _isProcessingBatch = false;
+    QQueue<QString> _batchQueue;
+
+    void processBatch();
+    QRegularExpression* getCachedRegex(const QString &pattern);
+    void saveState();
+    void loadState();
+    void checkMemoryUsage();
 };
 
 class LinkItem : public Ui::RippleButton {

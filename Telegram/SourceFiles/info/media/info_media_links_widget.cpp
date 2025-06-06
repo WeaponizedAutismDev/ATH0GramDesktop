@@ -166,47 +166,76 @@ QString ScamDetection::resolveRedirect(const QString &url) const {
     return url;
 }
 
-LinkTracker::LinkTracker(QObject *parent) : QObject(parent) {
-    // Load initial data from settings
-    _visitedLinks = Core::App().settings().visitedLinks();
-    _memberLinks = Core::App().settings().memberLinks();
-    _channelNames = Core::App().settings().channelNames();
-    _lastSeen = Core::App().settings().linkLastSeen();
-
-    // Subscribe to changes
-    Core::App().settings().visitedLinksChanges() | rpl::start_with_next([=](const QMap<QString, bool> &links) {
-        _visitedLinks = links;
-        emit linksChanged();
-    }, lifetime());
-
-    Core::App().settings().memberLinksChanges() | rpl::start_with_next([=](const QMap<QString, bool> &links) {
-        _memberLinks = links;
-        emit linksChanged();
-    }, lifetime());
-
-    Core::App().settings().channelNamesChanges() | rpl::start_with_next([=](const QMap<QString, QString> &names) {
-        _channelNames = names;
-        emit linksChanged();
-    }, lifetime());
-
-    Core::App().settings().linkLastSeenChanges() | rpl::start_with_next([=](const QMap<QString, QDateTime> &seen) {
-        _lastSeen = seen;
-        emit linksChanged();
-    }, lifetime());
-
-    // Setup periodic cleanup
+LinkTracker::LinkTracker() {
+    _regexCache.setMaxCost(kRegexCacheSize);
     _cleanupTimer.setInterval(24 * 60 * 60 * 1000); // 24 hours
-    connect(&_cleanupTimer, &QTimer::timeout, [=] {
-        Core::App().settings().cleanupExpiredLinks(30); // 30 days threshold
-    });
+    connect(&_cleanupTimer, &QTimer::timeout, this, &LinkTracker::cleanup);
     _cleanupTimer.start();
+    loadState();
+}
+
+LinkTracker::~LinkTracker() {
+    saveState();
 }
 
 void LinkTracker::trackVisit(const QString &url) {
+    if (_isProcessingBatch) {
+        _batchQueue.enqueue(url);
+        if (_batchQueue.size() >= kBatchSize) {
+            processBatch();
+        }
+        return;
+    }
+
     const auto now = QDateTime::currentDateTime();
+    checkMemoryUsage();
     
-    // Check if we've hit the link limit
-    if (_visitedLinks.size() >= kMaxTrackedLinks) {
+    if (!_visitedLinks.value(url, false)) {
+        _visitedLinks[url] = true;
+        saveState();
+    }
+    _lastSeen[url] = now;
+}
+
+void LinkTracker::processBatch() {
+    if (_batchQueue.isEmpty()) {
+        _isProcessingBatch = false;
+        return;
+    }
+
+    _isProcessingBatch = true;
+    const auto now = QDateTime::currentDateTime();
+    checkMemoryUsage();
+
+    for (int i = 0; i < kBatchSize && !_batchQueue.isEmpty(); ++i) {
+        const auto url = _batchQueue.dequeue();
+        if (!_visitedLinks.value(url, false)) {
+            _visitedLinks[url] = true;
+        }
+        _lastSeen[url] = now;
+    }
+
+    saveState();
+    _isProcessingBatch = false;
+
+    if (!_batchQueue.isEmpty()) {
+        QTimer::singleShot(0, this, &LinkTracker::processBatch);
+    }
+}
+
+QRegularExpression* LinkTracker::getCachedRegex(const QString &pattern) {
+    if (auto cached = _regexCache.object(pattern)) {
+        return cached;
+    }
+
+    auto regex = new QRegularExpression(pattern, QRegularExpression::CaseInsensitiveOption);
+    _regexCache.insert(pattern, regex);
+    return regex;
+}
+
+void LinkTracker::checkMemoryUsage() {
+    const auto totalLinks = _visitedLinks.size() + _memberLinks.size() + _channelNames.size();
+    if (totalLinks > kMaxTrackedLinks) {
         // Remove oldest entries
         auto oldest = _lastSeen.begin();
         for (auto it = _lastSeen.begin(); it != _lastSeen.end(); ++it) {
@@ -222,13 +251,16 @@ void LinkTracker::trackVisit(const QString &url) {
             _lastSeen.erase(oldest);
         }
     }
+}
 
-    if (!_visitedLinks.value(url, false)) {
-        _visitedLinks[url] = true;
-        Core::App().settings().setVisitedLinks(_visitedLinks);
-    }
-    _lastSeen[url] = now;
+void LinkTracker::saveState() {
+    Core::App().settings().setVisitedLinks(_visitedLinks);
     Core::App().settings().setLinkLastSeen(_lastSeen);
+}
+
+void LinkTracker::loadState() {
+    _visitedLinks = Core::App().settings().getVisitedLinks();
+    _lastSeen = Core::App().settings().getLinkLastSeen();
 }
 
 void LinkTracker::backupData() {
@@ -242,19 +274,38 @@ void LinkTracker::backupData() {
         // Check disk space
         QStorageInfo storage = QStorageInfo::root();
         if (storage.bytesAvailable() < kMaxBackupSize) {
-            Ui::show(Box<InformBox>(tr::lng_media_links_backup_no_space(tr::now)));
+            Ui::show(Box<InformBox>(
+                tr::lng_media_links_backup_no_space(tr::now),
+                tr::lng_media_links_backup_no_space_details(tr::now)));
             return;
         }
 
         // Check file permissions
         QFile file(path);
         if (!file.open(QIODevice::WriteOnly)) {
-            Ui::show(Box<InformBox>(tr::lng_media_links_backup_error(tr::now)));
+            Ui::show(Box<InformBox>(
+                tr::lng_media_links_backup_error(tr::now),
+                tr::lng_media_links_backup_error_details(tr::now)));
             return;
         }
 
-        Core::App().settings().backupLinkData(path);
-        Ui::show(Box<InformBox>(tr::lng_media_links_backup_success(tr::now)));
+        // Show progress
+        auto progress = Ui::show(Box<ProgressBox>(
+            tr::lng_media_links_backup_progress(tr::now)));
+        
+        // Perform backup in background
+        QTimer::singleShot(0, [=] {
+            try {
+                Core::App().settings().backupLinkData(path);
+                progress->closeBox();
+                Ui::show(Box<InformBox>(tr::lng_media_links_backup_success(tr::now)));
+            } catch (const std::exception &e) {
+                progress->closeBox();
+                Ui::show(Box<InformBox>(
+                    tr::lng_media_links_backup_error(tr::now),
+                    QString("Error: %1").arg(e.what())));
+            }
+        });
     }
 }
 
@@ -268,25 +319,43 @@ void LinkTracker::restoreData() {
     if (!path.isEmpty()) {
         QFile file(path);
         if (!file.open(QIODevice::ReadOnly)) {
-            Ui::show(Box<InformBox>(tr::lng_media_links_restore_error(tr::now)));
+            Ui::show(Box<InformBox>(
+                tr::lng_media_links_restore_error(tr::now),
+                tr::lng_media_links_restore_error_details(tr::now)));
             return;
         }
 
         // Check file size
         if (file.size() > kMaxBackupSize) {
-            Ui::show(Box<InformBox>(tr::lng_media_links_restore_too_large(tr::now)));
+            Ui::show(Box<InformBox>(
+                tr::lng_media_links_restore_too_large(tr::now),
+                tr::lng_media_links_restore_too_large_details(tr::now)));
             return;
         }
 
-        // Validate JSON
-        const auto doc = QJsonDocument::fromJson(file.readAll());
-        if (!doc.isObject()) {
-            Ui::show(Box<InformBox>(tr::lng_media_links_restore_invalid(tr::now)));
-            return;
-        }
+        // Show progress
+        auto progress = Ui::show(Box<ProgressBox>(
+            tr::lng_media_links_restore_progress(tr::now)));
+        
+        // Perform restore in background
+        QTimer::singleShot(0, [=] {
+            try {
+                // Validate JSON
+                const auto doc = QJsonDocument::fromJson(file.readAll());
+                if (!doc.isObject()) {
+                    throw std::runtime_error("Invalid backup file format");
+                }
 
-        Core::App().settings().restoreLinkData(path);
-        Ui::show(Box<InformBox>(tr::lng_media_links_restore_success(tr::now)));
+                Core::App().settings().restoreLinkData(path);
+                progress->closeBox();
+                Ui::show(Box<InformBox>(tr::lng_media_links_restore_success(tr::now)));
+            } catch (const std::exception &e) {
+                progress->closeBox();
+                Ui::show(Box<InformBox>(
+                    tr::lng_media_links_restore_error(tr::now),
+                    QString("Error: %1").arg(e.what())));
+            }
+        });
     }
 }
 
