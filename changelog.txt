@@ -1039,7 +1039,7 @@ the icon names are snap.telegram-desktop.{,{,-attention,-mute}-symbolic}
 - Read receipts in groups under 100 members now show reaction timestamps and when your messages were read.
 - When inviting people to groups, you can quickly send invite links to anyone who doesn't allow adding them directly.
 - Invite links now show previews in chats.
-- Fully translatable bots. Bot descriptions and ”What can this bot do?" sections can now be translated.
+- Fully translatable bots. Bot descriptions and "What can this bot do?" sections can now be translated.
 - Starting a call now shows a confirmation window.
 - Fixed pasting images from Firefox on Windows.
 - Global Fn+F shortcut to switch active window to full screen mode on macOS.
@@ -3039,7 +3039,7 @@ Added formatting shortcuts. Select text and use:
 
 - Groups with unread mentions and replies are now marked with an '@' badge in the chats list.
 - Navigate new mentions and replies in a group using the new '@' button.
-- Mark your stickers as “favorite” to quickly access them from the redesigned sticker panel.
+- Mark your stickers as "favorite" to quickly access them from the redesigned sticker panel.
 - Add an official sticker set for your group which all members will be able to use while chatting in your group (100+ member groups only).
 
 1.1.19 (01.08.17)
@@ -4668,3 +4668,21 @@ Added formatting shortcuts. Select text and use:
 - Added «Delete Message» and «Forward Message» items to context menus.
 - No PUSH-notifications are sent to your mobile phone from the currently active Telegram Win conversation.
 - Fixed issue with broken long links in messages copied to clipboard.
+
+[2024-03-19]
+- Added link tracking system with persistence
+  * Tracks visited links and channel/group membership
+  * Shows visual indicators for visited and member links
+  * Displays friendly channel names instead of hashed URLs
+  * Automatically expires links not seen in 30 days
+  * Added backup/restore functionality for link data
+- Added scam detection for disguised links
+  * Detects t.me links that redirect to external sites
+  * Identifies crypto scams and referral links
+  * Shows visual warnings for suspicious links
+  * Strikes through or removes disguised scam links
+- Added export functionality for shared links
+  * Export to JSON and CSV formats
+  * Includes all link metadata
+  * Option to show only unique links
+  * File dialog for choosing save location

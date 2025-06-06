@@ -1359,133 +1359,78 @@ void OverlayWidget::showPremiumDownloadPromo() {
 }
 
 void OverlayWidget::updateControls() {
-	if (_document && documentBubbleShown()) {
-		_docRect = QRect(
-			(width() - st::mediaviewFileSize.width()) / 2,
-			_minUsedTop + (_maxUsedHeight - st::mediaviewFileSize.height()) / 2,
-			st::mediaviewFileSize.width(),
-			st::mediaviewFileSize.height());
-		_docIconRect = QRect(
-			_docRect.x() + st::mediaviewFilePadding,
-			_docRect.y() + st::mediaviewFilePadding,
-			st::mediaviewFileIconSize,
-			st::mediaviewFileIconSize);
-		if (_document->loading()) {
-			_docDownload->hide();
-			_docSaveAs->hide();
-			_docCancel->moveToLeft(_docRect.x() + 2 * st::mediaviewFilePadding + st::mediaviewFileIconSize, _docRect.y() + st::mediaviewFilePadding + st::mediaviewFileLinksTop);
-			_docCancel->show();
-		} else {
-			if (_documentMedia->loaded(true)) {
-				_docDownload->hide();
-				_docSaveAs->moveToLeft(_docRect.x() + 2 * st::mediaviewFilePadding + st::mediaviewFileIconSize, _docRect.y() + st::mediaviewFilePadding + st::mediaviewFileLinksTop);
-				_docSaveAs->show();
-				_docCancel->hide();
-			} else {
-				_docDownload->moveToLeft(_docRect.x() + 2 * st::mediaviewFilePadding + st::mediaviewFileIconSize, _docRect.y() + st::mediaviewFilePadding + st::mediaviewFileLinksTop);
-				_docDownload->show();
-				_docSaveAs->moveToLeft(_docRect.x() + 2.5 * st::mediaviewFilePadding + st::mediaviewFileIconSize + _docDownload->width(), _docRect.y() + st::mediaviewFilePadding + st::mediaviewFileLinksTop);
-				_docSaveAs->show();
-				_docCancel->hide();
+	if (!_current) {
+		return;
+	}
+
+	const auto item = _current->item();
+	if (!item) {
+		return;
+	}
+
+	const auto media = item->media();
+	if (!media) {
+		return;
+	}
+
+	const auto canDownload = media->canDownload();
+	const auto canSave = media->canSave();
+	const auto isSelected = _selected.contains(item->fullId());
+
+	// Add download and save actions to the menu
+	if (isSelected) {
+		_menu->addAction(tr::lng_media_download_selected(tr::now), [=] {
+			downloadSelected();
+		}, &st::mediaDownloadIcon);
+		_menu->addAction(tr::lng_media_save_selected(tr::now), [=] {
+			saveSelected();
+		}, &st::mediaSaveIcon);
+	} else if (canDownload) {
+		_menu->addAction(tr::lng_media_download(tr::now), [=] {
+			downloadCurrent();
+		}, &st::mediaDownloadIcon);
+	}
+	if (canSave) {
+		_menu->addAction(tr::lng_media_save(tr::now), [=] {
+			saveCurrent();
+		}, &st::mediaSaveIcon);
+	}
+}
+
+void OverlayWidget::downloadSelected() {
+	for (const auto &itemId : _selected) {
+		if (const auto item = _session->data().message(itemId)) {
+			if (const auto media = item->media()) {
+				media->download();
 			}
 		}
-		updateDocSize();
-	} else {
-		_docIconRect = QRect(
-			(width() - st::mediaviewFileIconSize) / 2,
-			_minUsedTop + (_maxUsedHeight - st::mediaviewFileIconSize) / 2,
-			st::mediaviewFileIconSize,
-			st::mediaviewFileIconSize);
-		_docDownload->hide();
-		_docSaveAs->hide();
-		_docCancel->hide();
 	}
-	radialStart();
+}
 
-	updateThemePreviewGeometry();
-
-	const auto story = _stories ? _stories->story() : nullptr;
-	const auto overRect = QRect(
-		QPoint(),
-		QSize(st::mediaviewIconOver, st::mediaviewIconOver));
-	_saveVisible = computeSaveButtonVisible();
-	_shareVisible = story && story->canShare();
-	_rotateVisible = !_themePreviewShown && !story;
-	const auto navRect = [&](int i) {
-		return QRect(
-			width() - st::mediaviewIconSize.width() * i,
-			height() - st::mediaviewIconSize.height(),
-			st::mediaviewIconSize.width(),
-			st::mediaviewIconSize.height());
-	};
-	auto index = 1;
-	_moreNav = navRect(index);
-	_moreNavOver = style::centerrect(_moreNav, overRect);
-	_moreNavIcon = style::centerrect(_moreNav, st::mediaviewMore);
-	++index;
-	_rotateNav = navRect(index);
-	_rotateNavOver = style::centerrect(_rotateNav, overRect);
-	_rotateNavIcon = style::centerrect(_rotateNav, st::mediaviewRotate);
-	if (_rotateVisible) {
-		++index;
-	}
-	_shareNav = navRect(index);
-	_shareNavOver = style::centerrect(_shareNav, overRect);
-	_shareNavIcon = style::centerrect(_shareNav, st::mediaviewShare);
-	if (_shareVisible) {
-		++index;
-	}
-	_saveNav = navRect(index);
-	_saveNavOver = style::centerrect(_saveNav, overRect);
-	_saveNavIcon = style::centerrect(_saveNav, st::mediaviewSave);
-	Assert(st::mediaviewSave.size() == st::mediaviewSaveLocked.size());
-
-	const auto dNow = QDateTime::currentDateTime();
-	const auto d = [&] {
-		if (_message) {
-			return ItemDateTime(_message);
-		} else if (_photo) {
-			return base::unixtime::parse(_photo->date());
-		} else if (_document) {
-			return base::unixtime::parse(_document->date);
+void OverlayWidget::saveSelected() {
+	for (const auto &itemId : _selected) {
+		if (const auto item = _session->data().message(itemId)) {
+			if (const auto media = item->media()) {
+				media->save();
+			}
 		}
-		return dNow;
-	}();
-	_dateText = d.isValid() ? Ui::FormatDateTime(d) : QString();
-	if (_photo) {
-		_dateText += QString(", DC%1").arg(_photo->getDC());
-	} else if (_document) {
-		_dateText += QString(", DC%1").arg(_document->getDC());
 	}
-	if (!_fromName.isEmpty()) {
-		_fromNameLabel.setText(
-			st::mediaviewTextStyle,
-			_fromName,
-			Ui::NameTextOptions());
-		_nameNav = QRect(
-			st::mediaviewTextLeft,
-			height() - st::mediaviewTextTop,
-			qMin(_fromNameLabel.maxWidth(), width() / 3),
-			st::mediaviewFont->height);
-		_dateNav = QRect(
-			st::mediaviewTextLeft + _nameNav.width() + st::mediaviewTextSkip,
-			height() - st::mediaviewTextTop,
-			st::mediaviewFont->width(_dateText),
-			st::mediaviewFont->height);
-	} else {
-		_nameNav = QRect();
-		_dateNav = QRect(
-			st::mediaviewTextLeft,
-			height() - st::mediaviewTextTop,
-			st::mediaviewFont->width(_dateText),
-			st::mediaviewFont->height);
-	}
-	updateHeader();
-	refreshNavVisibility();
-	resizeCenteredControls();
+}
 
-	updateOver(_widget->mapFromGlobal(QCursor::pos()));
-	update();
+void OverlayWidget::downloadCurrent() {
+	if (const auto item = _current->item()) {
+		if (const auto media = item->media()) {
+			media->download();
+		}
+	}
+}
+
+void OverlayWidget::saveCurrent() {
+	if (const auto item = _current->item()) {
+		if (const auto media = item->media()) {
+			media->save();
+		}
+	}
 }
 
 void OverlayWidget::resizeCenteredControls() {
@@ -5601,29 +5546,27 @@ void OverlayWidget::handleKeyPress(not_null<QKeyEvent*> e) {
 }
 
 void OverlayWidget::handleWheelEvent(not_null<QWheelEvent*> e) {
-	constexpr auto step = int(QWheelEvent::DefaultDeltasPerStep);
-
-	const auto acceptForJump = !_stories
-		&& ((e->source() == Qt::MouseEventNotSynthesized)
-			|| (e->source() == Qt::MouseEventSynthesizedBySystem));
-	_verticalWheelDelta += e->angleDelta().y();
-	while (qAbs(_verticalWheelDelta) >= step) {
-		if (_verticalWheelDelta < 0) {
-			_verticalWheelDelta += step;
-			if (e->modifiers().testFlag(Qt::ControlModifier)) {
-				zoomOut();
-			} else if (acceptForJump) {
-				moveToNext(1);
-			}
-		} else {
-			_verticalWheelDelta -= step;
-			if (e->modifiers().testFlag(Qt::ControlModifier)) {
-				zoomIn();
-			} else if (acceptForJump) {
-				moveToNext(-1);
-			}
-		}
+	if (e->modifiers() & Qt::ControlModifier) {
+		const auto delta = e->angleDelta().y();
+		const auto currentZoom = Core::App().settings().galleryZoom();
+		const auto newZoom = std::clamp(
+			currentZoom + (delta > 0 ? 10 : -10),
+			50, 200);
+		Core::App().settings().setGalleryZoom(newZoom);
+		Core::App().saveSettingsDelayed();
+		updateZoom();
+		e->accept();
+		return;
 	}
+	RpWidget::wheelEvent(e);
+}
+
+void OverlayWidget::updateZoom() {
+	const auto zoom = Core::App().settings().galleryZoom() / 100.0;
+	if (_current) {
+		_current->setZoom(zoom);
+	}
+	update();
 }
 
 void OverlayWidget::setZoomLevel(int newZoom, bool force) {
