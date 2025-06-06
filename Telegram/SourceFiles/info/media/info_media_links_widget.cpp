@@ -204,6 +204,25 @@ LinkTracker::LinkTracker(QObject *parent) : QObject(parent) {
 
 void LinkTracker::trackVisit(const QString &url) {
     const auto now = QDateTime::currentDateTime();
+    
+    // Check if we've hit the link limit
+    if (_visitedLinks.size() >= kMaxTrackedLinks) {
+        // Remove oldest entries
+        auto oldest = _lastSeen.begin();
+        for (auto it = _lastSeen.begin(); it != _lastSeen.end(); ++it) {
+            if (it.value() < oldest.value()) {
+                oldest = it;
+            }
+        }
+        if (oldest != _lastSeen.end()) {
+            const auto url = oldest.key();
+            _visitedLinks.remove(url);
+            _memberLinks.remove(url);
+            _channelNames.remove(url);
+            _lastSeen.erase(oldest);
+        }
+    }
+
     if (!_visitedLinks.value(url, false)) {
         _visitedLinks[url] = true;
         Core::App().settings().setVisitedLinks(_visitedLinks);
@@ -220,7 +239,22 @@ void LinkTracker::backupData() {
         "JSON Files (*.json)");
     
     if (!path.isEmpty()) {
+        // Check disk space
+        QStorageInfo storage = QStorageInfo::root();
+        if (storage.bytesAvailable() < kMaxBackupSize) {
+            Ui::show(Box<InformBox>(tr::lng_media_links_backup_no_space(tr::now)));
+            return;
+        }
+
+        // Check file permissions
+        QFile file(path);
+        if (!file.open(QIODevice::WriteOnly)) {
+            Ui::show(Box<InformBox>(tr::lng_media_links_backup_error(tr::now)));
+            return;
+        }
+
         Core::App().settings().backupLinkData(path);
+        Ui::show(Box<InformBox>(tr::lng_media_links_backup_success(tr::now)));
     }
 }
 
@@ -232,7 +266,27 @@ void LinkTracker::restoreData() {
         "JSON Files (*.json)");
     
     if (!path.isEmpty()) {
+        QFile file(path);
+        if (!file.open(QIODevice::ReadOnly)) {
+            Ui::show(Box<InformBox>(tr::lng_media_links_restore_error(tr::now)));
+            return;
+        }
+
+        // Check file size
+        if (file.size() > kMaxBackupSize) {
+            Ui::show(Box<InformBox>(tr::lng_media_links_restore_too_large(tr::now)));
+            return;
+        }
+
+        // Validate JSON
+        const auto doc = QJsonDocument::fromJson(file.readAll());
+        if (!doc.isObject()) {
+            Ui::show(Box<InformBox>(tr::lng_media_links_restore_invalid(tr::now)));
+            return;
+        }
+
         Core::App().settings().restoreLinkData(path);
+        Ui::show(Box<InformBox>(tr::lng_media_links_restore_success(tr::now)));
     }
 }
 
@@ -284,7 +338,7 @@ void LinkItem::setMember(bool member) {
 
 void LinkItem::setChannelName(const QString &name) {
     if (_channelName != name) {
-        _channelName = name;
+        _channelName = name.left(kMaxChannelNameLength);
         update();
     }
 }

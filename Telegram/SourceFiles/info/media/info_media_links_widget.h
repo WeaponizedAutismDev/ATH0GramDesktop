@@ -1,3 +1,29 @@
+#pragma once
+
+#include "base/object_ptr.h"
+#include "ui/effects/ripple_animation.h"
+#include "ui/widgets/scroll_area.h"
+#include "ui/widgets/buttons.h"
+#include "core/settings.h"
+#include <QTimer>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QFileDialog>
+#include <QStandardPaths>
+
+namespace Ui {
+class RippleButton;
+class ToggleView;
+class IconButton;
+} // namespace Ui
+
+namespace Info {
+namespace Media {
+
+constexpr int kMaxTrackedLinks = 10000;
+constexpr int kMaxBackupSize = 10 * 1024 * 1024; // 10MB
+constexpr int kMaxChannelNameLength = 100;
+
 class ScamDetection : public QObject {
     Q_OBJECT
 
@@ -80,4 +106,7 @@ private:
     bool _member = false;
     QString _channelName;
     std::unique_ptr<Ui::RippleAnimation> _ripple;
-}; 
+};
+
+} // namespace Media
+} // namespace Info 
