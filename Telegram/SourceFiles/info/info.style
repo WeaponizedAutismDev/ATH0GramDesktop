@@ -27,6 +27,12 @@ InfoPeerBadge {
 	premiumFg: color;
 	position: point;
 	sizeTag: int;
+	bot: icon;
+	app: icon;
+	linkedChannel: icon;
+	badgeSpacing: pixels;
+	badgeAnimation: bool;
+	badgeTooltip: bool;
 }
 
 InfoTopBar {
@@ -441,6 +447,12 @@ infoPeerBadge: InfoPeerBadge {
 	premiumFg: profileVerifiedCheckBg;
 	position: infoVerifiedCheckPosition;
 	sizeTag: 0; // Normal
+	bot: infoIconBot;
+	app: infoIconApp;
+	linkedChannel: infoIconLinkedChannel;
+	badgeSpacing: 4px;
+	badgeAnimation: true;
+	badgeTooltip: true;
 }
 
 infoIconFg: windowBoldFg;
@@ -1189,4 +1201,31 @@ infoMediaRefreshButton: IconButton(defaultIconButton) {
 	ripple: RippleAnimation(defaultRippleAnimation) {
 		color: lightButtonBgOver;
 	}
+}
+
+infoIconBot: icon {{ "menu/bot", infoIconFg }} {
+	size: 18px;
+	glow: true;
+	glowColor: infoIconFg;
+	glowRadius: 2px;
+	hoverScale: 1.1;
+	transition: all 0.2s ease;
+}
+
+infoIconApp: icon {{ "menu/app", infoIconFg }} {
+	size: 18px;
+	glow: true;
+	glowColor: infoIconFg;
+	glowRadius: 2px;
+	hoverScale: 1.1;
+	transition: all 0.2s ease;
+}
+
+infoIconLinkedChannel: icon {{ "menu/channel", infoIconFg }} {
+	size: 18px;
+	glow: true;
+	glowColor: infoIconFg;
+	glowRadius: 2px;
+	hoverScale: 1.1;
+	transition: all 0.2s ease;
 }

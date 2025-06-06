@@ -87,6 +87,39 @@ void Badge::setContent(Content content) {
 	}
 	_view.create(_parent);
 	_view->show();
+
+	// Set up tooltip
+	if (_st.badgeTooltip) {
+		QString tooltipText;
+		switch (_content.badge) {
+		case BadgeType::Bot:
+			tooltipText = tr::lng_bot_badge_tooltip(tr::now);
+			break;
+		case BadgeType::App:
+			tooltipText = tr::lng_app_badge_tooltip(tr::now);
+			break;
+		case BadgeType::LinkedChannel:
+			tooltipText = tr::lng_linked_channel_badge_tooltip(tr::now);
+			break;
+		default:
+			break;
+		}
+		if (!tooltipText.isEmpty()) {
+			_view->setTooltipText(tooltipText);
+		}
+	}
+
+	// Set up animation
+	if (_st.badgeAnimation) {
+		_view->setAttribute(Qt::WA_TransparentForMouseEvents, false);
+		_view->setCursor(style::cur_pointer);
+		_view->setClickedCallback([this] {
+			if (_content.badge == BadgeType::Premium && _premiumClickCallback) {
+				_premiumClickCallback();
+			}
+		});
+	}
+
 	switch (_content.badge) {
 	case BadgeType::Verified:
 	case BadgeType::BotVerified:
@@ -167,6 +200,75 @@ void Badge::setContent(Content content) {
 		_view->paintRequest(
 		) | rpl::start_with_next([=, check = _view.data()]{
 			Painter p(check);
+			icon->paint(p, skip, 0, check->width());
+		}, _view->lifetime());
+	} break;
+	case BadgeType::Bot: {
+		const auto icon = &_st.bot;
+		const auto skip = st::infoVerifiedCheckPosition.x();
+		_view->resize(
+			icon->width() + skip,
+			icon->height());
+		_view->paintRequest(
+		) | rpl::start_with_next([=, check = _view.data()]{
+			Painter p(check);
+			if (_st.badgeAnimation) {
+				const auto scale = check->isOver() ? _st.bot.hoverScale : 1.0;
+				p.translate(check->width() / 2, check->height() / 2);
+				p.scale(scale, scale);
+				p.translate(-check->width() / 2, -check->height() / 2);
+			}
+			if (_st.bot.glow) {
+				p.setPen(Qt::NoPen);
+				p.setBrush(_st.bot.glowColor);
+				p.drawEllipse(QRectF(skip - 1, -1, icon->width() + 2, icon->height() + 2));
+			}
+			icon->paint(p, skip, 0, check->width());
+		}, _view->lifetime());
+	} break;
+	case BadgeType::App: {
+		const auto icon = &_st.app;
+		const auto skip = st::infoVerifiedCheckPosition.x();
+		_view->resize(
+			icon->width() + skip,
+			icon->height());
+		_view->paintRequest(
+		) | rpl::start_with_next([=, check = _view.data()]{
+			Painter p(check);
+			if (_st.badgeAnimation) {
+				const auto scale = check->isOver() ? _st.app.hoverScale : 1.0;
+				p.translate(check->width() / 2, check->height() / 2);
+				p.scale(scale, scale);
+				p.translate(-check->width() / 2, -check->height() / 2);
+			}
+			if (_st.app.glow) {
+				p.setPen(Qt::NoPen);
+				p.setBrush(_st.app.glowColor);
+				p.drawEllipse(QRectF(skip - 1, -1, icon->width() + 2, icon->height() + 2));
+			}
+			icon->paint(p, skip, 0, check->width());
+		}, _view->lifetime());
+	} break;
+	case BadgeType::LinkedChannel: {
+		const auto icon = &_st.linkedChannel;
+		const auto skip = st::infoVerifiedCheckPosition.x();
+		_view->resize(
+			icon->width() + skip,
+			icon->height());
+		_view->paintRequest(
+		) | rpl::start_with_next([=, check = _view.data()]{
+			Painter p(check);
+			if (_st.badgeAnimation) {
+				const auto scale = check->isOver() ? _st.linkedChannel.hoverScale : 1.0;
+				p.translate(check->width() / 2, check->height() / 2);
+				p.scale(scale, scale);
+				p.translate(-check->width() / 2, -check->height() / 2);
+			}
+			if (_st.linkedChannel.glow) {
+				p.setPen(Qt::NoPen);
+				p.setBrush(_st.linkedChannel.glowColor);
+				p.drawEllipse(QRectF(skip - 1, -1, icon->width() + 2, icon->height() + 2));
+			}
 			icon->paint(p, skip, 0, check->width());
 		}, _view->lifetime());
 	} break;

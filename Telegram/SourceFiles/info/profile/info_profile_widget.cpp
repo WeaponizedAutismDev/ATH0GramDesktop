@@ -161,4 +161,133 @@ void Widget::restoreState(not_null<Memento*> memento) {
 	scrollTopRestore(memento->scrollTop());
 }
 
+void Widget::setupBadge() {
+	using BadgeType = Profile::BadgeType;
+	auto allowed = base::flags<BadgeType>();
+	allowed |= BadgeType::Verified;
+	allowed |= BadgeType::Premium;
+	allowed |= BadgeType::Scam;
+	allowed |= BadgeType::Fake;
+	allowed |= BadgeType::Extera;
+	allowed |= BadgeType::ExteraSupporter;
+	allowed |= BadgeType::Bot;
+	allowed |= BadgeType::App;
+	allowed |= BadgeType::LinkedChannel;
+
+	_badge = std::make_unique<Profile::Badge>(
+		this,
+		st::infoPeerBadge,
+		&_controller->session(),
+		rpl::single(Profile::Badge::Content()),
+		_emojiStatusPanel.get(),
+		[=] { return _controller->isStackBottom(); },
+		0,
+		allowed);
+
+	_badge->setPremiumClickCallback([=] {
+		_controller->showPremium();
+	});
+
+	_controller->session().changes().peerFlagsValue(
+		_controller->key().peer()
+	) | rpl::map([=](const Data::PeerUpdate &update) {
+		return update.flags;
+	}) | rpl::start_with_next([=](Data::PeerUpdate::Flags flags) {
+		if (flags & Data::PeerUpdate::Flag::FullInfo) {
+			updateBadge();
+		}
+	}, _badge->lifetime());
+
+	_controller->session().changes().peerUpdates(
+		_controller->key().peer(),
+		Data::PeerUpdate::Flag::FullInfo
+	) | rpl::start_with_next([=](const Data::PeerUpdate &update) {
+		updateBadge();
+	}, _badge->lifetime());
+}
+
+void Widget::updateBadge() {
+	const auto peer = _controller->key().peer();
+	if (!peer) {
+		return;
+	}
+
+	auto content = Profile::Badge::Content();
+	auto badges = base::flags<Profile::BadgeType>();
+	
+	// Check for bot
+	if (peer->isBot()) {
+		badges |= Profile::BadgeType::Bot;
+	}
+	// Check for app
+	if (peer->isApp()) {
+		badges |= Profile::BadgeType::App;
+	}
+	// Check for linked channel
+	if (const auto user = peer->asUser()) {
+		if (user->hasLinkedChannel()) {
+			// Verify the linked channel is accessible
+			if (const auto channel = user->linkedChannel()) {
+				if (channel->canView()) {
+					badges |= Profile::BadgeType::LinkedChannel;
+				}
+			}
+		}
+	}
+	// Check for verified status
+	if (peer->isVerified()) {
+		badges |= Profile::BadgeType::Verified;
+	}
+	// Check for premium status
+	if (peer->isPremium()) {
+		badges |= Profile::BadgeType::Premium;
+	}
+	// Check for scam/fake status
+	if (peer->isScam()) {
+		badges |= Profile::BadgeType::Scam;
+	}
+	else if (peer->isFake()) {
+		badges |= Profile::BadgeType::Fake;
+	}
+	// Check for Extera status
+	if (peer->isExtera()) {
+		badges |= Profile::BadgeType::Extera;
+	}
+	else if (peer->isExteraSupporter()) {
+		badges |= Profile::BadgeType::ExteraSupporter;
+	}
+
+	// Set the primary badge (the one that will be shown)
+	// Priority: Bot > App > LinkedChannel > Verified > Premium > Others
+	if (badges & Profile::BadgeType::Bot) {
+		content.badge = Profile::BadgeType::Bot;
+	}
+	else if (badges & Profile::BadgeType::App) {
+		content.badge = Profile::BadgeType::App;
+	}
+	else if (badges & Profile::BadgeType::LinkedChannel) {
+		content.badge = Profile::BadgeType::LinkedChannel;
+	}
+	else if (badges & Profile::BadgeType::Verified) {
+		content.badge = Profile::BadgeType::Verified;
+	}
+	else if (badges & Profile::BadgeType::Premium) {
+		content.badge = Profile::BadgeType::Premium;
+	}
+	else if (badges & Profile::BadgeType::Scam) {
+		content.badge = Profile::BadgeType::Scam;
+	}
+	else if (badges & Profile::BadgeType::Fake) {
+		content.badge = Profile::BadgeType::Fake;
+	}
+	else if (badges & Profile::BadgeType::Extera) {
+		content.badge = Profile::BadgeType::Extera;
+	}
+	else if (badges & Profile::BadgeType::ExteraSupporter) {
+		content.badge = Profile::BadgeType::ExteraSupporter;
+	}
+
+	_badge->setContent(content);
+}
+
 } // namespace Info::Profile
