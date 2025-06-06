@@ -666,6 +666,19 @@ void SetupMessageFilters(not_null<Ui::VerticalLayout*> container) {
 
 	AddSubsectionTitle(container, tr::ayu_RegexFilters());
 
+	// Global filters management button
+	AddButtonWithIcon(
+		container,
+		tr::ayu_RegexFiltersManage(),
+		st::settingsButtonNoIcon
+	)->setClickedCallback([=] {
+		const auto box = Box<RegexFiltersList>(nullptr);
+		box->setCloseByOutsideClick(false);
+		box->setCloseByEscape(false);
+		container->parentWidget()->getDelegate()->show(std::move(box));
+	});
+
+	// Existing toggles
 	AddButtonWithIcon(
 		container,
 		tr::ayu_FiltersHideFromBlocked(),
@@ -674,12 +687,10 @@ void SetupMessageFilters(not_null<Ui::VerticalLayout*> container) {
 		rpl::single(settings.hideFromBlocked)
 	)->toggledValue(
 	) | rpl::filter(
-		[=](bool enabled)
-		{
+		[=](bool enabled) {
 			return (enabled != settings.hideFromBlocked);
 		}) | start_with_next(
-		[=](bool enabled)
-		{
+		[=](bool enabled) {
 			AyuSettings::set_hideFromBlocked(enabled);
 			AyuSettings::save();
 		},
@@ -693,16 +704,15 @@ void SetupMessageFilters(not_null<Ui::VerticalLayout*> container) {
 		rpl::single(settings.hideJoinLeave)
 	)->toggledValue(
 	) | rpl::filter(
-		[=](bool enabled)
-		{
+		[=](bool enabled) {
 			return (enabled != settings.hideJoinLeave);
 		}) | start_with_next(
-		[=](bool enabled)
-		{
+		[=](bool enabled) {
 			AyuSettings::set_hideJoinLeave(enabled);
 			AyuSettings::save();
 		},
 		container->lifetime());
+
 	AddButtonWithIcon(
 		container,
 		tr::ayu_FiltersHideRegexFiltered(),
@@ -711,12 +721,10 @@ void SetupMessageFilters(not_null<Ui::VerticalLayout*> container) {
 		rpl::single(settings.hideRegexFiltered)
 	)->toggledValue(
 	) | rpl::filter(
-		[=](bool enabled)
-		{
+		[=](bool enabled) {
 			return (enabled != settings.hideRegexFiltered);
 		}) | start_with_next(
-		[=](bool enabled)
-		{
+		[=](bool enabled) {
 			AyuSettings::set_hideRegexFiltered(enabled);
 			AyuSettings::save();
 		},

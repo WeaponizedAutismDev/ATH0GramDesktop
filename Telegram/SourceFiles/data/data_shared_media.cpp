@@ -69,6 +69,80 @@ bool IsItemGoodForType(const not_null<HistoryItem*> item, Type type) {
 			|| !document->canBeStreamed(item)));
 }
 
+bool IsMessageFiltered(not_null<const HistoryItem*> item) {
+	if (!item) {
+		return true;
+	}
+	
+	// Check if message is hidden by any filter
+	if (item->isHidden()) {
+		return true;
+	}
+	
+	// Check if message is from a blocked user
+	if (const auto from = item->from()) {
+		if (from->isUser() && from->asUser()->isBlocked()) {
+			return true;
+		}
+	}
+	
+	// Check if message is filtered by regex
+	if (item->isFiltered()) {
+		return true;
+	}
+	
+	return false;
+}
+
+bool IsSharedMediaType(not_null<const HistoryItem*> item, Type type) {
+	if (IsMessageFiltered(item)) {
+		return false;
+	}
+	
+	const auto media = item->media();
+	if (!media || media->webpage()) {
+		return false;
+	}
+	const auto photo = media->photo();
+	const auto photoType = (type == Type::Photo);
+	const auto photoVideoType = (type == Type::PhotoVideo);
+	if ((photoType || photoVideoType) && photo) {
+		return true;
+	}
+
+	const auto document = media->document();
+	if (!document) {
+		return false;
+	}
+	const auto voiceType = (type == Type::VoiceFile);
+	const auto voiceDoc = document->isVoiceMessage();
+
+	const auto roundType = (type == Type::RoundFile);
+	const auto roundDoc = document->isVideoMessage();
+
+	const auto audioType = (type == Type::MusicFile);
+	const auto audioDoc = document->isAudioFile();
+
+	const auto gifType = (type == Type::GIF);
+	const auto gifDoc = document->isGifv();
+
+	const auto videoType = (type == Type::Video);
+	const auto videoDoc = document->isVideoFile();
+
+	const auto voiceRoundType = (type == Type::RoundVoiceFile);
+	const auto fileType = (type == Type::File);
+
+	return (audioType && audioDoc)
+		|| (voiceType && voiceDoc)
+		|| (roundType && roundDoc)
+		|| (voiceRoundType && (roundDoc || voiceDoc))
+		|| (gifType && gifDoc)
+		|| ((videoType || photoVideoType) && videoDoc)
+		|| (fileType && (document->isTheme()
+			|| document->isImage()
+			|| !document->canBeStreamed(item)));
+}
+
 } // namespace
 
 std::optional<Storage::SharedMediaType> SharedMediaOverviewType(
@@ -523,4 +597,78 @@ rpl::producer<SharedMediaWithLastSlice> SharedMediaWithLastReversedViewer(
 		slice.reverse();
 		return std::move(slice);
 	});
+}
+
+SharedMediaViewer::SharedMediaViewer(
+	not_null<Session*> session,
+	SharedMediaKey key,
+	rpl::producer<SharedMediaSliceUpdate> updates)
+: _session(session)
+, _key(key)
+, _updates(std::move(updates)) {
+	_updates.value() | rpl::start_with_next([=](const SharedMediaSliceUpdate &update) {
+		if (update.type != _key.type) {
+			return;
+		}
+		if (update.aroundId == _key.messageId) {
+			if (update.data) {
+				_slice = std::move(*update.data);
+				_sliceUpdated.fire({});
+			}
+		}
+	}, _lifetime);
+}
+
+void SharedMediaViewer::preloadAround(MessageId messageId) {
+	if (!_slice) {
+		return;
+	}
+	
+	const auto i = ranges::find(_slice->ids, messageId);
+	if (i == _slice->ids.end()) {
+		return;
+	}
+	
+	const auto index = i - _slice->ids.begin();
+	const auto before = std::max(index - kPreloadLimit, 0);
+	const auto after = std::min(index + kPreloadLimit, int(_slice->ids.size()));
+	
+	// Preload messages before
+	for (auto i = index - 1; i >= before; --i) {
+		if (i >= 0 && i < _slice->ids.size()) {
+			const auto id = _slice->ids[i];
+			if (!IsMessageFiltered(_session->data().message(_key.peerId, id))) {
+				_session->data().message(_key.peerId, id);
+			}
+		}
+	}
+	
+	// Preload messages after
+	for (auto i = index + 1; i < after; ++i) {
+		if (i >= 0 && i < _slice->ids.size()) {
+			const auto id = _slice->ids[i];
+			if (!IsMessageFiltered(_session->data().message(_key.peerId, id))) {
+				_session->data().message(_key.peerId, id);
+			}
+		}
+	}
+}
+
+void SharedMediaViewer::rebuildIndex() {
+	if (!_slice) {
+		return;
+	}
+	
+	std::vector<MessageId> filteredIds;
+	filteredIds.reserve(_slice->ids.size());
+	
+	for (const auto &id : _slice->ids) {
+		const auto item = _session->data().message(_key.peerId, id);
+		if (!IsMessageFiltered(item)) {
+			filteredIds.push_back(id);
+		}
+	}
+	
+	_slice->ids = std::move(filteredIds);
+	_sliceUpdated.fire({});
 }

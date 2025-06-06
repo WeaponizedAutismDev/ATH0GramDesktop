@@ -16,6 +16,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
 namespace Ui {
 class VerticalLayout;
 class SearchFieldController;
+class IconButton;
 } // namespace Ui
 
 namespace Info {
@@ -49,6 +50,10 @@ public:
 	rpl::producer<SelectedItems> selectedListValue() const;
 	void selectionAction(SelectionAction action);
 
+	void rebuildMediaIndex();
+	void showRefreshButton();
+	void hideRefreshButton();
+
 	~InnerWidget();
 
 protected:
@@ -65,6 +70,8 @@ private:
 	void setupOtherTypes();
 	void createOtherTypes();
 	void createTypeButtons();
+	void setupRefreshButton();
+	void onRefreshClicked();
 
 	Type type() const;
 
@@ -75,6 +82,8 @@ private:
 	object_ptr<Ui::VerticalLayout> _otherTypes = { nullptr };
 	object_ptr<ListWidget> _list = { nullptr };
 	object_ptr<EmptyWidget> _empty;
+	object_ptr<Ui::IconButton> _refreshButton = { nullptr };
+	bool _isRebuilding = false;
 
 	bool _inResize = false;
 	bool _isStackBottom = false;
