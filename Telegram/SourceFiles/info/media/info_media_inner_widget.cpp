@@ -161,7 +161,65 @@ object_ptr<ListWidget> InnerWidget::setupList() {
 	) | rpl::start_with_next([this](const QString &query) {
 		_empty->setSearchQuery(query);
 	}, result->lifetime());
+
+	// Add refresh button
+	_refreshButton = object_ptr<Ui::IconButton>(
+		this,
+		st::infoMediaRefreshButton);
+	_refreshButton->setClickedCallback([this] {
+		rebuildMediaIndex();
+	});
+	_refreshButton->hide();
+
 	return result;
+}
+
+void InnerWidget::rebuildMediaIndex() {
+	if (_isRebuilding) {
+		return;
+	}
+	
+	_isRebuilding = true;
+	_refreshButton->hide();
+	
+	// Show loading state
+	_list->showLoading();
+	
+	// Rebuild the media index
+	if (const auto viewer = _list->sharedMediaViewer()) {
+		viewer->rebuildIndex();
+	}
+	
+	// Reload the media list
+	_list->loadMore();
+	
+	_isRebuilding = false;
+	_refreshButton->show();
+}
+
+void InnerWidget::showRefreshButton() {
+	if (!_isRebuilding) {
+		_refreshButton->show();
+		_refreshButton->raise();
+	}
+}
+
+void InnerWidget::hideRefreshButton() {
+	_refreshButton->hide();
+}
+
+void InnerWidget::setupRefreshButton() {
+	_refreshButton = object_ptr<Ui::IconButton>(
+		this,
+		st::infoMediaRefreshButton);
+	_refreshButton->setClickedCallback([this] {
+		rebuildMediaIndex();
+	});
+	_refreshButton->hide();
+}
+
+void InnerWidget::onRefreshClicked() {
+	rebuildMediaIndex();
 }
 
 void InnerWidget::saveState(not_null<Memento*> memento) {

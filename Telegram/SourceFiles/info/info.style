@@ -1177,3 +1177,16 @@ infoGiftTooltip: ImportantTooltip(defaultImportantTooltip) {
 	padding: margins(8px, 2px, 8px, 3px);
 }
 infoGiftTooltipFont: font(11px semibold);
+
+infoMediaRefreshButton: IconButton(defaultIconButton) {
+	width: 40px;
+	height: 40px;
+	icon: icon {{ "info/info_media_refresh", infoIconFg }};
+	iconOver: icon {{ "info/info_media_refresh", infoIconFgOver }};
+	iconPosition: point(8px, 8px);
+	rippleAreaPosition: point(4px, 4px);
+	rippleAreaSize: 32px;
+	ripple: RippleAnimation(defaultRippleAnimation) {
+		color: lightButtonBgOver;
+	}
+}
