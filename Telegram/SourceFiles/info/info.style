@@ -40,13 +40,6 @@ EditPeerField {
 	borderActive: pixels;
 }
 
-SettingsCountButton {
-	button: SettingsButton;
-	iconPosition: point;
-	label: FlatLabel;
-	labelPosition: point;
-}
-
 InfoToggle {
 	color: color;
 	duration: int;
