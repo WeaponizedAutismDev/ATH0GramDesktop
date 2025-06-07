@@ -677,7 +677,7 @@ infoCommonGroupsListItem: PeerListItem(defaultPeerListItem) {
 InfoCommonGroupsList {
 	item: PeerListItem;
 }
-infoCommonGroupsList: InfoCommonGroupsList(infoMembersList) {
+infoCommonGroupsList: InfoCommonGroupsList {
 	item: infoCommonGroupsListItem;
 }
 
