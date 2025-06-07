@@ -135,14 +135,12 @@ infoSlideDuration: 0;
 infoTopBarBackIcon: icon {{ "info/info_back", boxTitleCloseFg }};
 infoTopBarBackIconOver: icon {{ "info/info_back", boxTitleCloseFgOver }};
 infoTopBarHeight: 54px;
-infoTopBarBack: IconButton(defaultIconButton) {
-	width: 60px;
+infoTopBarBack: IconButton {
+	width: 52px;
 	height: infoTopBarHeight;
-
 	icon: infoTopBarBackIcon;
 	iconOver: infoTopBarBackIconOver;
 	iconPosition: point(11px, -1px);
-
 	rippleAreaPosition: point(6px, 6px);
 	rippleAreaSize: 42px;
 	ripple: defaultRippleAnimationBgOver;
@@ -329,7 +327,7 @@ infoLayerTopBarUnpinStories: IconButton(infoLayerTopBarForward) {
 	icon: icon {{ "menu/unpin", boxTitleCloseFg }};
 	iconOver: icon {{ "menu/unpin", boxTitleCloseFgOver }};
 }
-infoLayerTopBar: InfoTopBar(infoTopBar) {
+infoLayerTopBar: InfoTopBar {
 	height: infoLayerTopBarHeight;
 	back: infoLayerTopBarBack;
 	title: boxTitle;
@@ -397,7 +395,11 @@ infoProfileCover: InfoProfileCover {
 	}
 	nameLeft: 109px;
 	nameTop: 32px;
-	status: infoProfileStatus;
+	status: FlatLabel(infoProfileStatus) {
+		palette: TextPalette(defaultTextPalette) {
+			linkFg: windowSubTextFg;
+		}
+	}
 	statusLeft: 109px;
 	statusTop: 58px;
 	showLastSeen: RoundButton(defaultActiveButton) {
@@ -417,24 +419,82 @@ infoProfileCover: InfoProfileCover {
 	showLastSeenVisible: true;
 	rightSkip: 20px;
 }
-infoProfileMegagroupCover: InfoProfileCover(infoProfileCover) {
+infoProfileMegagroupCover: InfoProfileCover {
+	height: 108px;
+	photo: UserpicButton(defaultUserpicButton) {
+		size: infoProfilePhotoSize;
+		photoSize: infoProfilePhotoInnerSize;
+	}
+	photoLeft: 19px;
+	photoTop: 18px;
+	name: FlatLabel(defaultFlatLabel) {
+		maxHeight: 24px;
+		textFg: windowBoldFg;
+		style: TextStyle(defaultTextStyle) {
+			font: font(16px semibold);
+		}
+	}
+	nameLeft: 109px;
+	nameTop: 32px;
 	status: FlatLabel(infoProfileStatus) {
 		palette: TextPalette(defaultTextPalette) {
 			linkFg: windowSubTextFg;
 		}
 	}
+	statusLeft: 109px;
+	statusTop: 58px;
+	showLastSeen: RoundButton(defaultActiveButton) {
+		textFg: windowSubTextFg;
+		textFgOver: windowSubTextFg;
+		textBg: windowBgOver;
+		textBgOver: windowBgOver;
+		width: -12px;
+		height: 18px;
+		textTop: 0px;
+		style: TextStyle(defaultTextStyle) {
+			font: font(12px);
+		}
+		ripple: defaultRippleAnimation;
+	}
+	showLastSeenPosition: point(3px, 58px);
+	showLastSeenVisible: true;
+	rightSkip: 20px;
 }
-infoTopicCover: InfoProfileCover(infoProfileMegagroupCover) {
+infoTopicCover: InfoProfileCover {
 	height: 77px;
 	photo: UserpicButton(defaultUserpicButton) {
 		size: size(36px, 36px);
 	}
 	photoLeft: 22px;
 	photoTop: 18px;
+	name: FlatLabel(defaultFlatLabel) {
+		maxHeight: 24px;
+		textFg: windowBoldFg;
+		style: TextStyle(defaultTextStyle) {
+			font: font(16px semibold);
+		}
+	}
 	nameLeft: 79px;
 	nameTop: 14px;
+	status: infoProfileStatus;
 	statusLeft: 79px;
 	statusTop: 38px;
+	showLastSeen: RoundButton(defaultActiveButton) {
+		textFg: windowSubTextFg;
+		textFgOver: windowSubTextFg;
+		textBg: windowBgOver;
+		textBgOver: windowBgOver;
+		width: -12px;
+		height: 18px;
+		textTop: 0px;
+		style: TextStyle(defaultTextStyle) {
+			font: font(12px);
+		}
+		ripple: defaultRippleAnimation;
+	}
+	showLastSeenPosition: point(3px, 58px);
+	showLastSeenVisible: true;
+	rightSkip: 20px;
 }
 infoEditContactCover: InfoProfileCover(infoProfileCover) {
 	nameTop: 33px;
@@ -681,6 +741,13 @@ infoCommonGroupsList: InfoCommonGroupsList {
 	item: infoCommonGroupsListItem;
 }
 
+ManagePeerButton {
+	button: SettingsButton;
+	iconPosition: point;
+	label: FlatLabel;
+	labelPosition: point;
+}
+
 managePeerButton: ManagePeerButton {
 	button: SettingsButton(infoProfileButton) {
 		padding: margins(76px, 12px, 76px, 10px);
@@ -692,7 +759,7 @@ managePeerButton: ManagePeerButton {
 	labelPosition: point(25px, 12px);
 }
 
-peerPermissionsButton: SettingsCountButton(managePeerButton) {
+peerPermissionsButton: SettingsCountButton {
 	button: SettingsButton(infoProfileButton) {
 		padding: margins(22px, 12px, 24px, 10px);
 	}
@@ -702,22 +769,22 @@ peerPermissionsButton: SettingsCountButton(managePeerButton) {
 manageGroupButtonInner: SettingsButton(infoProfileButton) {
 	padding: margins(60px, 10px, 24px, 8px);
 }
-manageGroupButton: SettingsCountButton(managePeerButton) {
+manageGroupButton: SettingsCountButton {
 	button: manageGroupButtonInner;
 	labelPosition: point(22px, 10px);
 	iconPosition: point(20px, 4px);
 }
-infoSharedMediaCountButton: SettingsCountButton(managePeerButton) {
+infoSharedMediaCountButton: SettingsCountButton {
 	button: infoSharedMediaButton;
 	iconPosition: point(20px, 4px);
 	label: defaultSettingsRightLabel;
 	labelPosition: point(24px, 10px);
 }
 
-manageGroupTopButtonWithText: SettingsCountButton(manageGroupButton) {
+manageGroupTopButtonWithText: SettingsCountButton {
 	iconPosition: point(0px, 0px);
 }
-manageGroupTopicsButton: SettingsCountButton(manageGroupTopButtonWithText) {
+manageGroupTopicsButton: SettingsCountButton {
 	button: SettingsButton(manageGroupButtonInner) {
 		toggle: Toggle(infoProfileToggle) {
 			lockIcon: icon {{ "info/info_rights_lock", menuIconFg }};
@@ -726,6 +793,7 @@ manageGroupTopicsButton: SettingsCountButton(manageGroupTopButtonWithText) {
 			lockIcon: icon {{ "info/info_rights_lock", menuIconFgOver }};
 		}
 	}
+	iconPosition: point(0px, 0px);
 }
 managePeerColorsButton: SettingsButton(infoProfileButton) {
 	padding: margins(60px, 10px, 48px, 8px);
@@ -734,13 +802,13 @@ managePeerColorsButton: SettingsButton(infoProfileButton) {
 manageGroupNoIconButtonInner: SettingsButton(infoProfileButton) {
 	padding: margins(25px, 11px, 24px, 8px);
 }
-manageGroupNoIconButton: SettingsCountButton(manageGroupTopButtonWithText) {
+manageGroupNoIconButton: SettingsCountButton {
 	button: manageGroupNoIconButtonInner;
 	labelPosition: point(22px, 11px);
 	iconPosition: point(0px, 0px);
 }
 
-manageDeleteGroupButton: SettingsCountButton(manageGroupNoIconButton) {
+manageDeleteGroupButton: SettingsCountButton {
 	button: SettingsButton(manageGroupNoIconButtonInner) {
 		textFg: attentionButtonFg;
 		textFgOver: attentionButtonFg;
@@ -855,8 +923,15 @@ editPeerUsernameGood: FlatLabel(defaultFlatLabel) {
 editPeerReactionsPreview: 24px;
 editPeerReactionsIconLeft: 21px;
 
-historyTopBarBack: IconButton(infoTopBarBack) {
+historyTopBarBack: IconButton {
 	width: 52px;
+	height: infoTopBarHeight;
+	icon: infoTopBarBackIcon;
+	iconOver: infoTopBarBackIconOver;
+	iconPosition: point(11px, -1px);
+	rippleAreaPosition: point(6px, 6px);
+	rippleAreaSize: 42px;
+	ripple: defaultRippleAnimationBgOver;
 }
 topBarHeight: 54px;
 topBarMenuPosition: point(-6px, 45px);
@@ -981,17 +1056,17 @@ inviteLinkCopy: InviteLinkButton(inviteLinkButton) {
 	iconPosition: point(-1px, 2px);
 }
 
-inviteLinkShare: InviteLinkButton(inviteLinkCopy) {
+inviteLinkShare: InviteLinkButton(inviteLinkButton) {
 	icon: icon {{ "info/edit/links_share", activeButtonFg }};
 	iconOver: icon {{ "info/edit/links_share", activeButtonFgOver }};
 }
 
-inviteLinkReactivate: InviteLinkButton(inviteLinkCopy) {
+inviteLinkReactivate: InviteLinkButton(inviteLinkButton) {
 	icon: icon {{ "info/edit/links_reactivate", activeButtonFg }};
 	iconOver: icon {{ "info/edit/links_reactivate", activeButtonFgOver }};
 }
 
-inviteLinkDelete: InviteLinkButton(inviteLinkCopy) {
+inviteLinkDelete: InviteLinkButton(inviteLinkButton) {
 	icon: icon {{ "info/edit/links_delete", activeButtonFg }};
 	iconOver: icon {{ "info/edit/links_delete", activeButtonFgOver }};
 }
@@ -1219,13 +1294,6 @@ infoMediaRefreshButton: InfoMediaRefreshButton {
 	ripple: RippleAnimation(defaultRippleAnimation) {
 		color: lightButtonBgOver;
 	}
-}
-
-ManagePeerButton {
-	button: SettingsButton;
-	iconPosition: point;
-	label: FlatLabel;
-	labelPosition: point;
 }
 
 EditPeerField {
