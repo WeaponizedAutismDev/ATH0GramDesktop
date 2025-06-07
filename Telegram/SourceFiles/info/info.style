@@ -882,7 +882,7 @@ editPeerTitleField: EditPeerField {
 	placeholderFgActive: placeholderFgActive;
 	placeholderFgError: placeholderFgActive;
 	placeholderMargins: margins(2px, 0px, 2px, 0px);
-	placeholderScale: 0.;
+	placeholderScale: 0px;
 	placeholderFont: normalFont;
 	style: defaultTextStyle;
 	heightMin: 32px;
@@ -894,7 +894,7 @@ editPeerDescription: EditPeerField {
 	placeholderFgActive: placeholderFgActive;
 	placeholderFgError: placeholderFgActive;
 	placeholderMargins: margins(2px, 0px, 2px, 0px);
-	placeholderScale: 0.;
+	placeholderScale: 0px;
 	placeholderFont: normalFont;
 	border: 0px;
 	borderActive: 0px;
@@ -1303,7 +1303,7 @@ EditPeerField {
 	placeholderFgError: color;
 	placeholderMargins: margins;
 	placeholderAlign: align;
-	placeholderScale: float;
+	placeholderScale: pixels;
 	placeholderFont: font;
 	placeholderShift: pixels;
 	style: TextStyle;
