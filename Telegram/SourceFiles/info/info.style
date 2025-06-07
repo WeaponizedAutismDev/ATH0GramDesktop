@@ -12,6 +12,16 @@ using "ui/widgets/widgets.style";
 using "ui/chat/chat.style"; // GroupCallUserpics.
 using "dialogs/dialogs.style"; // dialogsDateFont.
 
+infoIconFg: windowBoldFg;
+
+infoIconBot: icon {{ "menu/bot", infoIconFg, point(4px, 4px) }};
+infoIconApp: icon {{ "menu/app", infoIconFg, point(4px, 4px) }};
+infoIconLinkedChannel: icon {{ "menu/channel", infoIconFg, point(4px, 4px) }};
+
+infoVerifiedCheckPosition: point(4px, 2px);
+infoVerifiedCheck: icon {{ "profile_verified_star", profileVerifiedCheckBg }};
+infoPremiumStar: icon {{ "profile_premium", profileVerifiedCheckBg }};
+
 InfoToggle {
 	color: color;
 	duration: int;
@@ -434,10 +444,6 @@ infoEditContactPersonalLeft: 6px;
 
 infoProfileInaccessibleUserpic: icon {{ "info/inaccessible_userpic", historyPeerUserpicFg }};
 
-infoVerifiedCheckPosition: point(4px, 2px);
-infoVerifiedCheck: icon {{ "profile_verified_star", profileVerifiedCheckBg }};
-infoPremiumStar: icon {{ "profile_premium", profileVerifiedCheckBg }};
-
 infoPeerBadge: InfoPeerBadge {
 	verified: infoVerifiedCheck;
 	premium: infoPremiumStar;
@@ -451,12 +457,6 @@ infoPeerBadge: InfoPeerBadge {
 	badgeAnimation: true;
 	badgeTooltip: true;
 }
-
-infoIconFg: windowBoldFg;
-
-infoIconBot: icon {{ "menu/bot", infoIconFg, point(4px, 4px) }};
-infoIconApp: icon {{ "menu/app", infoIconFg, point(4px, 4px) }};
-infoIconLinkedChannel: icon {{ "menu/channel", infoIconFg, point(4px, 4px) }};
 
 infoProfileSkip: 7px;
 
@@ -597,6 +597,9 @@ infoUnlinkDiscussionLinkButton: SettingsButton(infoCreateDiscussionLinkButton) {
 infoBlockButtonSkip: 8px;
 
 infoMembersHeader: 56px;
+InfoMembersList {
+	item: PeerListItem;
+}
 infoMembersList: InfoMembersList {
 	item: PeerListItem(defaultPeerListItem) {
 		photoPosition: point(18px, 6px);
@@ -670,6 +673,9 @@ infoCommonGroupsListItem: PeerListItem(defaultPeerListItem) {
 		font: font(14px semibold);
 	}
 	statusPosition: point(79px, 31px);
+}
+InfoCommonGroupsList {
+	item: PeerListItem;
 }
 infoCommonGroupsList: InfoCommonGroupsList(infoMembersList) {
 	item: infoCommonGroupsListItem;
@@ -1213,14 +1219,6 @@ infoMediaRefreshButton: InfoMediaRefreshButton {
 	ripple: RippleAnimation(defaultRippleAnimation) {
 		color: lightButtonBgOver;
 	}
-}
-
-InfoMembersList {
-	item: PeerListItem;
-}
-
-InfoCommonGroupsList {
-	item: PeerListItem;
 }
 
 ManagePeerButton {
