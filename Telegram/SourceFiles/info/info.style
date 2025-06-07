@@ -22,6 +22,31 @@ infoVerifiedCheckPosition: point(4px, 2px);
 infoVerifiedCheck: icon {{ "profile_verified_star", profileVerifiedCheckBg }};
 infoPremiumStar: icon {{ "profile_premium", profileVerifiedCheckBg }};
 
+EditPeerField {
+	textMargins: margins;
+	placeholderFg: color;
+	placeholderFgActive: color;
+	placeholderFgError: color;
+	placeholderMargins: margins;
+	placeholderAlign: align;
+	placeholderScale: pixels;
+	placeholderFont: font;
+	placeholderShift: pixels;
+	style: TextStyle;
+	heightMin: pixels;
+	heightMax: pixels;
+	textBg: color;
+	border: pixels;
+	borderActive: pixels;
+}
+
+SettingsCountButton {
+	button: SettingsButton;
+	iconPosition: point;
+	label: FlatLabel;
+	labelPosition: point;
+}
+
 InfoToggle {
 	color: color;
 	duration: int;
@@ -68,6 +93,77 @@ InfoTopBar {
 	highlightBg: color;
 	highlightDuration: int;
 	radius: pixels;
+}
+
+ShortInfoCover {
+	size: pixels;
+	radius: pixels;
+	name: FlatLabel;
+	namePosition: point;
+	status: FlatLabel;
+	statusPosition: point;
+	linePadding: pixels;
+	lineSkip: pixels;
+	line: pixels;
+	shadowHeight: pixels;
+	radialAnimation: InfiniteRadialAnimation;
+}
+
+InfoGiftTooltip {
+	margin: margins;
+	padding: margins;
+}
+
+InfoMediaRefreshButton {
+	width: pixels;
+	height: pixels;
+	icon: icon;
+	iconOver: icon;
+	iconPosition: point;
+	rippleAreaPosition: point;
+	rippleAreaSize: pixels;
+	ripple: RippleAnimation;
+}
+
+InviteLinkButton {
+	height: pixels;
+	textTop: pixels;
+	radius: pixels;
+	icon: icon;
+	iconOver: icon;
+	iconPosition: point;
+}
+
+InfoProfileCover {
+	height: pixels;
+	photo: UserpicButton;
+	photoLeft: pixels;
+	photoTop: pixels;
+	name: FlatLabel;
+	nameLeft: pixels;
+	nameTop: pixels;
+	status: FlatLabel;
+	statusLeft: pixels;
+	statusTop: pixels;
+	showLastSeen: RoundButton;
+	showLastSeenPosition: point;
+	showLastSeenVisible: bool;
+	rightSkip: pixels;
+}
+
+InfoMembersList {
+	item: PeerListItem;
+}
+
+InfoCommonGroupsList {
+	item: PeerListItem;
+}
+
+ManagePeerButton {
+	button: SettingsButton;
+	iconPosition: point;
+	label: FlatLabel;
+	labelPosition: point;
 }
 
 infoMediaHeaderFg: windowFg;
@@ -354,22 +450,8 @@ infoMinimalWidth: 324px;
 infoDesiredWidth: 392px;
 infoMinimalLayerMargin: 48px;
 
-InfoProfileCover {
-	height: pixels;
-	photo: UserpicButton;
-	photoLeft: pixels;
-	photoTop: pixels;
-	name: FlatLabel;
-	nameLeft: pixels;
-	nameTop: pixels;
-	status: FlatLabel;
-	statusLeft: pixels;
-	statusTop: pixels;
-	showLastSeen: RoundButton;
-	showLastSeenPosition: point;
-	showLastSeenVisible: bool;
-	rightSkip: pixels;
-}
+
+
 infoProfilePhotoInnerSize: 72px;
 infoProfilePhotoSize: size(
 	infoProfilePhotoInnerSize,
@@ -657,9 +739,7 @@ infoUnlinkDiscussionLinkButton: SettingsButton(infoCreateDiscussionLinkButton) {
 infoBlockButtonSkip: 8px;
 
 infoMembersHeader: 56px;
-InfoMembersList {
-	item: PeerListItem;
-}
+
 infoMembersList: InfoMembersList {
 	item: PeerListItem(defaultPeerListItem) {
 		photoPosition: point(18px, 6px);
@@ -734,18 +814,9 @@ infoCommonGroupsListItem: PeerListItem(defaultPeerListItem) {
 	}
 	statusPosition: point(79px, 31px);
 }
-InfoCommonGroupsList {
-	item: PeerListItem;
-}
+
 infoCommonGroupsList: InfoCommonGroupsList {
 	item: infoCommonGroupsListItem;
-}
-
-ManagePeerButton {
-	button: SettingsButton;
-	iconPosition: point;
-	label: FlatLabel;
-	labelPosition: point;
 }
 
 managePeerButton: ManagePeerButton {
@@ -1032,14 +1103,7 @@ inviteLinkFieldLabel: FlatLabel(defaultFlatLabel) {
 	align: align(center);
 }
 
-InviteLinkButton {
-	height: pixels;
-	textTop: pixels;
-	radius: pixels;
-	icon: icon;
-	iconOver: icon;
-	iconPosition: point;
-}
+
 
 inviteLinkButton: InviteLinkButton {
 	height: 36px;
@@ -1203,35 +1267,7 @@ shortInfoScroll: ScrollArea(defaultScrollArea) {
 	hiding: 1000;
 }
 
-ShortInfoCover {
-	size: pixels;
-	radius: pixels;
-	name: FlatLabel;
-	namePosition: point;
-	status: FlatLabel;
-	statusPosition: point;
-	linePadding: pixels;
-	lineSkip: pixels;
-	line: pixels;
-	shadowHeight: pixels;
-	radialAnimation: InfiniteRadialAnimation;
-}
 
-InfoGiftTooltip {
-	margin: margins;
-	padding: margins;
-}
-
-InfoMediaRefreshButton {
-	width: pixels;
-	height: pixels;
-	icon: icon;
-	iconOver: icon;
-	iconPosition: point;
-	rippleAreaPosition: point;
-	rippleAreaSize: pixels;
-	ripple: RippleAnimation;
-}
 
 permissionsExpandIcon: icon {{ "info/edit/expand_arrow_small", windowBoldFg }};
 
@@ -1294,29 +1330,4 @@ infoMediaRefreshButton: InfoMediaRefreshButton {
 	ripple: RippleAnimation(defaultRippleAnimation) {
 		color: lightButtonBgOver;
 	}
-}
-
-EditPeerField {
-	textMargins: margins;
-	placeholderFg: color;
-	placeholderFgActive: color;
-	placeholderFgError: color;
-	placeholderMargins: margins;
-	placeholderAlign: align;
-	placeholderScale: pixels;
-	placeholderFont: font;
-	placeholderShift: pixels;
-	style: TextStyle;
-	heightMin: pixels;
-	heightMax: pixels;
-	textBg: color;
-	border: pixels;
-	borderActive: pixels;
-}
-
-SettingsCountButton {
-	button: SettingsButton;
-	iconPosition: point;
-	label: FlatLabel;
-	labelPosition: point;
 }
