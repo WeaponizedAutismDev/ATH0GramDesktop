@@ -12,6 +12,16 @@ using "ui/widgets/widgets.style";
 using "ui/chat/chat.style"; // GroupCallUserpics.
 using "dialogs/dialogs.style"; // dialogsDateFont.
 
+infoIconFg: windowBoldFg;
+
+infoIconBot: icon {{ "info/info_information", infoIconFg }};
+infoIconApp: icon {{ "info/info_edit", infoIconFg }};
+infoIconLinkedChannel: icon {{ "info/info_share", infoIconFg }};
+
+infoVerifiedCheckPosition: point(4px, 2px);
+infoVerifiedCheck: icon {{ "profile_verified_star", profileVerifiedCheckBg }};
+infoPremiumStar: icon {{ "profile_premium", profileVerifiedCheckBg }};
+
 InfoToggle {
 	color: color;
 	duration: int;
@@ -434,10 +444,6 @@ infoEditContactPersonalLeft: 6px;
 
 infoProfileInaccessibleUserpic: icon {{ "info/inaccessible_userpic", historyPeerUserpicFg }};
 
-infoVerifiedCheckPosition: point(4px, 2px);
-infoVerifiedCheck: icon {{ "profile_verified_star", profileVerifiedCheckBg }};
-infoPremiumStar: icon {{ "profile_premium", profileVerifiedCheckBg }};
-
 infoPeerBadge: InfoPeerBadge {
 	verified: infoVerifiedCheck;
 	premium: infoPremiumStar;
@@ -451,12 +457,6 @@ infoPeerBadge: InfoPeerBadge {
 	badgeAnimation: true;
 	badgeTooltip: true;
 }
-
-infoIconFg: windowBoldFg;
-
-infoIconBot: icon {{ "menu/bot", infoIconFg, point(4px, 4px) }};
-infoIconApp: icon {{ "menu/app", infoIconFg, point(4px, 4px) }};
-infoIconLinkedChannel: icon {{ "menu/channel", infoIconFg, point(4px, 4px) }};
 
 infoProfileSkip: 7px;
 
