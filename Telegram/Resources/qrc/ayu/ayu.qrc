@@ -1,4 +1,4 @@
-<rcc>
+<RCC>
     <qresource prefix="/gui">
         <file alias="art/ayu/alt/app.png">../../art/ayu/alt/app.png</file>
         <file alias="art/ayu/alt/app_preview.png">../../art/ayu/alt/app_preview.png</file>
