@@ -27,9 +27,9 @@ InfoPeerBadge {
 	premiumFg: color;
 	position: point;
 	sizeTag: int;
-	bot: icon;
-	app: icon;
-	linkedChannel: icon;
+	botIcon: icon;
+	appIcon: icon;
+	linkedChannelIcon: icon;
 	badgeSpacing: pixels;
 	badgeAnimation: bool;
 	badgeTooltip: bool;
@@ -435,10 +435,7 @@ infoEditContactPersonalLeft: 6px;
 infoProfileInaccessibleUserpic: icon {{ "info/inaccessible_userpic", historyPeerUserpicFg }};
 
 infoVerifiedCheckPosition: point(4px, 2px);
-infoVerifiedCheck: icon {
-	{ "profile_verified_star", profileVerifiedCheckBg },
-	{ "profile_verified_check", profileVerifiedCheckFg }
-};
+infoVerifiedCheck: icon {{ "profile_verified_star", profileVerifiedCheckBg }};
 infoPremiumStar: icon {{ "profile_premium", profileVerifiedCheckBg }};
 
 infoPeerBadge: InfoPeerBadge {
@@ -447,15 +444,19 @@ infoPeerBadge: InfoPeerBadge {
 	premiumFg: profileVerifiedCheckBg;
 	position: infoVerifiedCheckPosition;
 	sizeTag: 0; // Normal
-	bot: infoIconBot;
-	app: infoIconApp;
-	linkedChannel: infoIconLinkedChannel;
+	botIcon: infoIconBot;
+	appIcon: infoIconApp;
+	linkedChannelIcon: infoIconLinkedChannel;
 	badgeSpacing: 4px;
 	badgeAnimation: true;
 	badgeTooltip: true;
 }
 
 infoIconFg: windowBoldFg;
+
+infoIconBot: icon {{ "menu/bot", infoIconFg, point(4px, 4px) }};
+infoIconApp: icon {{ "menu/app", infoIconFg, point(4px, 4px) }};
+infoIconLinkedChannel: icon {{ "menu/channel", infoIconFg, point(4px, 4px) }};
 
 infoProfileSkip: 7px;
 
@@ -596,7 +597,7 @@ infoUnlinkDiscussionLinkButton: SettingsButton(infoCreateDiscussionLinkButton) {
 infoBlockButtonSkip: 8px;
 
 infoMembersHeader: 56px;
-infoMembersList: PeerList(defaultPeerList) {
+infoMembersList: InfoMembersList {
 	item: PeerListItem(defaultPeerListItem) {
 		photoPosition: point(18px, 6px);
 		namePosition: point(79px, 11px);
@@ -670,11 +671,11 @@ infoCommonGroupsListItem: PeerListItem(defaultPeerListItem) {
 	}
 	statusPosition: point(79px, 31px);
 }
-infoCommonGroupsList: PeerList(infoMembersList) {
+infoCommonGroupsList: InfoCommonGroupsList(infoMembersList) {
 	item: infoCommonGroupsListItem;
 }
 
-managePeerButton: SettingsCountButton {
+managePeerButton: ManagePeerButton {
 	button: SettingsButton(infoProfileButton) {
 		padding: margins(76px, 12px, 76px, 10px);
 	}
@@ -743,8 +744,8 @@ manageDeleteGroupButton: SettingsCountButton(manageGroupNoIconButton) {
 manageGroupReactions: IconButton(defaultIconButton) {
 	width: 24px;
 	height: 36px;
-	icon: icon{{ "info/edit/stickers_add", historyComposeIconFg }};
-	iconOver: icon{{ "info/edit/stickers_add", historyComposeIconFgOver }};
+	icon: icon {{ "info/edit/stickers_add", historyComposeIconFg }};
+	iconOver: icon {{ "info/edit/stickers_add", historyComposeIconFgOver }};
 }
 manageGroupReactionsField: InputField(defaultInputField) {
 	textMargins: margins(1px, 12px, 24px, 8px);
@@ -801,23 +802,28 @@ editPeerPhotoMargins: margins(22px, 8px, 22px, 8px);
 editPeerTitle: defaultInputField;
 editPeerTitleMargins: margins(27px, 13px, 22px, 8px);
 editPeerTitleEmojiPosition: point(0px, 23px);
-editPeerTitleField: InputField(defaultInputField) {
+editPeerTitleField: EditPeerField {
 	textMargins: margins(0px, 28px, 30px, 4px);
-}
-editPeerDescription: InputField(defaultInputField) {
-	textBg: transparent;
-	textMargins: margins(0px, 7px, 0px, 7px);
-
 	placeholderFg: placeholderFg;
 	placeholderFgActive: placeholderFgActive;
 	placeholderFgError: placeholderFgActive;
 	placeholderMargins: margins(2px, 0px, 2px, 0px);
 	placeholderScale: 0.;
 	placeholderFont: normalFont;
-
+	style: defaultTextStyle;
+	heightMin: 32px;
+}
+editPeerDescription: EditPeerField {
+	textBg: transparent;
+	textMargins: margins(0px, 7px, 0px, 7px);
+	placeholderFg: placeholderFg;
+	placeholderFgActive: placeholderFgActive;
+	placeholderFgError: placeholderFgActive;
+	placeholderMargins: margins(2px, 0px, 2px, 0px);
+	placeholderScale: 0.;
+	placeholderFont: normalFont;
 	border: 0px;
 	borderActive: 0px;
-
 	heightMin: 32px;
 }
 editPeerDescriptionMargins: margins(22px, 3px, 22px, 2px);
@@ -945,30 +951,45 @@ inviteLinkFieldLabel: FlatLabel(defaultFlatLabel) {
 	align: align(center);
 }
 
-inviteLinkButton: RoundButton(defaultActiveButton) {
+InviteLinkButton {
+	height: pixels;
+	textTop: pixels;
+	radius: pixels;
+	icon: icon;
+	iconOver: icon;
+	iconPosition: point;
+}
+
+inviteLinkButton: InviteLinkButton {
 	height: 36px;
 	textTop: 9px;
 	radius: 6px;
 }
+
 inviteLinkButtonsPadding: margins(22px, 0px, 22px, 0px);
 inviteLinkButtonsSkip: 10px;
-inviteLinkCopy: RoundButton(inviteLinkButton) {
+
+inviteLinkCopy: InviteLinkButton(inviteLinkButton) {
 	icon: icon {{ "info/edit/links_copy", activeButtonFg }};
 	iconOver: icon {{ "info/edit/links_copy", activeButtonFgOver }};
 	iconPosition: point(-1px, 2px);
 }
-inviteLinkShare: RoundButton(inviteLinkCopy) {
+
+inviteLinkShare: InviteLinkButton(inviteLinkCopy) {
 	icon: icon {{ "info/edit/links_share", activeButtonFg }};
 	iconOver: icon {{ "info/edit/links_share", activeButtonFgOver }};
 }
-inviteLinkReactivate: RoundButton(inviteLinkCopy) {
+
+inviteLinkReactivate: InviteLinkButton(inviteLinkCopy) {
 	icon: icon {{ "info/edit/links_reactivate", activeButtonFg }};
 	iconOver: icon {{ "info/edit/links_reactivate", activeButtonFgOver }};
 }
-inviteLinkDelete: RoundButton(inviteLinkCopy) {
+
+inviteLinkDelete: InviteLinkButton(inviteLinkCopy) {
 	icon: icon {{ "info/edit/links_delete", activeButtonFg }};
 	iconOver: icon {{ "info/edit/links_delete", activeButtonFgOver }};
 }
+
 inviteLinkUserpics: GroupCallUserpics {
 	size: 28px;
 	shift: 6px;
@@ -1114,33 +1135,24 @@ ShortInfoCover {
 	shadowHeight: pixels;
 	radialAnimation: InfiniteRadialAnimation;
 }
-shortInfoCover: ShortInfoCover {
-	size: shortInfoWidth;
-	radius: boxRadius;
-	name: FlatLabel(defaultFlatLabel) {
-		textFg: groupCallVideoTextFg;
-		maxHeight: 19px;
-		style: TextStyle(defaultTextStyle) {
-			font: font(15px semibold);
-		}
-	}
-	namePosition: point(25px, 37px);
-	status: FlatLabel(defaultFlatLabel) {
-		textFg: groupCallVideoSubTextFg;
-		maxHeight: 18px;
-	}
-	statusPosition: point(25px, 14px);
-	linePadding: 8px;
-	lineSkip: 4px;
-	line: 2px;
-	shadowHeight: 80px;
-	radialAnimation: InfiniteRadialAnimation(defaultInfiniteRadialAnimation) {
-		color: radialFg;
-		thickness: 2px;
-	}
+
+InfoGiftTooltip {
+	margin: margins;
+	padding: margins;
 }
 
-permissionsExpandIcon: icon{{ "info/edit/expand_arrow_small", windowBoldFg }};
+InfoMediaRefreshButton {
+	width: pixels;
+	height: pixels;
+	icon: icon;
+	iconOver: icon;
+	iconPosition: point;
+	rippleAreaPosition: point;
+	rippleAreaSize: pixels;
+	ripple: RippleAnimation;
+}
+
+permissionsExpandIcon: icon {{ "info/edit/expand_arrow_small", windowBoldFg }};
 
 similarChannelsLockOverlap: 58px;
 similarChannelsLockFade: 58px;
@@ -1184,13 +1196,13 @@ infoSharedMediaScroll: ScrollArea(defaultScrollArea) {
 	deltax: 2px;
 }
 
-infoGiftTooltip: ImportantTooltip(defaultImportantTooltip) {
+infoGiftTooltip: InfoGiftTooltip {
 	margin: margins(4px, 4px, 4px, 4px);
 	padding: margins(8px, 2px, 8px, 3px);
 }
 infoGiftTooltipFont: font(11px semibold);
 
-infoMediaRefreshButton: IconButton(defaultIconButton) {
+infoMediaRefreshButton: InfoMediaRefreshButton {
 	width: 40px;
 	height: 40px;
 	icon: icon {{ "info/info_media_refresh", infoIconFg }};
@@ -1203,29 +1215,42 @@ infoMediaRefreshButton: IconButton(defaultIconButton) {
 	}
 }
 
-infoIconBot: icon {{ "menu/bot", infoIconFg }} {
-	size: 18px;
-	glow: true;
-	glowColor: infoIconFg;
-	glowRadius: 2px;
-	hoverScale: 1.1;
-	transition: all 0.2s ease;
+InfoMembersList {
+	item: PeerListItem;
 }
 
-infoIconApp: icon {{ "menu/app", infoIconFg }} {
-	size: 18px;
-	glow: true;
-	glowColor: infoIconFg;
-	glowRadius: 2px;
-	hoverScale: 1.1;
-	transition: all 0.2s ease;
+InfoCommonGroupsList {
+	item: PeerListItem;
 }
 
-infoIconLinkedChannel: icon {{ "menu/channel", infoIconFg }} {
-	size: 18px;
-	glow: true;
-	glowColor: infoIconFg;
-	glowRadius: 2px;
-	hoverScale: 1.1;
-	transition: all 0.2s ease;
+ManagePeerButton {
+	button: SettingsButton;
+	iconPosition: point;
+	label: FlatLabel;
+	labelPosition: point;
+}
+
+EditPeerField {
+	textMargins: margins;
+	placeholderFg: color;
+	placeholderFgActive: color;
+	placeholderFgError: color;
+	placeholderMargins: margins;
+	placeholderAlign: align;
+	placeholderScale: float;
+	placeholderFont: font;
+	placeholderShift: pixels;
+	style: TextStyle;
+	heightMin: pixels;
+	heightMax: pixels;
+	textBg: color;
+	border: pixels;
+	borderActive: pixels;
+}
+
+SettingsCountButton {
+	button: SettingsButton;
+	iconPosition: point;
+	label: FlatLabel;
+	labelPosition: point;
 }
